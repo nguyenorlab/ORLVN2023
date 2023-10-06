@@ -76,18 +76,11 @@ const Indicator = ({ currentSlide, amountSlides, nextSlide }) => {
 
 
 
-const ImageSlider = ({
-  images = [],
-  autoPlay = true,
-  autoPlayTime = 5000,
-  children,
-  ...props
-  }) => {
+const ImageSlider = ({ images = [], text = [], autoPlay = true, autoPlayTime = 5000, children, ...props }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const nextSlide = useCallback((slideIndex = currentSlide + 1) => {
       const newSlideIndex = slideIndex >= images.length ? 0 : slideIndex;
-
       setCurrentSlide(newSlideIndex);
     },[currentSlide, images.length]);
 
@@ -95,7 +88,6 @@ const ImageSlider = ({
       const timer = setTimeout(() => {
         nextSlide();
       }, autoPlayTime);
-
       return () => clearTimeout(timer);
     }, [autoPlayTime, currentSlide, nextSlide]);
 

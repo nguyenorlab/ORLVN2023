@@ -3,9 +3,10 @@ import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from './Data';
 import { InfoSection, Pricing } from '../../components';
 // import HeroImg from '../../images/carousel-1.jpg';
 // import styled from 'styled-components';
-import ImageSlider from '../../components/ImageSlider/ImageSlider';
-import image1 from '../../assets/carousel-1.jpg';
-import image2 from '../../assets/carousel-2.jpg';
+// import ImageSlider from '../../components/ImageSlider/ImageSlider';
+import Carousel from '../../components/Carousel/Carousel';
+// import image1 from '../../assets/carousel-1.jpg';
+// import image2 from '../../assets/carousel-2.jpg';
 
 // const HeroContainer = styled.div`
 //   background: #fff;
@@ -33,15 +34,20 @@ import image2 from '../../assets/carousel-2.jpg';
 // `;
 
 
+
+
 const Home = () => {
   return (
     <>
+      <Carousel />
       {/* <HeroContainer> */}
         {/* <HeroBg>
           <ImgBg src={HeroImg} alt='hero' />
         </HeroBg> */}
-      <ImageSlider images={[image1, image2]}>
-        <div
+
+      {/* {data.map((item) => 
+        <ImageSlider images={[image1, image2]} text={data}>
+          <div
             style={{
               display: "flex",
               flexDirection: "column",
@@ -49,10 +55,12 @@ const Home = () => {
               color: "#fff",
             }}
           >
-            <h1>React.js Image Slider</h1>
-            <p>Nulla vitae elit libero, a pharetra augue.</p>
+            <h1>{item.title}</h1>
+            <p>{item.text}</p>
           </div>
-      </ImageSlider>
+        </ImageSlider>      
+      )} */}
+
       {/* </HeroContainer> */}
       <InfoSection {...homeObjOne} />
       <InfoSection {...homeObjTwo} />

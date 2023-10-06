@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import { Container } from '../../globalStyles';
-// import { FaMagento } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export const Nav = styled.nav`
-    /* background: #b2d7eb; */
     height: 70px;
     display: flex;
     justify-content: center;
@@ -150,12 +148,23 @@ export const NavLogoImg = styled.img`
     border-radius: 5px;
 `;
 
-//--------------//
+//------- dropdown menu start-------//
+export const StyledUl = styled.ul`
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  margin-top: 10px;
+  background-color: #f3fcff;
+  position: absolute;
+  border: 1px solid grey;
+  width: 150px;
+`;
+
 export const StyledLi = styled.li`
   float: left;
 `;
 
-// có lẽ đoạn này đang gây ra lỗi
 export const DropDownContent = styled.div`
   display: none;
   position: absolute;
@@ -174,8 +183,6 @@ export const DropDownLi = styled(StyledLi)`
     display: block;
   }
 `;
-//////// lỗi ///////// 
-
 
 export const SubA = styled.a`
   color: black;
@@ -187,15 +194,4 @@ export const SubA = styled.a`
     background-color: #f1f1f1;
   }
 `;
-
-export const StyledUl = styled.ul`
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  /* margin-top: 20px; */
-  background-color: #f3fcff;
-  position: absolute;
-  border: 1px solid grey;
-  width: 150px;
-`;
+//------- dropdown menu end-------//

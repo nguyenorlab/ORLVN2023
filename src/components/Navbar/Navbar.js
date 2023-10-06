@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
   Nav, 
   NavbarContainer, 
@@ -42,9 +42,18 @@ const Navbar = () => {
   window.addEventListener('resize', showButton);
 
   const [hoverServices, setHoverService] = useState(false);
-  const onHover = () => {
-    setHoverService(!hoverServices);
-  };
+
+  const onMouseHover = useCallback(() => {
+    setHoverService(true);
+  },[]);
+
+  const onMouseLeave = useCallback(() => {
+    const timer = setTimeout(() => {
+      setHoverService(false);      
+    }, 3000);
+    return () => clearTimeout(timer);
+  },[]);
+
 
   return (
     <>
@@ -70,9 +79,9 @@ const Navbar = () => {
                     <NavLinks to='/about' onClick={closeMobileMenu}>About</NavLinks>
                   </NavItem>
                 
-                  <NavItem>                    
+                  <NavItem onMouseEnter={onMouseHover} onMouseLeave={onMouseLeave}>                    
                     <NavLinks to='/services' onClick={closeMobileMenu}>Services</NavLinks>
-                    {/* {hoverServices && (
+                    {hoverServices && (
                       <StyledUl>
                         <DropDownLi>
                           <SubA href='/'>Software Development</SubA>  
@@ -80,7 +89,7 @@ const Navbar = () => {
                           <SubA href='/'>Find a job</SubA>
                         </DropDownLi>
                       </StyledUl>
-                    )} */}
+                    )}
                   </NavItem>
 
                   <NavItem>
