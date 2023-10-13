@@ -1,10 +1,11 @@
 import React from 'react';
 import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from './Data';
-import { InfoSection, Pricing } from '../../components';
+import { InfoSection } from '../../components';
 // import HeroImg from '../../images/carousel-1.jpg';
 // import styled from 'styled-components';
 // import ImageSlider from '../../components/ImageSlider/ImageSlider';
 import Carousel from '../../components/Carousel/Carousel';
+import ServicesSlider from '../../components/ServicesSlider/ServicesSlider';
 // import image1 from '../../assets/carousel-1.jpg';
 // import image2 from '../../assets/carousel-2.jpg';
 
@@ -40,32 +41,10 @@ const Home = () => {
   return (
     <>
       <Carousel />
-      {/* <HeroContainer> */}
-        {/* <HeroBg>
-          <ImgBg src={HeroImg} alt='hero' />
-        </HeroBg> */}
-
-      {/* {data.map((item) => 
-        <ImageSlider images={[image1, image2]} text={data}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              color: "#fff",
-            }}
-          >
-            <h1>{item.title}</h1>
-            <p>{item.text}</p>
-          </div>
-        </ImageSlider>      
-      )} */}
-
-      {/* </HeroContainer> */}
       <InfoSection {...homeObjOne} />
       <InfoSection {...homeObjTwo} />
       <InfoSection {...homeObjThree} />
-      <Pricing />
+      <ServicesSlider />
       <InfoSection {...homeObjFour} />
     </>
   )

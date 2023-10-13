@@ -84,7 +84,7 @@ const Navbar = () => {
                     {hoverServices && (
                       <StyledUl>
                         <DropDownLi>
-                          <SubA href='/'>Software Development</SubA>  
+                          <SubA href='/'>Offshore Development</SubA>  
                           <SubA href='/'>Recruitment</SubA> 
                           <SubA href='/'>Find a job</SubA>
                         </DropDownLi>

@@ -25,6 +25,7 @@ function Pricing() {
       <PricingSection>
         <PricingWrapper>
           <PricingHeading>Our Services</PricingHeading>
+
           <PricingContainer>
             <PricingCard to='/sign-up'>
               <PricingCardInfo>
@@ -42,6 +43,7 @@ function Pricing() {
                 <Button primary>Choose Plan</Button>
               </PricingCardInfo>
             </PricingCard>
+
             <PricingCard to='/sign-up'>
               <PricingCardInfo>
                 <PricingCardIcon>
@@ -58,6 +60,7 @@ function Pricing() {
                 <Button primary>Choose Plan</Button>
               </PricingCardInfo>
             </PricingCard>
+
             <PricingCard to='/sign-up'>
               <PricingCardInfo>
                 <PricingCardIcon>
@@ -74,6 +77,7 @@ function Pricing() {
                 <Button primary>Choose Plan</Button>
               </PricingCardInfo>
             </PricingCard>
+            
           </PricingContainer>
         </PricingWrapper>
       </PricingSection>

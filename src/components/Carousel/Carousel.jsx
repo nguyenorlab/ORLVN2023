@@ -1,15 +1,15 @@
 import React from 'react';
-import bgdonut1 from './image/bg-donut-1.png';
-import bgdonut2 from './image/bg-donut-2.png';
+// import bgdonut1 from './image/bg-donut-1.png';
+// import bgdonut2 from './image/bg-donut-2.png';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, EffectCoverflow, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/swiper-bundle.css';
 import './Carousel.css';
 import styled from 'styled-components';
-import { useTypingText } from '../TypingText/useTypingText';
+// import { useTypingText } from '../TypingText/useTypingText';
 // import '../TypingText/styles.css';
-
+import Typewriter from 'typewriter-effect';
 
 const CarouselContainer = styled.div`
     position: relative;
@@ -42,43 +42,16 @@ const CarouselContentH1 = styled.h1`
     background-image: linear-gradient(45deg, #00a4aa, #000);
     background-size: 100%;
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;    
+`;
 
-    & .word span {
-    color: #ff5252;
-    position: relative;
-    }
-
-    & .word span::after {
-        content: "";
-        width: 8px;
-        height: 100%;
-        background: #ff5252;
-        display: block;
-        position: absolute;
-        right: -10px;
-        top: 0;
-        animation: blink 0.5s ease infinite alternate-reverse;
-    }
-    
-    @keyframes blink {
-        from {
-            opacity: 100%;
-        }
-
-        to {
-            opacity: 0%;
-        }
-    }
-
-    & .word.empty {
-        visibility: hidden;
-    }
-
-    & .word.empty span::after {
-        visibility: visible;
-        right: 0;
-    }
+const StyledTypeWriter = styled.div`
+    text-transform: capitalize;
+    letter-spacing: 0.8px;
+    font-size: 4rem;
+    line-height: 1.1;
+    color: rgb(113, 196, 237);
+    background-size: 100%;
 `;
 
 const CarouselContentHr = styled.hr`
@@ -136,6 +109,7 @@ const StyledSwiperSlideP = styled.p`
     padding: 0 1.563rem 3rem 1.563rem;
     line-height: 1.6;
     font-size: 0.75rem;
+    align-items: left;
 `;
 
 const StyledSwiperSlideA = styled.a`
@@ -177,22 +151,22 @@ const StyledSwiperSlideA = styled.a`
 //     }
 // `;
 
-const Img1 = styled.img`
-    position: fixed;
-    top: 0;
-    left: -8rem;
-    z-index: -1;
-    opacity: 0.2;
-`;
+// const Img1 = styled.img`
+//     position: fixed;
+//     top: 0;
+//     left: -8rem;
+//     z-index: -1;
+//     opacity: 0.2;
+// `;
 
-const Img2 = styled.img`
-    position: fixed;
-    bottom: -2rem;
-    right: -3rem;
-    z-index: -1;
-    width: 9.375rem;
-    opacity: 0.2;
-`;
+// const Img2 = styled.img`
+//     position: fixed;
+//     bottom: -2rem;
+//     right: -3rem;
+//     z-index: -1;
+//     width: 9.375rem;
+//     opacity: 0.2;
+// `;
 
 const slider = [
     {
@@ -219,13 +193,22 @@ const slider = [
 ]
 
 const Carousel = () => {
-  const { word } = useTypingText(['fast', 'reliable', 'affordable'], 130, 20);
+//   const { word } = useTypingText(['fast', 'reliable', 'affordable'], 130, 20);
 
   return (
     <CarouselContainer>
         <CarouselContent>
-            <CarouselContentSpan>discover</CarouselContentSpan>
-            <CarouselContentH1>Something like {word}</CarouselContentH1>
+            <CarouselContentSpan>discover</CarouselContentSpan>            
+            <CarouselContentH1>Something like</CarouselContentH1>
+            <StyledTypeWriter>
+                <Typewriter
+                    options={{
+                        strings: ['Hello World', 'We are ORL'],
+                        autoStart: true,
+                        loop: true,
+                    }}
+                />
+            </StyledTypeWriter>
             <CarouselContentHr />
             <CarouselContenP>Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.</CarouselContenP>
         </CarouselContent>
@@ -276,8 +259,8 @@ const Carousel = () => {
                 ))
             }
         </StyledSwiper>
-        <Img1 src={bgdonut1} alt="bg" />
-        <Img2 src={bgdonut2} alt="bg" />
+        {/* <Img1 src={bgdonut1} alt="bg" />
+        <Img2 src={bgdonut2} alt="bg" /> */}
     </CarouselContainer>
   )
 }

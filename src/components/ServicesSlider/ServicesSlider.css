@@ -5,8 +5,7 @@
     font-family: "Open Sans", sans-serif;
 }
 
-.swiper-slide-active div a {
-    /* align-self: flex-start; */
+ .swiper-slide-active div a {
     align-self: center;
 }
 
@@ -14,3 +13,4 @@
 .swiper-pagination-bullet-active {
     background: #fff;
 }
+

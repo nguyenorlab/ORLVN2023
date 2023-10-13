@@ -27,7 +27,8 @@ export const Container = styled.div`
 
 export const Button = styled.button`
     border-radius: 4px;
-    background: ${({primary}) => (primary ? 'hsla(200,77.5%,68.6%,1.000)' : 'hsla(200,77.5%,68.6%,1.000)')};
+    /* background: ${({primary}) => (primary ? 'hsla(200,77.5%,68.6%,1.000)' : 'hsla(200,77.5%,68.6%,1.000)')}; */
+    background: ${({primary}) => (primary ? 'rgb(0 94 141)' : 'rgb(0 94 141)')};
     white-space: nowrap;
     padding: ${({big}) => (big ? '12px 64px' : '10px 20px')};
     color: #fff;
