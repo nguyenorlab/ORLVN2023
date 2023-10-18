@@ -10,7 +10,7 @@ export const InfoSec = styled.div`
 
 export const InfoRow = styled.div`
     display: flex;
-    margin: 0 -15px -15px -15px;
+    /* margin: 0 -15px -15px -15px; */
     flex-wrap: wrap;
     align-items: center;
     flex-direction: ${({imgStart}) => (imgStart ? 'row-reverse' : 'row')};
@@ -64,7 +64,8 @@ export const Subtitle = styled.p`
     margin-bottom: 35px;
     font-size: 18px;
     line-height: 24px;
-    color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : '#1c2237')};
+    /* color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : '#1c2237')}; */
+    color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : 'rgb(140, 146, 151)')};
 `;
 
 

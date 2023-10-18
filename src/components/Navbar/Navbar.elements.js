@@ -80,7 +80,8 @@ export const NavItem = styled.li`
     height: 38px;
     position: relative;
     &:hover {
-        background-color: hsla(200,77.5%,68.6%,1.000);
+        /* background-color: hsla(200,77.5%,68.6%,1.000); */
+        background-color: rgb(0 94 141);
         border-radius: 4px;
         width: 96%;
     }

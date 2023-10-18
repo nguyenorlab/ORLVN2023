@@ -39,7 +39,7 @@ const CarouselContainer = styled.div`
 `;
 
 const StyledSwiper = styled(Swiper)`
-    width: 100%; 
+    width: 100%;
 `;
 
 const StyledSwiperSlideContainer = styled(SwiperSlide)`
@@ -149,9 +149,9 @@ const StyledButton = styled.button`
     align-items: center;
     justify-content: center;
     &:hover{
-        border: 0.125rem solid #00a4aa;
-        color: #00a4aa;
-        background-color: rgba(84, 132, 169, 0.5);
+        border: 0.125rem solid rgb(0, 94, 141);
+        color: white;
+        background-color: rgb(0, 94, 141);
     }
 `;
 
@@ -177,7 +177,6 @@ const slider = [
     description: "Test image",
     url: "https://images.pexels.com/photos/113850/pexels-photo-113850.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
-
 ];
 
 const ServicesSlider = () => {
@@ -197,7 +196,6 @@ const ServicesSlider = () => {
             spaceBetween={30}
             centeredSlides={true}
             direction='horizontal'
-            loop={true}
             effect={'spring'}
             autoplay={{
                 delay: 5000,
@@ -208,6 +206,9 @@ const ServicesSlider = () => {
             }}
             navigation={true}
             breakpoints={{
+                414: {
+                    slidesPerView: 1
+                },
                 640: {
                     slidesPerView: 1
                 },

@@ -6,11 +6,15 @@ import { Link } from 'react-router-dom';
 export const FooterContainer = styled.div`
     background-color: hsla(0,0%,99.6%,1.000);
     box-shadow: rgb(11 140 234 / 10%) -20px -2px 20px 20px;
-    padding: 10px 0px 10px 0px;
+    padding-top: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    @media screen and (max-width: 991px) {
+        padding-top: 15px;
+    }
 `;
 
 
@@ -70,17 +74,42 @@ export const FormInput = styled.input`
 
 
 export const FooterLinksContainer = styled.div`
+    z-index: 1;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1300px;
+    margin-right: auto;
+    margin-left: auto;
+    /* padding-right: 28px; */
+    /* padding-left: 28px; */
+    padding-right: 30px;
+    padding-left: 30px;
+    /* original */
     display: flex;
     justify-content: center;
+
+    @media screen and (max-width: 991px) {
+        padding-right: 30px;
+        padding-left: 30px;
+        column-gap: 10px;
+    }
 
     @media screen and (max-width: 820px) {
         padding-top: 32px;
     }
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        & > div {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    }
 `;
 
 export const FooterLinksWrapper = styled.div`
+    width: 33%;
     display: flex;
 
     @media screen and (max-width: 820px) {
@@ -92,9 +121,10 @@ export const FooterLinkItems = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 16px;
+    /* margin: 16px; */
     text-align: left;
-    width: 160px;
+    /* width: 160px; */
+    width: 100%;
     box-sizing: border-box;
     color: #fff;
 
@@ -107,9 +137,10 @@ export const FooterLinkItems = styled.div`
 
 export const FooterLinkTitle = styled.h2`
     margin-bottom: 16px;
-    color: hsl(207,5%,57%);
-    font-weight: 400;
-    font-size: 20px;
+    /* color: hsl(207,5%,57%); */
+    color: rgb(0 94 141);
+    font-weight: 500;
+    font-size: 23px;
 `;
 
 export const FooterLink = styled(Link)`
@@ -125,7 +156,7 @@ export const FooterLink = styled(Link)`
 
 
 export const SocialMedia = styled.section`
-    max-width: 1000px;
+    max-width: 1300px;
     width: 100%;
 `;
 
@@ -133,12 +164,14 @@ export const SocialMediaWrap = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
-    max-width: 1000px;
+    width: 100%;
+    max-width: 1300px;
     margin: 40px auto 0 auto;
+    padding-right: 30px;
+    padding-left: 30px;
 
     @media screen and (max-width: 820px) {
-        flex-direction: column;
+        flex-direction: row;
     }
 `;
 
@@ -154,26 +187,29 @@ export const SocialLogo = styled(Link)`
 `;
 
 export const SocialIcon = styled.div`
-    margin-right: 10px;
+    /* margin-right: 10px; */
 `;
 
 export const WebsiteRights = styled.small`
     /* color: #fff; */
     color: hsl(207,5%,57%);
-    margin-bottom: 16px;
+    font-size: 16px;
+    /* margin-bottom: 16px; */
 `;
 
 export const SocialIcons = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    width: 240px;
+    /* width: 240px; */
 `;
 
 export const SocialIconLink = styled.a`
     /* color: #fff; */
-    color: hsl(207,5%,57%);
+    /* color: hsl(207,5%,57%); */
+    color: rgb(0 94 141);
     font-size: 24px;
+    padding: 0px 5px 0px 5px;
 `;
 
 export const NavLogoImgFooter = styled.img`

@@ -12,6 +12,7 @@
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
+    "react-simple-image-viewer": "^1.2.2",
     "styled-components": "^5.3.10",
     "swiper": "^10.3.0",
     "typewriter-effect": "^2.21.0",

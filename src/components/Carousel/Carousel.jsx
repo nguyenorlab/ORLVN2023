@@ -2,7 +2,7 @@ import React from 'react';
 // import bgdonut1 from './image/bg-donut-1.png';
 // import bgdonut2 from './image/bg-donut-2.png';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, EffectCoverflow, Autoplay } from 'swiper/modules';
+import { Pagination, EffectCoverflow } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/swiper-bundle.css';
 import './Carousel.css';
@@ -11,18 +11,42 @@ import styled from 'styled-components';
 // import '../TypingText/styles.css';
 import Typewriter from 'typewriter-effect';
 
+// const CarouselContainer = styled.div`
+//     position: relative;
+//     width: calc(min(90rem, 90%));
+//     margin: 0 auto;
+//     min-height: 100vh;
+//     column-gap: 3rem;
+//     padding-block: min(20vh, 3rem);
+//     @media screen and (min-width: 48rem) {
+//         display: flex;
+//         align-items: center;
+//     }
+// `;
+
 const CarouselContainer = styled.div`
-    position: relative;
-    width: calc(min(90rem, 90%));
-    margin: 0 auto;
-    min-height: 100vh;
-    column-gap: 3rem;
-    padding-block: min(20vh, 3rem);
-    @media screen and (min-width: 48rem) {
+    display: flex;
+    /* flex-direction: column; */
+    z-index: 1;
+    width: 100%;
+    padding-block: min(30vh, 8rem);
+    max-width: 1300px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 50px;
+    padding-left: 50px;
+
+    /* @media screen and (min-width: 48rem) {
         display: flex;
         align-items: center;
+    } */
+    @media screen and (max-width: 991px) {
+        padding-right: 30px;
+        padding-left: 30px;
+        flex-direction: column;
     }
 `;
+
 
 const CarouselContent = styled.div``;
 
@@ -30,7 +54,8 @@ const CarouselContentSpan = styled.span`
     text-transform: uppercase;
     letter-spacing: 1.5px;
     font-size: 1rem;
-    color: #717171;
+    /* color: #717171; */
+    color: #4b59f7;
 `;
 
 const CarouselContentH1 = styled.h1`
@@ -64,12 +89,14 @@ const CarouselContentHr = styled.hr`
 `;
 
 const CarouselContenP = styled.p`
-    line-height: 1.6;    
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: rgb(140, 146, 151);    
 `;
 
 const StyledSwiper = styled(Swiper)`
     width: 100%;
-    padding-top: 3.125rem;    
+    /* padding-top: 3.125rem;     */
 `;
 
 const StyledSwiperSlideContainer = styled(SwiperSlide)`
@@ -77,6 +104,7 @@ const StyledSwiperSlideContainer = styled(SwiperSlide)`
     height: 28.125rem;
     background-size: cover;
     background-position: center;
+    border-radius: 10px;
 `;
 
 // const StyledSwiperSlide = styled.div`
@@ -88,10 +116,12 @@ const StyledSwiperSlideContainer = styled(SwiperSlide)`
 const StyledSwiperSlideActive = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     opacity: 1;
     background-color: rgba(108, 108, 108, 0.5);
     height: 100%;
+    align-items: center;
+    border-radius: 10px;
 `;
 
 const StyledSwiperSlideH2 = styled.h2`
@@ -100,7 +130,7 @@ const StyledSwiperSlideH2 = styled.h2`
     font-size: 1.4rem;
     line-height: 1.4;
     margin-bottom: 3.625rem;
-    padding: 0 0 0 1.563rem;
+    /* padding: 0 0 0 1.563rem; */
     text-transform: uppercase;
 `;
 
@@ -109,29 +139,55 @@ const StyledSwiperSlideP = styled.p`
     padding: 0 1.563rem 3rem 1.563rem;
     line-height: 1.6;
     font-size: 0.75rem;
-    align-items: left;
+    align-items: center;
+    justify-content: center;
 `;
 
-const StyledSwiperSlideA = styled.a`
-    margin: 1.25rem 1.5rem 3.5rem;
-    display: inline-block;
-    color: #686868;
+// const StyledSwiperSlideA = styled.a`
+//     margin: 1.25rem 1.5rem 3.5rem;
+//     display: inline-block;
+//     color: #686868;
+//     background: #fff;
+//     padding: 0.625rem 1.875rem;
+//     margin-top: 2.125rem;
+//     text-decoration: none;
+//     text-transform: uppercase;
+//     border: 2px solid #d2d2d2;
+//     border-radius: 3.125rem;
+//     transition: 0.3s ease-in-out;
+//     &:hover{
+//         border: 0.125rem solid #00a4aa;
+//         color: #00a4aa;
+//         background-color: rgba(84, 132, 169, 0.5);
+//     }
+//     /* &:hover{
+//         color: #00a4aa;
+//     } */
+// `;
+
+const StyledButton = styled.button`
+    font-size: 16px;
+    border-radius: 5px;
+    /* margin: 20px 24px 56px; */
+    /* margin: 20px 24px 130px; */
+    margin: 50px 24px 20px;
+    padding: 10px 30px;
     background: #fff;
-    padding: 0.625rem 1.875rem;
-    margin-top: 2.125rem;
+    color: #686868;
     text-decoration: none;
     text-transform: uppercase;
     border: 2px solid #d2d2d2;
-    border-radius: 3.125rem;
-    transition: 0.3s ease-in-out;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &:hover{
-        border: 0.125rem solid #00a4aa;
-        color: #00a4aa;
-        background-color: rgba(84, 132, 169, 0.5);
+        border: 0.125rem solid rgb(0, 94, 141);
+        /* color: #00a4aa; */
+        color: white;
+        /* background-color: rgba(84, 132, 169, 0.5); */
+        background-color: rgb(0, 94, 141);
     }
-    /* &:hover{
-        color: #00a4aa;
-    } */
 `;
 
 // const StyledSlideBtn = styled.div`
@@ -214,7 +270,7 @@ const Carousel = () => {
         </CarouselContent>
 
         <StyledSwiper
-            modules={[Pagination, EffectCoverflow, Autoplay]}
+            modules={[Pagination, EffectCoverflow]}
             effect={"coverflow"}
             grabCursor={true}
             centeredSlides={true}
@@ -225,7 +281,6 @@ const Carousel = () => {
                 modifier: 3,
                 slideShadows: true
             }}
-            loop={true}
             pagination={{clickable: true}}
 
             autoplay={{
@@ -233,8 +288,11 @@ const Carousel = () => {
                 disableOnInteraction: false
             }}
             breakpoints={{
+                441: {
+                    slidesPerView: 1
+                },
                 640: {
-                    slidesPerView: 2
+                    slidesPerView: 1
                 },
                 768: {
                     slidesPerView: 1
@@ -253,7 +311,7 @@ const Carousel = () => {
                         <StyledSwiperSlideActive>
                             <StyledSwiperSlideH2>{data.title}</StyledSwiperSlideH2>
                             <StyledSwiperSlideP>{data.description}</StyledSwiperSlideP>
-                            <StyledSwiperSlideA href={`${data.url}`} target="_blank" rel="noreferrer">explore</StyledSwiperSlideA>
+                            <StyledButton onClick={() => {}}>EXPLORE</StyledButton>
                         </StyledSwiperSlideActive>
                     </StyledSwiperSlideContainer>
                 ))
