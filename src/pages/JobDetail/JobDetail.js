@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container } from '../../globalStyles';
 import styled from 'styled-components';
-
+import { Container, Button } from '../../globalStyles';
+import { useLocation } from 'react-router-dom';
 
 const InfoSec = styled.div`
     color: #fff;
@@ -44,6 +44,14 @@ const TextWrapper = styled.div`
     }
 `;
 
+const TopLine = styled.div`
+    color: ${({ligthTopLine}) => (ligthTopLine ? '#a9b3c1' : '#4b59f7')};
+    font-size: 18px;
+    line-height: 16px;
+    letter-spacing: 1.4px;
+    margin-bottom: 16px;
+`;
+
 const Heading = styled.h1`
     margin-bottom: 24px;
     font-size: 48px;
@@ -66,7 +74,6 @@ const ImgWrapper = styled.div`
     justify-content: ${({start}) => (start ? 'flex-start' : 'flex-end')};
 `;
 
-
 const Img = styled.img`
     padding-right: 0;
     border: 0;
@@ -76,49 +83,17 @@ const Img = styled.img`
     max-height: 500px;
 `;
 
-const TeamInfo = styled.div`
-  padding-right: 15px;
-  flex: 1;
-  max-width: 100%;
-  flex-basis: 50%;
 
-  @media screen and (max-width: 768px) {
-      max-width: 100%;
-      flex-basis: 100%;
-      display: flex;
-      justify-content: center;
-  }
-`;
-
-const TeamWrapper = styled.div`
-  max-width: 100%;
-  padding-top: 0;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-
-  @media screen and (max-width: 768px) {
-
-  }
-`;
-
-const TeamHeading = styled.h1`
-  margin-bottom: 24px;
-  display: inline-block;
-  width: 100%;
-  font-size: 48px;
-  line-height: 1.1;
-  color: ${({lightText}) => (lightText ? '#f7f8fa' : '#1c2237')};    
-`;
-
-const aboutData = {
+export const jobDetailObj = {
   lightBg: true,
   imgStart: '',
   lightTopLine: false,
   lightTextDesc: false,
-  description: 'ORLAB Ha Noi was founded in February 2020 as a subsidiary of ORLAB Japan. We look forward to bringing Japanese job opportunities to Vietnamese engineers.',
-  headline: 'About Us', 
-  lightText: false,
+  buttonLabel: 'Get Started',
+  description: 'Jobs Detail',
+  headline: 'Build your future with us', 
+  lightText: false, 
+  topLine: 'Jobs Detail',
   primary: false,
   img: require('../../images/about.png'),
   alt: 'Image',
@@ -126,33 +101,31 @@ const aboutData = {
 }
 
 
-
-const About = () => {
+const JobDetail = () => {
+  // const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const selectedJobTitle = location.state.selectedJobTitle;
+  
   return (
     <>
-        <InfoSec lightBg={aboutData.lightBg}>
+        <InfoSec>
           <Container>
-            <InfoRow imgStart={aboutData.imgStart}>
+            <InfoRow>
               <InfoColumn>
                 <TextWrapper>
-                  <Heading>About Us</Heading>
-                  <Subtitle lightTextDesc={aboutData.lightTextDesc}>{aboutData.description}</Subtitle>
+                  <TopLine>{jobDetailObj.topLine}</TopLine>
+                  {/* <Heading>{searchParams.get('jobTitle')}</Heading> */}
+                  <Heading>{selectedJobTitle}</Heading>
+                  <Subtitle>{jobDetailObj.description}</Subtitle>
+                  <Button>{jobDetailObj.buttonLabel}</Button>
                 </TextWrapper>
               </InfoColumn>
 
               <InfoColumn>
-                <ImgWrapper start={aboutData.start}>
-                  <Img src={aboutData.img} alt={aboutData.alt} />
+                <ImgWrapper>
+                  <Img src={jobDetailObj.img} alt={jobDetailObj.alt} />
                 </ImgWrapper>
               </InfoColumn>
-
-              <TeamInfo>
-                <TeamWrapper>
-                  <TeamHeading>Our Team</TeamHeading>
-                  <Subtitle>write something about team</Subtitle>
-                  <Subtitle>profile card with background is ORL logo blur</Subtitle>
-                </TeamWrapper>
-              </TeamInfo>
 
             </InfoRow>
           </Container>
@@ -161,4 +134,4 @@ const About = () => {
   )
 }
 
-export default About
+export default JobDetail

@@ -11,6 +11,7 @@ import News from './pages/News/News';
 import Gallery from './pages/Gallery/Gallery';
 // import SignUp from './pages/SignUp/SignUp';
 import ScrollToTop from './components/ScrollToTop';
+import JobDetail from './pages/JobDetail/JobDetail';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path='/gallery' element={<Gallery />} />
         <Route path='/about' element={<About />} />
         <Route path='/recruitment' element={<Recruitment />} />
+        <Route path='/recruitment/:selectedJobTitle' element={<JobDetail />} />
       </Routes>
       <Footer />
     </Router>

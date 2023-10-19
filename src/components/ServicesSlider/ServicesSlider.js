@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -7,6 +7,7 @@ import './ServicesSlider.css';
 import styled from 'styled-components';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { useNavigate } from 'react-router-dom';
 
 // const CarouselContainer = styled.div`
 //     position: relative;
@@ -149,6 +150,7 @@ const StyledButton = styled.button`
     align-items: center;
     justify-content: center;
     &:hover{
+        cursor: pointer;
         border: 0.125rem solid rgb(0, 94, 141);
         color: white;
         background-color: rgb(0, 94, 141);
@@ -158,28 +160,52 @@ const StyledButton = styled.button`
 
 const slider = [
     {
-    title: "Image 1",
-    description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
-    url: "https://images.pexels.com/photos/57007/pexels-photo-57007.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        id: 1,
+        title: "ReactJS",
+        description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
+        url: "https://images.pexels.com/photos/57007/pexels-photo-57007.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
     {
-    title: "Image 2",
-    description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
-    url: "https://images.pexels.com/photos/785418/pexels-photo-785418.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        id: 2,
+        title: "Python",
+        description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
+        url: "https://images.pexels.com/photos/785418/pexels-photo-785418.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
     {
-    title: "Image 3",
-    description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
-    url: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        id: 3,
+        title: "AWS Cloud",
+        description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
+        url: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
     {
-    title: "Image 4",
-    description: "Test image",
-    url: "https://images.pexels.com/photos/113850/pexels-photo-113850.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        id: 4,
+        title: "Image 4",
+        description: "Test image",
+        url: "https://images.pexels.com/photos/113850/pexels-photo-113850.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
 ];
 
 const ServicesSlider = () => {
+    const navigate = useNavigate();
+    const [selectedJobID, setSelectedJobID] = useState('');
+    const [selectedJobTitle, setSelectedJobTitle] = useState('');
+
+    const handleExplore = useCallback((job) => {
+        setSelectedJobID(job.id);
+        setSelectedJobTitle(job.title);
+        // navigate({
+        //     pathname: '/recruitment',
+        //     search: createSearchParams({
+        //         jobTitle: job.title
+        //     }).toString()
+        // });
+        navigate(`/recruitment/${job.title}`, { state: { selectedJobID: job.id, selectedJobTitle: job.title } });
+    },[navigate]);
+
+    // có API sẽ sửa lại chỗ này
+    useEffect(() => {
+        console.log(`Selected Job ID: ${selectedJobID}, Selected Job Title: ${selectedJobTitle}`);
+    }, [selectedJobID, selectedJobTitle]);
 
   return (
     <CarouselContainer>
@@ -224,12 +250,12 @@ const ServicesSlider = () => {
             }}
         >
             {
-                slider.map(data => (
-                    <StyledSwiperSlideContainer style={{ backgroundImage: `url(${data.url})` }}>
+                slider.map((job, index) => (
+                    <StyledSwiperSlideContainer style={{ backgroundImage: `url(${job.url})` }} key={index}>
                         <StyledSwiperSlideActive>
-                            <StyledSwiperSlideH2>{data.title}</StyledSwiperSlideH2>
-                            <StyledSwiperSlideP>{data.description}</StyledSwiperSlideP>                            
-                            <StyledButton onClick={() => {}}>EXPLORE</StyledButton>
+                            <StyledSwiperSlideH2>{job.title}</StyledSwiperSlideH2>
+                            <StyledSwiperSlideP>{job.description}</StyledSwiperSlideP>                            
+                            <StyledButton key={job.id} onClick={() => handleExplore(job)}>EXPLORE</StyledButton>                                                   
                         </StyledSwiperSlideActive>
                     </StyledSwiperSlideContainer>
                 ))

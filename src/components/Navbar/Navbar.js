@@ -84,9 +84,10 @@ const Navbar = () => {
                     {hoverServices && (
                       <StyledUl>
                         <DropDownLi>
-                          <SubA href='/'>Offshore Development</SubA>  
-                          <SubA href='/'>Recruitment</SubA> 
-                          <SubA href='/'>Find a job</SubA>
+                          <SubA href='/'>Software Outsourcing</SubA>
+                          <SubA href='/'>Offshore Development</SubA>
+                          <SubA href='/'>Software Development</SubA>
+                          <SubA href='/recruitment'>Recruitment</SubA> 
                         </DropDownLi>
                       </StyledUl>
                     )}

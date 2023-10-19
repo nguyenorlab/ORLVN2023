@@ -226,23 +226,23 @@ const StyledButton = styled.button`
 
 const slider = [
     {
-    title: "Image 1",
+    title: "Software Outsourcing",
     description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
     url: "https://images.pexels.com/photos/57007/pexels-photo-57007.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
 
     {
-    title: "Image 2",
+    title: "Software Development",
     description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
     url: "https://images.pexels.com/photos/785418/pexels-photo-785418.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
     {
-    title: "Image 3",
+    title: "Recruitment",
     description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
     url: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
     {
-    title: "Image 4",
+    title: "Offshore Development",
     description: "Test image",
     url: "https://images.pexels.com/photos/113850/pexels-photo-113850.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
@@ -306,8 +306,8 @@ const Carousel = () => {
             }}
         >
             {
-                slider.map(data => (
-                    <StyledSwiperSlideContainer style={{ backgroundImage: `url(${data.url})` }}>
+                slider.map((data, index) => (
+                    <StyledSwiperSlideContainer style={{ backgroundImage: `url(${data.url})` }} key={index}>
                         <StyledSwiperSlideActive>
                             <StyledSwiperSlideH2>{data.title}</StyledSwiperSlideH2>
                             <StyledSwiperSlideP>{data.description}</StyledSwiperSlideP>
