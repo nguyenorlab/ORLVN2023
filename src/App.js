@@ -13,6 +13,7 @@ import Gallery from './pages/Gallery/Gallery';
 import ScrollToTop from './components/ScrollToTop';
 import JobDetail from './pages/JobDetail/JobDetail';
 
+
 function App() {
   return (
     <Router>

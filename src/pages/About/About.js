@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container } from '../../globalStyles';
 import styled from 'styled-components';
+import ProfileCard from '../../components/ProfileCard/ProfileCard';
 
 
 const InfoSec = styled.div`
@@ -77,7 +78,7 @@ const Img = styled.img`
 `;
 
 const TeamInfo = styled.div`
-  padding-right: 15px;
+  padding: 70px 0px 70px 0px;
   flex: 1;
   max-width: 100%;
   flex-basis: 50%;
@@ -93,7 +94,8 @@ const TeamInfo = styled.div`
 const TeamWrapper = styled.div`
   max-width: 100%;
   padding-top: 0;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -104,7 +106,10 @@ const TeamWrapper = styled.div`
 
 const TeamHeading = styled.h1`
   margin-bottom: 24px;
-  display: inline-block;
+  /* display: inline-block; */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
   width: 100%;
   font-size: 48px;
   line-height: 1.1;
@@ -150,7 +155,7 @@ const About = () => {
                 <TeamWrapper>
                   <TeamHeading>Our Team</TeamHeading>
                   <Subtitle>write something about team</Subtitle>
-                  <Subtitle>profile card with background is ORL logo blur</Subtitle>
+                  <ProfileCard />
                 </TeamWrapper>
               </TeamInfo>
 

@@ -109,6 +109,7 @@ const gallery = [
 const Footer = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
+  let currentYear = new Date().getFullYear();
 
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
@@ -214,7 +215,7 @@ const Footer = () => {
               <SocialIcon />
                 <NavLogoImgFooter src={logoImg.img} alt='logo' />
             </SocialLogo>
-            <WebsiteRights>ORLVN © 2023</WebsiteRights>
+            <WebsiteRights>ORLVN © {currentYear}</WebsiteRights>
             <SocialIcons>
               <SocialIconLink href='/' target='_blank' aria-label='Facebook'><FaFacebook /></SocialIconLink>
               <SocialIconLink href='/' target='_blank' aria-label='Linkedin'><FaLinkedin /></SocialIconLink>

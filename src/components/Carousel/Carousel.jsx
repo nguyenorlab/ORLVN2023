@@ -132,6 +132,7 @@ const StyledSwiperSlideH2 = styled.h2`
     margin-bottom: 3.625rem;
     /* padding: 0 0 0 1.563rem; */
     text-transform: uppercase;
+    text-align: center;
 `;
 
 const StyledSwiperSlideP = styled.p`
