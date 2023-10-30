@@ -24,8 +24,17 @@ const InfoColumnImg = styled.div`
     padding-right: 15px;
     padding-left: 15px;
     flex: 1;
-    max-width: 40%;
+    max-width: 30%;
     flex-basis: 50%;
+    border: 3px solid #bdbdbd;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 30px;
+    height: auto;
+    align-items: left;
+    align-self: flex-start;
+    margin-top: 110px;
 
     @media screen and (max-width: 768px) {
         max-width: 100%;
@@ -40,7 +49,7 @@ const InfoColumnJob = styled.div`
     padding-right: 15px;
     padding-left: 15px;
     flex: 1;
-    max-width: 60%;
+    max-width: 70%;
     flex-basis: 50%;
 
     @media screen and (max-width: 768px) {
@@ -91,14 +100,14 @@ const ImgWrapper = styled.div`
     justify-content: ${({start}) => (start ? 'flex-start' : 'flex-end')};
 `;
 
-const Img = styled.img`
-    padding-right: 0;
-    border: 0;
-    max-width: 100%;
-    vertical-align: middle;
-    display: inline-block;
-    max-height: 500px;
-`;
+// const Img = styled.img`
+//     padding-right: 0;
+//     border: 0;
+//     max-width: 100%;
+//     vertical-align: middle;
+//     display: inline-block;
+//     max-height: 500px;
+// `;
 
 const JDContainer = styled.label`
   display: flex;
@@ -136,13 +145,20 @@ const JDText = styled.div`
 `;
 
 const JobTitleContent = styled.p`
-  width: 68%;
+  /* width: 68%; */
+  width: 100%;
   text-align: justify;
 `;
 
 const JobTitleContainer = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
+`;
+
+const DetailContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
 `;
 
@@ -157,74 +173,120 @@ const JobTitleElement = styled.p`
 `;
 
 
-const jobDetailObj = {
-  lightBg: true,
-  imgStart: '',
-  lightTopLine: false,
-  lightTextDesc: false,
-  buttonLabel: 'Get Started',
-  description: 'Jobs Description',
-  headline: 'Build your future with us', 
-  lightText: false, 
-  topLine: 'Jobs Detail',
-  primary: false,
-  img: require('../../images/about.png'),
-  alt: 'Image',
-  start: ''
-};
+
+// const jobDetailObj = [
+//   {
+//     id: 1,
+//     lightText: false,
+//     jobTitle: 'Front-end Developer',
+//     location: 'Ha Noi',
+//     description: 'We are looking for a qualified Front-end developer to join our IT team. You will be responsible for building the client-side of our web applications. You should be able to translate our company and customer needs into functional and appealing interactive applications. If you’re interested in creating a user-friendly environment by writing code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design. Ultimately, you should be able to create a functional and attractive digital environment for our company, ensuring great user experience.',
+//     experience: ['Proven work experience as a ReactJS developer.', 'Hands on experience with markup languages.', 'Experience with JavaScript, CSS and jQuery.', 'Familiarity with browser testing and debugging. In-depth understanding of the entire web development process (design, development and deployment).'],
+//     img: require('../../images/about.png'),
+//     alt: 'Image',
+//     start: ''
+//   },
+//   {
+//     id: 2,
+//     lightText: false,
+//     jobTitle: 'Back-end Developer',
+//     location: 'Tokyo',
+//     description: 'We are looking for a qualified Front-end developer to join our IT team. You will be responsible for building the client-side of our web applications. You should be able to translate our company and customer needs into functional and appealing interactive applications. If you’re interested in creating a user-friendly environment by writing code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design. Ultimately, you should be able to create a functional and attractive digital environment for our company, ensuring great user experience.',
+//     experience: ['Proven work experience as a Python developer.', 'Hands on experience with markup languages.', 'Experience with Python.', 'Familiarity with browser testing and debugging. In-depth understanding of the entire web development process (design, development and deployment).'],
+//     img: require('../../images/about.png'),
+//     alt: 'Image',
+//     start: ''
+//   },
+//   {
+//     id: 3,
+//     lightText: false,
+//     jobTitle: 'Cloud Developer',
+//     location: 'Tokyo',
+//     description: 'We are looking for a qualified Front-end developer to join our IT team. You will be responsible for building the client-side of our web applications. You should be able to translate our company and customer needs into functional and appealing interactive applications. If you’re interested in creating a user-friendly environment by writing code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design. Ultimately, you should be able to create a functional and attractive digital environment for our company, ensuring great user experience.',
+//     experience: ['Proven work experience as a Cloud Professional.', 'Hands on experience with markup languages.', 'Experience with Python.', 'Familiarity with browser testing and debugging. In-depth understanding of the entire web development process (design, development and deployment).'],
+//     img: require('../../images/about.png'),
+//     alt: 'Image',
+//     start: ''
+//   },
+// ];
 
 
 const JobDetail = () => {
   const location = useLocation();
-  const selectedJobTitle = location.state.selectedJobTitle; 
+  const selectedJob = location.state.selectedJob;
+  console.log(selectedJob); 
+
 
 
   return (
     <>
         <InfoSec>
-          <Container>
+          <Container>            
             <InfoRow>
-
               <InfoColumnImg>
                 <ImgWrapper>
-                  <Img src={jobDetailObj.img} alt={jobDetailObj.alt} />
+                  {/* <Img src={selectedJob.img} alt='job-image' /> */}
+                  <a href="/">1</a>
+                  <a href="/">2</a>
+                  <a href="/">3</a>
                 </ImgWrapper>
               </InfoColumnImg>
 
               <InfoColumnJob>
                 <TextWrapper>
-                  <TopLine>{jobDetailObj.topLine}</TopLine>
-                  {/* <Heading>{searchParams.get('jobTitle')}</Heading> */}
-                  <Heading>{selectedJobTitle}</Heading>
+                  <TopLine>Job Detail</TopLine>
+                  <Heading>{selectedJob.jobTitle}</Heading>
 
                   <JDContainer>
-                    <JDSubtitle>{jobDetailObj.description}</JDSubtitle>
+                    <JDSubtitle>Job Description</JDSubtitle>
                     <JDText>
                       <JobTitleContainer>
                         <JobTitleElement>Job Title:</JobTitleElement>
-                        <JobTitleContent>Front-end Developer</JobTitleContent>
+                        <JobTitleContent>{selectedJob.jobTitle}</JobTitleContent>
+                      </JobTitleContainer>
+
+                      <JobTitleContainer>
+                        <JobTitleElement>Salary:</JobTitleElement>
+                        <JobTitleContent>{selectedJob.salary}</JobTitleContent>
                       </JobTitleContainer>
 
                       <JobTitleContainer>
                         <JobTitleElement>Location:</JobTitleElement>
-                        <JobTitleContent>Ha Noi</JobTitleContent>
+                        <JobTitleContent>{selectedJob.location}</JobTitleContent>
                       </JobTitleContainer>
 
-                      <JobTitleContainer>
-                        <JobTitleElement>General Description:</JobTitleElement>
-                        <JobTitleContent>We are looking for a qualified Front-end developer to join our IT team. You will be responsible for building the client-side of our web applications. You should be able to translate our company and customer needs into functional and appealing interactive applications. If you’re interested in creating a user-friendly environment by writing code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design. Ultimately, you should be able to create a functional and attractive digital environment for our company, ensuring great user experience.</JobTitleContent>
-                      </JobTitleContainer>
+                      <DetailContainer>
+                        <JobTitleElement>General Description</JobTitleElement>
+                        <JobTitleContent>{selectedJob.description}</JobTitleContent>
+                      </DetailContainer>
 
-                      <JobTitleContainer>
-                        <JobTitleElement>Experience Requirement:</JobTitleElement>
+                      <DetailContainer>
+                        <JobTitleElement>Experience Requirement</JobTitleElement>
                         <JobTitleContent>
-                          <li>Proven work experience as a Front-end developer.</li>
-                          <li>Hands on experience with markup languages.</li>
-                          <li>Experience with JavaScript, CSS and jQuery.</li>
-                          <li>Familiarity with browser testing and debugging.</li>
-                          <li>In-depth understanding of the entire web development process (design, development and deployment).</li>                        
+                          {selectedJob.experience.map((item, index) => (
+                            <li key={index}>{item}</li>
+                          ))}
                         </JobTitleContent>
-                      </JobTitleContainer>
+                      </DetailContainer>
+
+                      <DetailContainer>
+                        <JobTitleElement>Nice to have</JobTitleElement>
+                        <JobTitleContent>
+                          {selectedJob.expPlus.map((item, index) => (
+                            <li key={index}>{item}</li>
+                          ))}
+                        </JobTitleContent>
+                      </DetailContainer>
+
+                      <DetailContainer>
+                        <JobTitleElement>Treatment</JobTitleElement>
+                        <JobTitleContent>
+                          {selectedJob.treatment.map((item, index)  => (
+                            <li key={index}>{item}</li>
+                          ))}
+                        </JobTitleContent>
+                      </DetailContainer>
+
                     </JDText>
                   </JDContainer>
                   <UploadFile />

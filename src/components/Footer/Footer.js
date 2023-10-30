@@ -217,7 +217,7 @@ const Footer = () => {
             </SocialLogo>
             <WebsiteRights>ORLVN © {currentYear}</WebsiteRights>
             <SocialIcons>
-              <SocialIconLink href='/' target='_blank' aria-label='Facebook'><FaFacebook /></SocialIconLink>
+              <SocialIconLink href='https://www.facebook.com/profile.php?id=100035319918183' target='_blank' aria-label='Facebook'><FaFacebook /></SocialIconLink>
               <SocialIconLink href='/' target='_blank' aria-label='Linkedin'><FaLinkedin /></SocialIconLink>
             </SocialIcons>
           </SocialMediaWrap>
