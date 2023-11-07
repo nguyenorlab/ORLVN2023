@@ -307,11 +307,11 @@ const Carousel = () => {
             }}
         >
             {
-                slider.map((data, index) => (
-                    <StyledSwiperSlideContainer style={{ backgroundImage: `url(${data.url})` }} key={index}>
+                slider.map((slider, index) => (
+                    <StyledSwiperSlideContainer style={{ backgroundImage: `url(${slider.url})` }} key={index}>
                         <StyledSwiperSlideActive>
-                            <StyledSwiperSlideH2>{data.title}</StyledSwiperSlideH2>
-                            <StyledSwiperSlideP>{data.description}</StyledSwiperSlideP>
+                            <StyledSwiperSlideH2>{slider.title}</StyledSwiperSlideH2>
+                            <StyledSwiperSlideP>{slider.description}</StyledSwiperSlideP>
                             <StyledButton onClick={() => {}}>EXPLORE</StyledButton>
                         </StyledSwiperSlideActive>
                     </StyledSwiperSlideContainer>

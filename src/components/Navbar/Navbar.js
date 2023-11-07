@@ -85,7 +85,6 @@ const Navbar = () => {
                       <StyledUl>
                         <DropDownLi>
                           <SubA href='/'>Software Outsourcing</SubA>
-                          <SubA href='/'>Offshore Development</SubA>
                           <SubA href='/'>Software Development</SubA>
                           <SubA href='/recruitment'>Recruitment</SubA> 
                         </DropDownLi>

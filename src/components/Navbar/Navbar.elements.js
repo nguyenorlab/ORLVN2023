@@ -135,7 +135,7 @@ export const  NavBtnLink = styled(Link)`
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    padding: 8px 16px;
+    /* padding: 8px 16px; */
     height: 100%;
     width: 100%;
     border: none;
@@ -145,7 +145,7 @@ export const  NavBtnLink = styled(Link)`
 export const NavLogoImg = styled.img`
     height: 60px;
     width: 60px;
-    margin: 7px 0px 0px 14px;
+    margin: 7px 0px 0px 0px;
     border-radius: 5px;
 `;
 
@@ -186,13 +186,14 @@ export const DropDownLi = styled(StyledLi)`
 `;
 
 export const SubA = styled.a`
-  color: black;
+  color: hsl(207,5%,57%);
   padding: 12px 16px;
   text-decoration: none;
   display: block;
   text-align: left;
   &:hover {
-    background-color: #f1f1f1;
+    background-color: rgb(0, 94, 141);
+    color: white;
   }
 `;
 //------- dropdown menu end-------//

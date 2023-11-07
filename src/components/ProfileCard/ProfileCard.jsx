@@ -26,8 +26,9 @@ const Container = styled.div`
 `;
 
 const CardContainer = styled.div`
-  width: 350px;
-  height: 500px;
+  /* width: 350px; */
+  width: 100%;
+  height: 600px;
   background-color: white;
   margin-right: 30px;
 	/* min-width: 350px; */
@@ -39,8 +40,12 @@ const CardContainer = styled.div`
   justify-content: center;
   position: relative;
 
+  &:last-child {
+    margin-right: 0;
+  }
+
   &:hover {
-    box-shadow: rgb(0, 94, 141) 20px 18px 15px 0px;
+    box-shadow: rgb(0, 94, 141) 10px 18px 15px 0px;
     transform: translateY(-20px);
   }
 
@@ -82,8 +87,14 @@ const H1 = styled.h1`
 	font-size: 30px;
 	text-align: center;
 	/* padding: 10px 20px 0px 20px; */
-	padding: 100px 20px 10px 20px;
+	padding: 80px 20px 10px 20px;
   color: black;
+`;
+
+const StyledPosition = styled.div`
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const NormalTextH2 = styled.h2`
@@ -91,7 +102,7 @@ const NormalTextH2 = styled.h2`
 	font-size: 18px;
 	color: hsl(0, 0%, 50%);
 	text-align: center;
-	padding-bottom: 20px;
+	padding-bottom: 10px;
 `;
 
 const SocialContainer = styled.div`
@@ -121,7 +132,7 @@ const SocialIconLink = styled.a`
 const StyledP = styled.p`
   color: rgb(140, 146, 151);
   font-size: 18px;
-  line-height: 24px;
+  line-height: 22px;
   padding: 0px 30px;
   text-align: justify;
 `;
@@ -170,7 +181,10 @@ const ProfileCard = () => {
                   <Img src={data.avatar} alt={data.name} />
                 </Header>
                 <H1>{data.name}</H1>
-                <NormalTextH2>{data.location}</NormalTextH2>
+                <StyledPosition>                  
+                  <NormalTextH2>{data.position}</NormalTextH2>
+                  <NormalTextH2>{data.location}</NormalTextH2>
+                </StyledPosition>
                 <StyledP>{data.about}</StyledP>
               </HeaderContainer>
 

@@ -84,12 +84,13 @@ const StyledSwiperSlideH2 = styled.h2`
 
 const StyledSwiperSlideP = styled.p`
     color: rgb(218, 218, 218);
-    padding: 0 1.563rem 3rem 1.563rem;
+    /* padding: 0 1.563rem 3rem 1.563rem; */
+    padding-bottom: 20px;
     line-height: 1.6;
     font-size: 20px;
     margin-top: 25px;
-    display: flex;
-    flex-direction: column;
+    /* display: flex; */
+    /* flex-direction: column; */
 `;
 
 const InfoColumn = styled.div`
@@ -223,7 +224,7 @@ const ServicesSlider = () => {
         </InfoColumn>
 
         <StyledSwiper
-            modules={[Pagination, Navigation]}
+            modules={[Pagination, Navigation, Autoplay]}
             slidesPerView={3}
             spaceBetween={30}
             centeredSlides={true}
@@ -263,12 +264,7 @@ const ServicesSlider = () => {
                             <StyledSwiperSlideP>
                                 <StyledSkill>
                                     <StyledSkillStack />
-                                    {job.shortDescription.map((item, index, arr) => (
-                                        <li key={index}>
-                                            {item}
-                                            {index < arr.length - 1 && <span>,&nbsp;</span>}
-                                        </li>
-                                    ))}
+                                    {job.shortDescription.join(', ')}
                                 </StyledSkill>
 
                                 <StyledSkill>
