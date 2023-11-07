@@ -152,7 +152,7 @@ const Footer = () => {
                 <StyledLocation>
                   <HiOutlineMail />
                 </StyledLocation>
-                <StyledP>nguyen.tien.dat@orlab.co.jp</StyledP>
+                <StyledP>contact.vn@orlab.co.jp</StyledP>
               </StyledVNAdd>
 
               {/* JP */}

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container } from '../../globalStyles';
-import { useLocation } from 'react-router-dom';
 import UploadFile from '../../components/UploadFile/UploadFile';
 
 const InfoSec = styled.div`
@@ -185,6 +184,13 @@ const DetailContainer = styled.div`
   margin: 30px 0px;
 `;
 
+const OpenningContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* margin: 30px 0px; */
+`;
+
 const JobTitleElement = styled.p`
   display: flex;
   flex-direction: row;
@@ -206,8 +212,25 @@ const JobTitleElementDetail = styled.p`
   width: 100%;
   background-color: rgb(0, 94, 141);
   padding: 10px;
-  margin-bottom: 10px;
-  text-transform: uppercase;
+  margin: 5px 0px;
+`;
+
+const JobsOpeningList = styled.p`
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+  line-height: 24px;
+  color: white;
+  margin-right: 10px;
+  width: 100%;
+  background-color: rgb(0, 94, 141);
+  padding: 10px;
+  margin: 5px 0px;
+  cursor: pointer;
+  clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+  &:hover{
+    background-color: rgb(28 150 212);
+  }
 `;
 
 const JobListContainer = styled.label`
@@ -221,7 +244,7 @@ const JobListContainer = styled.label`
   font-size: 14px;
   border-radius: 10px;
   padding: 30px;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 
   input {
     display: none;
@@ -237,30 +260,96 @@ const JobListHeading = styled.h2`
     font-style: italic;    
 `;
 
-
+// sau thay = API
+const jobDetailObj = [
+  {
+    id: 1,
+    lightText: false,
+    jobTitle: 'Front-End Developer',
+    location: 'Ha Noi',
+    shortDescription: ['ReactJS', 'JavaScript', 'HTML', 'CSS'],
+    salary: 'Upto 40M',
+    description: 'FRONTEND-DEV --- We are looking for a qualified Front-end developer to join our IT team. You will be responsible for building the client-side of our web applications. You should be able to translate our company and customer needs into functional and appealing interactive applications. If you’re interested in creating a user-friendly environment by writing code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design. Ultimately, you should be able to create a functional and attractive digital environment for our company, ensuring great user experience.',
+    experience: ['FRONTEND-DEV --- Proven work experience as a ReactJS developer.', 'Hands on experience with markup languages.', 'Experience with JavaScript, CSS and jQuery.', 'Familiarity with browser testing and debugging. In-depth understanding of the entire web development process (design, development and deployment).'],
+    expPlus: ['FRONTEND-DEV --- Experience with performance optimization, data caching is a plus.', 'Experience working with CDN like Akamai to deliver the best experience (optimization, caching, edge computing…)', 'Good knowledge of end-to-end design language using token.', 'Experience with customer facing roles is a plus.', 'Experience with large-scale e-commerce projects is a plus.', 'Experience with Azure cloud native deployment is a plus.'],
+    img: require('../../images/about.png'),
+    url: "https://images.pexels.com/photos/57007/pexels-photo-57007.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    alt: 'Image',
+    start: '',
+    treatment: ['FRONTEND-DEV --- Thử việc hưởng 100% lương', 'Ký hợp đồng lao động chính thức sau 02 tháng thử việc.', 'Nghỉ phép 12 ngày/năm, Golden Week, Tết dương lịch, âm lịch 6 ngày, kỷ niệm thành lập công ty', 'Du lịch hè cùng công ty hoặc nghỉ hè 3 ngày tự chọn.', 'Làm việc: 9h-18h từ T2-T6, nghỉ T7 và CN hàng tuần.', 'Xét tăng lương định kỳ 1 năm/lần, thưởng 2 lần/năm (tháng lương thứ 13 và 14)', 'Hỗ trợ thi chứng chỉ quốc tế.', 'Chế độ BHXH, BHYT, BHTN', 'Môi trường trẻ trung năng động, thoải mái, tạo điều kiện để cá nhân phát triển năng lực nhất có thể.', 'Free trà, cà phê, chỗ gửi xe.'],
+  },
+  {
+    id: 2,
+    lightText: false,
+    jobTitle: 'Back-End Developer',
+    location: 'Tokyo',
+    shortDescription: ['Python', 'NodeJS', 'MySQL'],
+    salary: 'Upto 40M',
+    description: 'BACKEND-DEV --- We are looking for a qualified Back-end developer to join our IT team. You will be responsible for building the client-side of our web applications. You should be able to translate our company and customer needs into functional and appealing interactive applications. If you’re interested in creating a user-friendly environment by writing code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design. Ultimately, you should be able to create a functional and attractive digital environment for our company, ensuring great user experience.',
+    experience: ['BACKEND-DEV --- Proven work experience as a Python developer.', 'Hands on experience with markup languages.', 'Experience with Python.', 'Familiarity with browser testing and debugging. In-depth understanding of the entire web development process (design, development and deployment).'],
+    expPlus: ['BACKEND-DEV --- Experience with performance optimization, data caching is a plus.', 'Experience working with CDN like Akamai to deliver the best experience (optimization, caching, edge computing…)', 'Good knowledge of end-to-end design language using token.', 'Experience with customer facing roles is a plus.', 'Experience with large-scale e-commerce projects is a plus.', 'Experience with Azure cloud native deployment is a plus.'],
+    img: require('../../images/about.png'),
+    url: "https://images.pexels.com/photos/785418/pexels-photo-785418.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    alt: 'Image',
+    start: '',
+    treatment: ['BACKEND-DEV --- Thử việc hưởng 100% lương', 'Ký hợp đồng lao động chính thức sau 02 tháng thử việc.', 'Nghỉ phép 12 ngày/năm, Golden Week, Tết dương lịch, âm lịch 6 ngày, kỷ niệm thành lập công ty', 'Du lịch hè cùng công ty hoặc nghỉ hè 3 ngày tự chọn.', 'Làm việc: 9h-18h từ T2-T6, nghỉ T7 và CN hàng tuần.', 'Xét tăng lương định kỳ 1 năm/lần, thưởng 2 lần/năm (tháng lương thứ 13 và 14)', 'Hỗ trợ thi chứng chỉ quốc tế.', 'Chế độ BHXH, BHYT, BHTN', 'Môi trường trẻ trung năng động, thoải mái, tạo điều kiện để cá nhân phát triển năng lực nhất có thể.', 'Free trà, cà phê, chỗ gửi xe.'],
+  },
+  {
+    id: 3,
+    lightText: false,
+    jobTitle: 'Cloud Engineer',
+    location: 'Tokyo',
+    shortDescription: ['AWS', 'Azure', 'Alibaba'],
+    salary: 'Upto 40M',
+    description: 'CLOUD --- We are looking for a qualified CLOUD developer to join our IT team. You will be responsible for building the client-side of our web applications. You should be able to translate our company and customer needs into functional and appealing interactive applications. If you’re interested in creating a user-friendly environment by writing code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design. Ultimately, you should be able to create a functional and attractive digital environment for our company, ensuring great user experience.',
+    experience: ['CLOUD --- Proven work experience as a Cloud Professional.', 'Hands on experience with markup languages.', 'Experience with Python.', 'Familiarity with browser testing and debugging. In-depth understanding of the entire web development process (design, development and deployment).'],
+    expPlus: ['CLOUD --- Experience with performance optimization, data caching is a plus.', 'Experience working with CDN like Akamai to deliver the best experience (optimization, caching, edge computing…)', 'Good knowledge of end-to-end design language using token.', 'Experience with customer facing roles is a plus.', 'Experience with large-scale e-commerce projects is a plus.', 'Experience with Azure cloud native deployment is a plus.'],
+    img: require('../../images/about.png'),
+    url: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    alt: 'Image',
+    start: '',
+    treatment: ['CLOUD --- Thử việc hưởng 100% lương', 'Ký hợp đồng lao động chính thức sau 02 tháng thử việc.', 'Nghỉ phép 12 ngày/năm, Golden Week, Tết dương lịch, âm lịch 6 ngày, kỷ niệm thành lập công ty', 'Du lịch hè cùng công ty hoặc nghỉ hè 3 ngày tự chọn.', 'Làm việc: 9h-18h từ T2-T6, nghỉ T7 và CN hàng tuần.', 'Xét tăng lương định kỳ 1 năm/lần, thưởng 2 lần/năm (tháng lương thứ 13 và 14)', 'Hỗ trợ thi chứng chỉ quốc tế.', 'Chế độ BHXH, BHYT, BHTN', 'Môi trường trẻ trung năng động, thoải mái, tạo điều kiện để cá nhân phát triển năng lực nhất có thể.', 'Free trà, cà phê, chỗ gửi xe.'],
+  },
+  {
+    id: 4,
+    lightText: false,
+    jobTitle: 'Devops Engineer',
+    location: 'Tokyo',
+    shortDescription: ['Docker', 'Rancher', 'Kubernetes'],
+    salary: 'Upto 40M',
+    description: 'DEVOPS --- We are looking for a qualified Front-end developer to join our IT team. You will be responsible for building the client-side of our web applications. You should be able to translate our company and customer needs into functional and appealing interactive applications. If you’re interested in creating a user-friendly environment by writing code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design. Ultimately, you should be able to create a functional and attractive digital environment for our company, ensuring great user experience.',
+    experience: ['DEVOPS --- Proven work experience as a Cloud Professional.', 'Hands on experience with markup languages.', 'Experience with Python.', 'Familiarity with browser testing and debugging. In-depth understanding of the entire web development process (design, development and deployment).'],
+    expPlus: ['DEVOPS --- Experience with performance optimization, data caching is a plus.', 'Experience working with CDN like Akamai to deliver the best experience (optimization, caching, edge computing…)', 'Good knowledge of end-to-end design language using token.', 'Experience with customer facing roles is a plus.', 'Experience with large-scale e-commerce projects is a plus.', 'Experience with Azure cloud native deployment is a plus.'],
+    img: require('../../images/about.png'),
+    url: "https://images.pexels.com/photos/113850/pexels-photo-113850.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    alt: 'Image',
+    start: '',
+    treatment: ['DEVOPS --- Thử việc hưởng 100% lương', 'Ký hợp đồng lao động chính thức sau 02 tháng thử việc.', 'Nghỉ phép 12 ngày/năm, Golden Week, Tết dương lịch, âm lịch 6 ngày, kỷ niệm thành lập công ty', 'Du lịch hè cùng công ty hoặc nghỉ hè 3 ngày tự chọn.', 'Làm việc: 9h-18h từ T2-T6, nghỉ T7 và CN hàng tuần.', 'Xét tăng lương định kỳ 1 năm/lần, thưởng 2 lần/năm (tháng lương thứ 13 và 14)', 'Hỗ trợ thi chứng chỉ quốc tế.', 'Chế độ BHXH, BHYT, BHTN', 'Môi trường trẻ trung năng động, thoải mái, tạo điều kiện để cá nhân phát triển năng lực nhất có thể.', 'Free trà, cà phê, chỗ gửi xe.'],
+  },    
+];
 
 const JobDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [selectedJob, setSelectedJob] = useState(location.state.selectedJob);
-  const jobList = location.state.jobList;
-  const jobTitleText = decodeURIComponent(location.pathname.split('/').pop());
 
-  // chua duoc
-  useEffect(() => {
-    if(!jobTitleText) {
-      navigate('/recruitment');
-    } else {
-      const selectedJob = jobList.find(job => job.jobTitle === jobTitleText);
-      console.log(selectedJob);
-      if(selectedJob) {
-        setSelectedJob(selectedJob);
-      } else {
-        navigate('/recruitment');
-      }
+  // selectedJobTitle match with Route path in App.js
+  const { selectedJobTitle: jobTitleParam } = useParams();
+  const jobTitleFromUrl = decodeURIComponent(jobTitleParam);
+
+  const [selectedJob, setSelectedJob] = useState(() => {
+    if (location.state) {
+      return location.state.selectedJob;
     }
-  },[jobList, jobTitleText, navigate]);
+    const jobFromUrl = jobDetailObj.find(job => job.jobTitle === jobTitleFromUrl);
+    return jobFromUrl || jobDetailObj[0];
+  });
 
+
+  const handleSelectJob = useCallback((id) => {
+    const job = jobDetailObj.find(job => job.id === id);
+    setSelectedJob(job);
+    navigate(`/recruitment/${job.jobTitle}`, { state: { selectedJob: job } });
+  },[navigate]);
 
 
   return (
@@ -270,74 +359,80 @@ const JobDetail = () => {
             <InfoRow>
               <InfoColumnImg>
                 <TextWrapper>
-                  <JobListHeading>Jobs List Openning</JobListHeading>
+                  <JobListHeading>Jobs Opening List</JobListHeading>
                   <JobListContainer>
-
+                    {jobDetailObj.map((job, id) => (
+                      <OpenningContainer key={id}>
+                        <JobsOpeningList onClick={() => handleSelectJob(job.id)}>{job.jobTitle}</JobsOpeningList>
+                      </OpenningContainer>
+                    ))}
                   </JobListContainer>
                 </TextWrapper>
-
               </InfoColumnImg>
 
-              <InfoColumnJob>
-                <TextWrapper>
-                  <TopLine>Job Detail</TopLine>
-                  <Heading>{selectedJob.jobTitle}</Heading>
+              {selectedJob ?
+                <InfoColumnJob>
+                  <TextWrapper>
+                    <TopLine>Job Detail</TopLine>
+                    <Heading>{selectedJob.jobTitle}</Heading>
 
-                  <JDContainer>
-                    <JDSubtitle>Job Description</JDSubtitle>
-                    <JDText>
-                      <JobTitleContainer>
-                        <JobTitleElement>Job Title:</JobTitleElement>
-                        <JobTitleContent>{selectedJob.jobTitle}</JobTitleContent>
-                      </JobTitleContainer>
+                    <JDContainer>
+                      <JDSubtitle>Job Description</JDSubtitle>
+                      <JDText>
+                        <JobTitleContainer>
+                          <JobTitleElement>Job Title:</JobTitleElement>
+                          <JobTitleContent>{selectedJob.jobTitle}</JobTitleContent>
+                        </JobTitleContainer>
 
-                      <JobTitleContainer>
-                        <JobTitleElement>Salary:</JobTitleElement>
-                        <JobTitleContent>{selectedJob.salary}</JobTitleContent>
-                      </JobTitleContainer>
+                        <JobTitleContainer>
+                          <JobTitleElement>Salary:</JobTitleElement>
+                          <JobTitleContent>{selectedJob.salary}</JobTitleContent>
+                        </JobTitleContainer>
 
-                      <JobTitleContainer>
-                        <JobTitleElement>Location:</JobTitleElement>
-                        <JobTitleContent>{selectedJob.location}</JobTitleContent>
-                      </JobTitleContainer>
+                        <JobTitleContainer>
+                          <JobTitleElement>Location:</JobTitleElement>
+                          <JobTitleContent>{selectedJob.location}</JobTitleContent>
+                        </JobTitleContainer>
 
-                      <DetailContainer>
-                        <JobTitleElementDetail>General Description</JobTitleElementDetail>
-                        <JobTitleContent>{selectedJob.description}</JobTitleContent>
-                      </DetailContainer>
+                        <DetailContainer>
+                          <JobTitleElementDetail>General Description</JobTitleElementDetail>
+                          <JobTitleContent>{selectedJob.description}</JobTitleContent>
+                        </DetailContainer>
 
-                      <DetailContainer>
-                        <JobTitleElementDetail>Experience Requirement</JobTitleElementDetail>
-                        <JobTitleContent>
-                          {selectedJob.experience.map((item, index) => (
-                            <li key={index}>{item}</li>
-                          ))}
-                        </JobTitleContent>
-                      </DetailContainer>
+                        <DetailContainer>
+                          <JobTitleElementDetail>Experience Requirement</JobTitleElementDetail>
+                          <JobTitleContent>
+                            {selectedJob.experience.map((item, index) => (
+                              <li key={index}>{item}</li>
+                            ))}
+                          </JobTitleContent>
+                        </DetailContainer>
 
-                      <DetailContainer>
-                        <JobTitleElementDetail>Nice to have</JobTitleElementDetail>
-                        <JobTitleContent>
-                          {selectedJob.expPlus.map((item, index) => (
-                            <li key={index}>{item}</li>
-                          ))}
-                        </JobTitleContent>
-                      </DetailContainer>
+                        <DetailContainer>
+                          <JobTitleElementDetail>Nice to have</JobTitleElementDetail>
+                          <JobTitleContent>
+                            {selectedJob.expPlus.map((item, index) => (
+                              <li key={index}>{item}</li>
+                            ))}
+                          </JobTitleContent>
+                        </DetailContainer>
 
-                      <DetailContainer>
-                        <JobTitleElementDetail>Treatment</JobTitleElementDetail>
-                        <JobTitleContent>
-                          {selectedJob.treatment.map((item, index)  => (
-                            <li key={index}>{item}</li>
-                          ))}
-                        </JobTitleContent>
-                      </DetailContainer>
+                        <DetailContainer>
+                          <JobTitleElementDetail>Treatment</JobTitleElementDetail>
+                          <JobTitleContent>
+                            {selectedJob.treatment.map((item, index)  => (
+                              <li key={index}>{item}</li>
+                            ))}
+                          </JobTitleContent>
+                        </DetailContainer>
 
-                    </JDText>
-                  </JDContainer>
-                  <UploadFile />
-                </TextWrapper>
-              </InfoColumnJob>
+                      </JDText>
+                    </JDContainer>
+                    <UploadFile />
+                  </TextWrapper>
+                </InfoColumnJob>
+              : ''
+              }
 
             </InfoRow>
           </Container>

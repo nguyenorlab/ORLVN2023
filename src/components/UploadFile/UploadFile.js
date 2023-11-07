@@ -113,7 +113,7 @@ const validationSchema = Yup.object().shape({
 
 const UploadFile = () => {
   const [selectedFile, setSelectedFile] = useState();
-  const [submitedFile, setSubmitedFile] = useState('');
+  const [setSubmitedFile] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   
   const { handleSubmit } = useForm({
@@ -150,7 +150,6 @@ const UploadFile = () => {
   const onSubmit = () => {
     setSubmitedFile(selectedFile);
   };
-  console.log(submitedFile);
 
 
   return (

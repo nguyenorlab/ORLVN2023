@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback,  useContext } from 'react';
+import { BsStack } from 'react-icons/bs';
+import { HiOutlineLocationMarker } from 'react-icons/hi';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { FaFileContract } from 'react-icons/fa';
 import { Pagination, Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/swiper-bundle.css';
@@ -67,7 +70,7 @@ const StyledSwiperSlideActive = styled.div`
 const StyledSwiperSlideH2 = styled.h2`
     color: #ffffff;
     font-weight: 400;
-    font-size: 1.4rem;
+    font-size: 26px;
     line-height: 1.4;
     /* margin-bottom: 3.625rem; */
     text-transform: uppercase;
@@ -80,11 +83,13 @@ const StyledSwiperSlideH2 = styled.h2`
 `;
 
 const StyledSwiperSlideP = styled.p`
-    color: #dadada;
+    color: rgb(218, 218, 218);
     padding: 0 1.563rem 3rem 1.563rem;
     line-height: 1.6;
-    font-size: 0.75rem;
+    font-size: 20px;
     margin-top: 25px;
+    display: flex;
+    flex-direction: column;
 `;
 
 const InfoColumn = styled.div`
@@ -159,8 +164,27 @@ const StyledButton = styled.button`
     }
 `;
 
+const StyledSkill = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`;
 
+const StyledSkillStack = styled(BsStack)`
+    font-size: 25px;
+    /* color: rgb(218, 218, 218); */
+    margin-right: 10px;
+`;
 
+const StyledLocation = styled(HiOutlineLocationMarker)`
+    font-size: 25px;
+    margin-right: 10px;
+`;
+
+const StyledSalary = styled(FaFileContract)`
+    font-size: 25px;
+    margin-right: 10px;
+`;
 
 
 const ServicesSlider = () => {
@@ -187,6 +211,8 @@ const ServicesSlider = () => {
         console.log(`Selected Job ID: ${selectedJobID}, Selected Job Title: ${selectedJobTitle}`);
     }, [selectedJobID, selectedJobTitle]);
 
+
+    
   return (
     <CarouselContainer>
         <InfoColumn>
@@ -197,7 +223,7 @@ const ServicesSlider = () => {
         </InfoColumn>
 
         <StyledSwiper
-            modules={[Pagination, Navigation, Autoplay]}
+            modules={[Pagination, Navigation]}
             slidesPerView={3}
             spaceBetween={30}
             centeredSlides={true}
@@ -235,11 +261,25 @@ const ServicesSlider = () => {
                         <StyledSwiperSlideActive>
                             <StyledSwiperSlideH2>{job.jobTitle}</StyledSwiperSlideH2>
                             <StyledSwiperSlideP>
-                                {job.shortDescription.map((item, index) => (
-                                    <li key={index}>{item}</li>
-                                ))}
-                                {job.location}
-                                {job.salary}
+                                <StyledSkill>
+                                    <StyledSkillStack />
+                                    {job.shortDescription.map((item, index, arr) => (
+                                        <li key={index}>
+                                            {item}
+                                            {index < arr.length - 1 && <span>,&nbsp;</span>}
+                                        </li>
+                                    ))}
+                                </StyledSkill>
+
+                                <StyledSkill>
+                                    <StyledLocation />
+                                    {job.location}
+                                </StyledSkill>
+
+                                <StyledSkill>
+                                    <StyledSalary />
+                                    {job.salary}
+                                </StyledSkill>
                             </StyledSwiperSlideP>                            
                             <StyledButton key={job.id} onClick={() => handleExplore(job)}>EXPLORE</StyledButton>                                                   
                         </StyledSwiperSlideActive>
