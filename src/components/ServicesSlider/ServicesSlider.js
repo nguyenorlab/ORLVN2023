@@ -157,6 +157,7 @@ const StyledButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.5s ease-out;
     &:hover{
         cursor: pointer;
         border: 0.125rem solid rgb(0, 94, 141);
@@ -220,6 +221,7 @@ const ServicesSlider = () => {
             <TextWrapper>
                 <TopLine>Career Chances</TopLine>
                 <Heading>Exploring Job Opportunities</Heading>
+                <Heading>When browser 100% slider big over --- need to fix</Heading>
             </TextWrapper>
         </InfoColumn>
 

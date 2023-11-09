@@ -12,6 +12,7 @@ import Gallery from './pages/Gallery/Gallery';
 // import SignUp from './pages/SignUp/SignUp';
 import ScrollToTop from './components/ScrollToTop';
 import JobDetail from './pages/JobDetail/JobDetail';
+import ServiceDetail from './pages/ServiceDetail/ServiceDetail';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/services' element={<Services />} />
+        <Route path='/services/:selectedService' element={<ServiceDetail />} />
         <Route path='/products' element={<Products />} />
         <Route path='/news' element={<News />} />
         <Route path='/gallery' element={<Gallery />} />

@@ -39,6 +39,7 @@ const CardContainer = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
+  transition: all 0.5s ease-out;
 
   &:last-child {
     margin-right: 0;

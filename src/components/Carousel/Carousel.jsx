@@ -182,6 +182,7 @@ const StyledButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.5s ease-out;
     &:hover{
         border: 0.125rem solid rgb(0, 94, 141);
         /* color: #00a4aa; */

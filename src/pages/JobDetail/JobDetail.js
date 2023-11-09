@@ -228,6 +228,7 @@ const JobsOpeningList = styled.p`
   margin: 5px 0px;
   cursor: pointer;
   clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+  transition: all 0.5s ease-out;
   &:hover{
     background-color: rgb(28 150 212);
   }

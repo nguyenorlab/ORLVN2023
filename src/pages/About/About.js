@@ -121,7 +121,7 @@ const aboutData = {
   imgStart: '',
   lightTopLine: false,
   lightTextDesc: false,
-  description: 'ORLAB Ha Noi was founded in February 2020 as a subsidiary of ORLAB Japan. We look forward to bringing Japanese job opportunities to Vietnamese engineers.',
+  description: '--- IMAGE IS VIETNAM JAPAN CONNECTION MAP --- ORLAB Ha Noi was founded in February 2020 as a subsidiary of ORLAB Japan. We look forward to bringing Japanese job opportunities to Vietnamese engineers.',
   headline: 'About Us', 
   lightText: false,
   primary: false,

@@ -79,6 +79,7 @@ export const NavMenu = styled.ul`
 export const NavItem = styled.li`
     height: 38px;
     position: relative;
+    margin-right: 10px;
     &:hover {
         /* background-color: hsla(200,77.5%,68.6%,1.000); */
         background-color: rgb(0 94 141);
