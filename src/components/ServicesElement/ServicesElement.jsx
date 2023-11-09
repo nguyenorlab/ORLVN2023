@@ -154,7 +154,7 @@ const ServicesElement = () => {
                   <h2>{data.serviceName}</h2>
                 </Header>
 
-                <StyledP>{data.about}</StyledP>
+                <StyledP>{data.description}</StyledP>
               </HeaderContainer>
 
               <SocialContainer>

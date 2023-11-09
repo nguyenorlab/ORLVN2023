@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Container } from '../../globalStyles';
 import { Link } from 'react-router-dom';
+import { GoChevronDown } from 'react-icons/go';
+
 
 export const Nav = styled.nav`
     height: 70px;
@@ -87,6 +89,10 @@ export const NavItem = styled.li`
         width: 96%;
     }
     
+    & > a > svg {
+        color: black;
+    }
+
     @media screen and (max-width: 960px) {
         width: 96%;
         &:hover {
@@ -117,6 +123,15 @@ export const NavLinks = styled(Link)`
             color: white;
             transition: all 0.3s ease;
         }
+    }
+`;
+
+export const DownIcon = styled(GoChevronDown)`
+    /* color: rgb(140, 146, 151); */
+    color: black;
+
+    &:hover {
+        color: white;
     }
 `;
 
@@ -163,7 +178,7 @@ export const StyledUl = styled.ul`
   width: 150px;
 `;
 
-export const StyledLi = styled.li`
+export const StyledDiv = styled.div`
   float: left;
 `;
 
@@ -176,7 +191,7 @@ export const DropDownContent = styled.div`
   z-index: 1;
 `;
 
-export const DropDownLi = styled(StyledLi)`
+export const DropDownLi = styled(StyledDiv)`
   display: inline-block;
   &:hover {
     background-color: white;
@@ -186,7 +201,7 @@ export const DropDownLi = styled(StyledLi)`
   }
 `;
 
-export const SubA = styled.a`
+export const SubA = styled(Link)`
   color: hsl(207,5%,57%);
   padding: 12px 16px;
   text-decoration: none;

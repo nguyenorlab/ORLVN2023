@@ -52,7 +52,7 @@ const InfoColumnImg = styled.div`
     align-items: left;
     align-self: flex-start;
     height: auto;
-    padding-left: 15px;
+    /* padding-left: 15px; */
 
     @media screen and (max-width: 768px) {
         max-width: 100%;
@@ -64,7 +64,7 @@ const InfoColumnImg = styled.div`
 
 const InfoColumnJob = styled.div`
     margin-bottom: 15px;
-    padding-right: 15px;
+    /* padding-right: 15px; */
     padding-left: 15px;
     flex: 1;
     max-width: 70%;

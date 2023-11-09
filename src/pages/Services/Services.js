@@ -7,9 +7,9 @@ import ServicesElement from '../../components/ServicesElement/ServicesElement';
 // import service2 from '../../images/hero.png';
 // import service3 from '../../images/hero.png';
 // import codingFlow from '../../images/coding-flow1.jpg';
-import software from '../../images/software.jpg';
-import development from '../../images/development.jpg';
-import recruitment from '../../images/recruitment.jpg';
+// import software from '../../images/software.jpg';
+// import development from '../../images/development.jpg';
+// import recruitment from '../../images/recruitment.jpg';
 
 
 export const ObjectArrayContext = createContext([]);
@@ -78,25 +78,48 @@ const TeamHeading = styled.h1`
 
 
 
-const servicesData = [
+const serDetailObj = [
   {
     id: 1,
     serviceName: 'Software Outsourcing',
-    // image: '/images/hero.png',
-    image: software,
-    about: 'Software Outsourcing --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic qui excepturi alias vel sunt necessitatibus incidunt reiciendis voluptatibus eaque quos molestiae dolorem perferendis, nisi nostrum consequuntur accusantium optio. Error, magni.'
+    image: require('../../images/software.jpg'),
+    description: 'Software Outsourcing --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic qui excepturi alias vel sunt necessitatibus incidunt reiciendis voluptatibus eaque quos molestiae dolorem perferendis, nisi nostrum consequuntur accusantium optio. Error, magni.',
+    step: [],
   },
   {
     id: 2,
     serviceName: 'Software Development',
-    image: development,
-    about: 'Software Development --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic qui excepturi alias vel sunt necessitatibus incidunt reiciendis voluptatibus eaque quos molestiae dolorem perferendis, nisi nostrum consequuntur accusantium optio. Error, magni.'
+    image: require('../../images/coding-flow1.jpg'),
+    description: 'Software Development --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic qui excepturi alias vel sunt necessitatibus incidunt reiciendis voluptatibus eaque quos molestiae dolorem perferendis, nisi nostrum consequuntur accusantium optio. Error, magni.',
+    step: [],
   },
   {
     id: 3,
     serviceName: 'Recruitment',
-    image: recruitment,
-    about: 'Recruitment --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic qui excepturi alias vel sunt necessitatibus incidunt reiciendis voluptatibus eaque quos molestiae dolorem perferendis, nisi nostrum consequuntur accusantium optio. Error, magni.'
+    image: require('../../images/recruitment-flow.jpg'),
+    description: 'Recruitment --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic qui excepturi alias vel sunt necessitatibus incidunt reiciendis voluptatibus eaque quos molestiae dolorem perferendis, nisi nostrum consequuntur accusantium optio. Error, magni.',
+    step: [
+      {
+        id: 1,
+        step1: 'Open vacancy',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sequi, debitis hic molestias, ullam voluptatem nisi fugit sunt cum porro repudiandae itaque neque, eaque vitae quasi. Ea asperiores illum vel?',
+      },
+      {
+        id: 2,
+        step2: 'Hiring Process',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sequi, debitis hic molestias, ullam voluptatem nisi fugit sunt cum porro repudiandae itaque neque, eaque vitae quasi. Ea asperiores illum vel?',
+      },
+      {
+        id: 3,
+        step3: 'Interview',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sequi, debitis hic molestias, ullam voluptatem nisi fugit sunt cum porro repudiandae itaque neque, eaque vitae quasi. Ea asperiores illum vel?',
+      },
+      {
+        id: 4,
+        step4: 'Ready to work',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sequi, debitis hic molestias, ullam voluptatem nisi fugit sunt cum porro repudiandae itaque neque, eaque vitae quasi. Ea asperiores illum vel?',
+      },
+    ],
   }
 ];
 
@@ -114,7 +137,7 @@ const Services = () => {
                   <TeamHeading>Main Services</TeamHeading>
                   <Subtitle>write something about services</Subtitle>
 
-                  <ObjectArrayContext.Provider value={servicesData}>
+                  <ObjectArrayContext.Provider value={serDetailObj}>
                     <ServicesElement />
                   </ObjectArrayContext.Provider>
 

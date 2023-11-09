@@ -13,7 +13,7 @@ import {
   NavLogoImg, 
   SubA,
   DropDownLi,
-  StyledUl} from './Navbar.elements';
+  StyledUl, DownIcon} from './Navbar.elements';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
 import { Button } from '../../globalStyles';
@@ -80,13 +80,16 @@ const Navbar = () => {
                   </NavItem>
                 
                   <NavItem onMouseEnter={onMouseHover} onMouseLeave={onMouseLeave}>                    
-                    <NavLinks to='/services' onClick={closeMobileMenu}>Services</NavLinks>
+                    <NavLinks to='/services' onClick={closeMobileMenu}>
+                      Services
+                      <DownIcon />
+                    </NavLinks>
                     {hoverServices && (
                       <StyledUl>
                         <DropDownLi>
-                          <SubA href='/'>Software Outsourcing</SubA>
-                          <SubA href='/'>Software Development</SubA>
-                          <SubA href='/recruitment'>Recruitment</SubA> 
+                          <SubA to='/services/Software%20Outsourcing'>Software Outsourcing</SubA>
+                          <SubA to='/services/Software%20Development'>Software Development</SubA>
+                          <SubA to='/services/Recruitment'>Recruitment</SubA> 
                         </DropDownLi>
                       </StyledUl>
                     )}

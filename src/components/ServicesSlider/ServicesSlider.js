@@ -82,7 +82,7 @@ const StyledSwiperSlideH2 = styled.h2`
     margin-top: 110px;
 `;
 
-const StyledSwiperSlideP = styled.p`
+const StyledSwiperSlide = styled.div`
     color: rgb(218, 218, 218);
     /* padding: 0 1.563rem 3rem 1.563rem; */
     padding-bottom: 20px;
@@ -263,7 +263,7 @@ const ServicesSlider = () => {
                     <StyledSwiperSlideContainer style={{ backgroundImage: `url(${job.url})` }} key={index}>
                         <StyledSwiperSlideActive>
                             <StyledSwiperSlideH2>{job.jobTitle}</StyledSwiperSlideH2>
-                            <StyledSwiperSlideP>
+                            <StyledSwiperSlide>
                                 <StyledSkill>
                                     <StyledSkillStack />
                                     {job.shortDescription.join(', ')}
@@ -278,7 +278,7 @@ const ServicesSlider = () => {
                                     <StyledSalary />
                                     {job.salary}
                                 </StyledSkill>
-                            </StyledSwiperSlideP>                            
+                            </StyledSwiperSlide>                            
                             <StyledButton key={job.id} onClick={() => handleExplore(job)}>EXPLORE</StyledButton>                                                   
                         </StyledSwiperSlideActive>
                     </StyledSwiperSlideContainer>
