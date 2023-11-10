@@ -87,12 +87,9 @@ export const NavItem = styled.li`
         background-color: rgb(0 94 141);
         border-radius: 4px;
         width: 96%;
+        color: white !important;
     }
     
-    & > a > svg {
-        color: black;
-    }
-
     @media screen and (max-width: 960px) {
         width: 96%;
         &:hover {
@@ -101,17 +98,26 @@ export const NavItem = styled.li`
     }
 `;
 
+export const DownIcon = styled(GoChevronDown)`
+    color: rgb(140, 146, 151) !important;
+    margin-left: 3px;
+`;
+
 export const NavLinks = styled(Link)`
     color: hsl(207,5%,57%);
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     text-decoration: none;
     padding: 0.5rem 1rem;
     height: 100%;
     font-size: 18px;
     font-weight: 400;
+
     &:hover {
-        color: white;
+        color: white !important;
+        ${DownIcon} {
+            color: white !important;
+        }
     }
 
     @media screen and (max-width: 960px) {
@@ -120,18 +126,12 @@ export const NavLinks = styled(Link)`
         display: table;
 
         &:hover {
-            color: white;
+            color: white !important;
             transition: all 0.3s ease;
+            ${DownIcon} {
+                color: white !important;
+            }
         }
-    }
-`;
-
-export const DownIcon = styled(GoChevronDown)`
-    /* color: rgb(140, 146, 151); */
-    color: black;
-
-    &:hover {
-        color: white;
     }
 `;
 

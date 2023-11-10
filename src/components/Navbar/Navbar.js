@@ -13,11 +13,12 @@ import {
   NavLogoImg, 
   SubA,
   DropDownLi,
-  StyledUl, DownIcon} from './Navbar.elements';
+  StyledUl, DownIcon } from './Navbar.elements';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
 import { Button } from '../../globalStyles';
 import { logoImg } from './Data';
+
 
 
 const Navbar = () => {
@@ -42,17 +43,29 @@ const Navbar = () => {
   window.addEventListener('resize', showButton);
 
   const [hoverServices, setHoverService] = useState(false);
+  // const [hoverNews, setHoverNews] = useState(false);
 
-  const onMouseHover = useCallback(() => {
+  const onMouseHoverService = useCallback(() => {
     setHoverService(true);
   },[]);
 
-  const onMouseLeave = useCallback(() => {
+  const onMouseLeaveService = useCallback(() => {
     const timer = setTimeout(() => {
-      setHoverService(false);      
-    }, 3000);
+      setHoverService(false);
+    }, 2000);
     return () => clearTimeout(timer);
   },[]);
+
+  // const onMouseHoverNews = useCallback(() => {
+  //   setHoverNews(true);
+  // },[]);
+
+  // const onMouseLeaveNews = useCallback(() => {
+  //   const timer = setTimeout(() => {
+  //     setHoverNews(false);
+  //   }, 2000);
+  //   return () => clearTimeout(timer);
+  // },[]);
 
 
   return (
@@ -79,7 +92,7 @@ const Navbar = () => {
                     <NavLinks to='/about' onClick={closeMobileMenu}>About</NavLinks>
                   </NavItem>
                 
-                  <NavItem onMouseEnter={onMouseHover} onMouseLeave={onMouseLeave}>                    
+                  <NavItem onMouseEnter={onMouseHoverService} onMouseLeave={onMouseLeaveService}>                    
                     <NavLinks to='/services' onClick={closeMobileMenu}>
                       Services
                       <DownIcon />
@@ -94,6 +107,21 @@ const Navbar = () => {
                       </StyledUl>
                     )}
                   </NavItem>
+
+                  {/* <NavItem onMouseEnter={onMouseHoverNews} onMouseLeave={onMouseLeaveNews}>
+                    <NavLinks onClick={closeMobileMenu}>
+                      News
+                      <DownIcon />
+                    </NavLinks>
+                    {hoverNews && (
+                      <StyledUl>
+                        <DropDownLi>
+                          <SubA to='/news'>Company News</SubA>
+                          <SubA to='/news'>Technology News</SubA>
+                        </DropDownLi>
+                      </StyledUl>
+                    )}
+                  </NavItem> */}
 
                   <NavItem>
                     <NavLinks to='/news' onClick={closeMobileMenu}>News</NavLinks>
