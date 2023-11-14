@@ -11,7 +11,7 @@ import Gallery from './pages/Gallery/Gallery';
 import ScrollToTop from './components/ScrollToTop';
 import JobDetail from './pages/JobDetail/JobDetail';
 import ServiceDetail from './pages/ServiceDetail/ServiceDetail';
-// import NewsDetail from './pages/NewsDetail/NewsDetail';
+// import NewsDetail from './pages/News/NewsDetails';
 
 
 function App() {

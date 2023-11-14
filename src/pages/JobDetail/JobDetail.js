@@ -244,7 +244,7 @@ const JobListContainer = styled.label`
   border: 3px solid #bdbdbd;
   font-size: 14px;
   border-radius: 10px;
-  padding: 30px;
+  padding: 20px;
   /* margin-bottom: 30px; */
 
   input {

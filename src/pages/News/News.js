@@ -2,7 +2,10 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Container } from '../../globalStyles';
 import Pagination from '../../components/Pagination/Pagination';
-import { BsCalendarCheck, BsBuildingCheck } from 'react-icons/bs';
+import { BsCalendarCheck, BsBuildingCheck, BsTerminal } from 'react-icons/bs';
+import {allPostData} from './Data';
+
+
 
 const InfoSec = styled.div`
     color: #fff;
@@ -22,7 +25,7 @@ const Heading = styled.h1`
     margin-bottom: 24px;
     font-size: 48px;
     line-height: 1.1;
-    color: ${({lightText}) => (lightText ? '#f7f8fa' : '#1c2237')};    
+    color: rgb(0, 94, 141);    
 `;
 
 const TopLine = styled.div`
@@ -139,17 +142,21 @@ const CompanyIcon = styled(BsBuildingCheck)`
   margin-right: 10px;
 `;
 
+const TechIcon = styled(BsTerminal)`
+  margin-right: 10px;
+`;
+
 // const JDText = styled.div`
 //   font-size: 18px;
 //   line-height: 24px;
 //   color: rgb(140, 146, 151);
 // `;
 
-const OpenningContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
+// const OpenningContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   width: 100%;
+// `;
 
 const JobsOpeningList = styled.p`
   display: flex;
@@ -180,7 +187,7 @@ const JobListContainer = styled.label`
   border: 3px solid #bdbdbd;
   font-size: 14px;
   border-radius: 10px;
-  padding: 30px;
+  padding: 20px;
 
   input {
     display: none;
@@ -258,64 +265,118 @@ const StyledButton = styled.button`
     }
 `;
 
+const RecentContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
-// sau thay = API
-const allPostData = [
-  {
-    id: 1,
-    title: 'Post 1 --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dolorum cum nulla, vitae nam eius veritatis tenetur. Culpa magnam pariatur voluptate illo aliquam repellendus cumque, nulla fugiat? Laborum, unde atque!',
-    content: 'Content 1 --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dolorum cum nulla, vitae nam eius veritatis tenetur. Culpa magnam pariatur voluptate illo aliquam repellendus cumque, nulla fugiat? Laborum, unde atque!Content 1 --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dolorum cum nulla, vitae nam eius veritatis tenetur. Culpa magnam pariatur voluptate illo aliquam repellendus cumque, nulla fugiat? Laborum, unde atque!',
-    category: 'Company News',
-    date: '2023-11-10',
-    image: require('../../images/dev1.png'),
-  },
-  {
-    id: 2,
-    title: 'Post 2 --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dolorum cum nulla, vitae nam eius veritatis tenetur. Culpa magnam pariatur voluptate illo aliquam repellendus cumque, nulla fugiat? Laborum, unde atque!',
-    content: 'Content 2 --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dolorum cum nulla, vitae nam eius veritatis tenetur. Culpa magnam pariatur voluptate illo aliquam repellendus cumque, nulla fugiat? Laborum, unde atque!',
-    category: 'Tech News',
-    date: '2023-11-09',
-    image: require('../../images/dev2.png'),
-  },
-  {
-    id: 3,
-    title: 'Post 3 --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dolorum cum nulla, vitae nam eius veritatis tenetur. Culpa magnam pariatur voluptate illo aliquam repellendus cumque, nulla fugiat? Laborum, unde atque!',
-    content: 'Content 3 --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dolorum cum nulla, vitae nam eius veritatis tenetur. Culpa magnam pariatur voluptate illo aliquam repellendus cumque, nulla fugiat? Laborum, unde atque!',
-    category: 'Company News',
-    date: '2023-11-08',
-    image: require('../../images/dev3.png'),
-  },
-  {
-    id: 4,
-    title: 'Post 4 --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dolorum cum nulla, vitae nam eius veritatis tenetur. Culpa magnam pariatur voluptate illo aliquam repellendus cumque, nulla fugiat? Laborum, unde atque!',
-    content: 'Content 4 --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dolorum cum nulla, vitae nam eius veritatis tenetur. Culpa magnam pariatur voluptate illo aliquam repellendus cumque, nulla fugiat? Laborum, unde atque!',
-    category: 'Tech News',
-    date: '2023-11-07',
-    image: require('../../images/dev1.png'),
-  },
-];
+const RecentImg = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: contain;
+  border: 1px inset;
+  margin: 0px 5px 10px 0px;
+`;
+
+const RecentTitle = styled.div`
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 14px;
+  color: rgb(0, 94, 141);
+  font-weight: normal;
+  text-transform: capitalize;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 18px;
+`;
+
+const RecentDate = styled.p`
+  color: rgb(140, 146, 151);
+  font-size: 12px;
+  line-height: 16px;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+`;
+
+// const allPostData = [
+//   {
+//     id: 1,
+//     title: 'Post 1',
+//     content: 'Content 1',
+//     category: 'Company News',
+//     date: '2023-11-10',
+//     image: require('../../images/dev1.png'),
+//   },
+//   {
+//     id: 2,
+//     title: 'Post 2',
+//     content: 'Content 2',
+//     category: 'Tech News',
+//     date: '2023-11-09',
+//     image: require('../../images/dev2.png'),
+//   },
+//   {
+//     id: 3,
+//     title: 'Post 3',
+//     content: 'Content 3',
+//     category: 'Company News',
+//     date: '2023-11-08',
+//     image: require('../../images/dev3.png'),
+//   },
+//   {
+//     id: 4,
+//     title: 'Post 4',
+//     content: 'Content 4',
+//     category: 'Tech News',
+//     date: '2023-11-07',
+//     image: require('../../images/dev1.png'),
+//   },
+// ];
+
 
 const News = () => {
+  const [filteredCategory, setFilteredCategory] = useState(null);
+  const [titleCategory, setTitleCategory] = useState('All Posts');
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(1);
-  const maxLength = 200;
-
- // Get current posts
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = allPostData.slice(indexOfFirstPost, indexOfLastPost);
+  const [currentReadMorePost, setCurrentReadMorePost] = useState(null);
+  const [postsPerPage] = useState(2);
+  const maxLengthContent = 200;
+  const maxLengthTitleRecent = 50;
 
   // Change page
-  const paginate = (pageNumber) => {
+  const paginate = useCallback((pageNumber) => {
     setCurrentPage(pageNumber);
-  }
-
-  const uniqueCategories = [...new Set(allPostData.map(post => post.category))];
-  const handleSelectCategory = useCallback(() => {
-
   },[]);
 
 
+  const uniqueCategories = [...new Set(allPostData.map(post => post.category))];
+  const handleSelectCategory = useCallback((category) => {
+    const newPosts = allPostData.filter(post => post.category === category);
+    const newCategory = [...new Set(newPosts.map((item) => item.category))];
+    setFilteredCategory(newPosts);
+    setTitleCategory(newCategory);
+    setCurrentPage(1);
+  },[]);
+
+
+  const handleSelectAllPosts = useCallback(() => {
+    setFilteredCategory(null);
+    setTitleCategory('All Posts');
+    setCurrentPage(1);
+  },[]);
+
+  const postsToShow = filteredCategory || allPostData;
+
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = postsToShow.slice(indexOfFirstPost, indexOfLastPost);
+
+
+  // shorten text content 
   const truncate = (str, num) => {
     if (str.length <= num) {
       return str;
@@ -324,13 +385,32 @@ const News = () => {
     return (subString.substr(0, subString.lastIndexOf('')) + '...');
   };
 
+  // get 3 latest posts
+  const recentPosts = allPostData
+  .sort((a, b) => new Date(b.date) - new Date(a.date))
+  .slice(0, 3);
+
+  const handleReadMore = useCallback((post) => {
+    setCurrentReadMorePost(post);
+  },[]);
+  console.log(currentReadMorePost);
+
+  const NewsDetail = ({ post }) => {
+    return (
+      <div>
+        <h1>{post.title}</h1>
+        <div>{post.content}</div>
+      </div>
+    );
+  };
+
 
   return (
     <>
         <InfoSec>
           <Container>            
             <TopLine>News</TopLine>
-            <Heading>All Posts</Heading>
+            <Heading>{titleCategory}</Heading>
             <InfoRow>
 
               <LeftContainer>
@@ -339,10 +419,9 @@ const News = () => {
                     <JobListHeading>News Category</JobListHeading>
                     <JobListContainer>
                       {uniqueCategories.map((item, id) => (
-                        <OpenningContainer key={id}>
-                          <JobsOpeningList onClick={() => handleSelectCategory(item.id)}>{item}</JobsOpeningList>
-                        </OpenningContainer>
+                        <JobsOpeningList key={id} onClick={() => handleSelectCategory(item)}>{item}</JobsOpeningList>
                       ))}
+                      <JobsOpeningList onClick={handleSelectAllPosts}>All Posts</JobsOpeningList>
                     </JobListContainer>
                   </TextWrapper>
                 </InfoColumnImg>
@@ -351,21 +430,29 @@ const News = () => {
                   <TextWrapper>
                     <JobListHeading>Recent Posts</JobListHeading>
                     <JobListContainer>
-
+                      {recentPosts.map((recent, id) => (
+                          <RecentContainer key={id}>
+                            <RecentImg src={recent.image} />
+                            <RecentTitle>                              
+                              <RecentTitle>{truncate(recent.title, maxLengthTitleRecent)}</RecentTitle>
+                              <RecentDate>{recent.date.split(' ')[0]}</RecentDate>                              
+                            </RecentTitle>
+                          </RecentContainer>
+                      ))}
                     </JobListContainer>
                   </TextWrapper>
                 </InfoColumnImg>
               </LeftContainer>
 
               <RightContainer>
-                {allPostData ? 
+                {currentReadMorePost ? (
+                  <NewsDetail post={currentReadMorePost} />
+                ) : (
                   <>
                     {currentPosts.map((post, id) => (
                       <InfoColumnJob key={id}>
                         <TextWrapper>
-
                           <JDContainer>
-
                             <TitleContainer>
                               <JDSubtitle>{post.title}</JDSubtitle>
                                 <PostInfoContainer>
@@ -374,33 +461,31 @@ const News = () => {
                                     {post.date}
                                   </PostInfo>
                                   <PostInfo>
-                                    <CompanyIcon />
+                                    {post.category === 'Company News' ? <CompanyIcon /> : <TechIcon />}
                                     {post.category}
                                   </PostInfo>
                                 </PostInfoContainer>
                             </TitleContainer>
-
+    
                             <NewsContent>
                               <NewsImage src={post.image}/>
                               <ContentContainer>
-                                <NewsText>{truncate(post.content, maxLength)}</NewsText>
-                                <StyledButton>Read More</StyledButton>
+                                <NewsText>{truncate(post.content, maxLengthContent)}</NewsText>
+                                <StyledButton onClick={() => handleReadMore(post)}>Read More</StyledButton>
                               </ContentContainer>
                             </NewsContent>
-
                           </JDContainer>
                         </TextWrapper>
                       </InfoColumnJob>
-                    ))}
-                    <Pagination
-                      postsPerPage={postsPerPage}
-                      totalPosts={allPostData.length}
-                      paginate={paginate}
-                      currentPage={currentPage}
-                    />
+                    ))}                  
                   </>
-                : 'No Post'
-                }
+                )}
+                <Pagination
+                  postsPerPage={postsPerPage}
+                  totalPosts={postsToShow.length}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                />                
               </RightContainer>
 
             </InfoRow>
