@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container } from '../../globalStyles';
 import Pagination from '../../components/Pagination/Pagination';
@@ -53,12 +54,12 @@ const InfoColumnImg = styled.div`
 `;
 
 const InfoColumnJob = styled.div`
-    /* margin-bottom: 15px; */
-    padding-left: 15px;
-    flex: 1;
-    /* max-width: 70%; */
+    padding-left: 30px;
     width: 100%;
-    flex-basis: 50%;
+    /* margin-bottom: 15px; */
+    /* flex: 1; */
+    /* max-width: 70%; */
+    /* flex-basis: 50%; */
 
     @media screen and (max-width: 768px) {
         max-width: 100%;
@@ -290,6 +291,7 @@ const RecentTitle = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 18px;
+  cursor: pointer;
 `;
 
 const RecentDate = styled.p`
@@ -301,43 +303,83 @@ const RecentDate = styled.p`
   align-items: center;
 `;
 
-// const allPostData = [
-//   {
-//     id: 1,
-//     title: 'Post 1',
-//     content: 'Content 1',
-//     category: 'Company News',
-//     date: '2023-11-10',
-//     image: require('../../images/dev1.png'),
-//   },
-//   {
-//     id: 2,
-//     title: 'Post 2',
-//     content: 'Content 2',
-//     category: 'Tech News',
-//     date: '2023-11-09',
-//     image: require('../../images/dev2.png'),
-//   },
-//   {
-//     id: 3,
-//     title: 'Post 3',
-//     content: 'Content 3',
-//     category: 'Company News',
-//     date: '2023-11-08',
-//     image: require('../../images/dev3.png'),
-//   },
-//   {
-//     id: 4,
-//     title: 'Post 4',
-//     content: 'Content 4',
-//     category: 'Tech News',
-//     date: '2023-11-07',
-//     image: require('../../images/dev1.png'),
-//   },
-// ];
+const NewsDetailTitle = styled.p`
+  margin-bottom: 20px;
+  font-size: 24px;
+  line-height: 24px;
+  color: rgb(0, 94, 141);
+  font-weight: bold;
+  text-transform: capitalize;
+`;
+
+const NewsDetailHeader = styled.h3`
+  margin-bottom: 30px;
+  font-size: 22px;
+  line-height: 24px;
+  color: rgb(0, 94, 141);
+  font-weight: bold;
+  text-transform: capitalize;
+`;
+
+const NewsDetailText = styled.p`
+  width: 100%;
+  font-size: 17px;
+  color: rgb(140, 146, 151);
+  line-height: 1.5rem;
+`;
+
+const NewsDetailImg = styled.img`
+  display: block;
+  margin: auto;
+  width: 400px;
+  height: 400px;
+  object-fit: contain;
+`;
+
+const NewsDetailInfoContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 70px;
+`;
+
+
+const NewsDetail = ({ post }) => {
+  return (
+    <InfoColumnJob>
+      <TextWrapper>
+        <NewsDetailTitle>{post.title}</NewsDetailTitle>
+        <NewsDetailInfoContainer>
+          <PostInfo><CalendarIcon />{post.date.split(' ')[0]}</PostInfo>
+          <PostInfo>{post.category === 'Company News' ? <CompanyIcon /> : <TechIcon />}{post.category}</PostInfo>
+        </NewsDetailInfoContainer>
+        {post.content.map((section, index) => (
+          <div key={index}>
+            {section.data.map((item, index) => {
+              switch (item.type) {
+                case 'header':
+                  // Render header
+                  return <NewsDetailHeader key={index}>{item.text}</NewsDetailHeader>;
+                case 'paragraph':
+                  // Render paragraph
+                  return <NewsDetailText key={index}>{item.text}</NewsDetailText>;
+                case 'image':
+                  // Render image
+                  return <NewsDetailImg key={index} src={item.src} alt='no-img' />;
+                default:
+                  return null;
+              }
+            })}
+          </div>
+        ))}
+      </TextWrapper>
+    </InfoColumnJob>
+  );
+};
+
 
 
 const News = () => {
+  const navigate = useNavigate();
   const [filteredCategory, setFilteredCategory] = useState(null);
   const [titleCategory, setTitleCategory] = useState('All Posts');
   const [currentPage, setCurrentPage] = useState(1);
@@ -359,20 +401,23 @@ const News = () => {
     setFilteredCategory(newPosts);
     setTitleCategory(newCategory);
     setCurrentPage(1);
-  },[]);
+    navigate(`/news/${category.toLowerCase().replace(' ', '-')}`);
+  },[navigate]);
 
 
   const handleSelectAllPosts = useCallback(() => {
     setFilteredCategory(null);
     setTitleCategory('All Posts');
     setCurrentPage(1);
-  },[]);
+    navigate(`/news`);
+  },[navigate]);
 
   const postsToShow = filteredCategory || allPostData;
 
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  // const [currentPosts, setCurrentPost] = useState(postsToShow.slice(indexOfFirstPost, indexOfLastPost));
   const currentPosts = postsToShow.slice(indexOfFirstPost, indexOfLastPost);
 
 
@@ -392,17 +437,22 @@ const News = () => {
 
   const handleReadMore = useCallback((post) => {
     setCurrentReadMorePost(post);
-  },[]);
-  console.log(currentReadMorePost);
+    navigate(`/news/${post.category.toLowerCase().replace(' ', '-')}/${post.title.toLowerCase().replace(' ', '-')}`);
+  },[navigate]);
 
-  const NewsDetail = ({ post }) => {
-    return (
-      <div>
-        <h1>{post.title}</h1>
-        <div>{post.content}</div>
-      </div>
-    );
-  };
+
+  // to handle click category from NewsDetail
+  const handleSelectCategoryFromDetail = useCallback((category) => {
+    setCurrentReadMorePost(null);
+    handleSelectCategory(category);
+    navigate(`/news/${category.toLowerCase().replace(' ', '-')}`);
+  },[handleSelectCategory, navigate]);
+
+  const handleSelectAllPostsFromDetail = useCallback(() => {
+    setCurrentReadMorePost(null);
+    handleSelectAllPosts();
+    navigate(`/news`);    
+  },[handleSelectAllPosts, navigate]);
 
 
   return (
@@ -419,9 +469,9 @@ const News = () => {
                     <JobListHeading>News Category</JobListHeading>
                     <JobListContainer>
                       {uniqueCategories.map((item, id) => (
-                        <JobsOpeningList key={id} onClick={() => handleSelectCategory(item)}>{item}</JobsOpeningList>
+                        <JobsOpeningList key={id} onClick={() => handleSelectCategoryFromDetail(item)}>{item}</JobsOpeningList>
                       ))}
-                      <JobsOpeningList onClick={handleSelectAllPosts}>All Posts</JobsOpeningList>
+                      <JobsOpeningList onClick={handleSelectAllPostsFromDetail}>All Posts</JobsOpeningList>
                     </JobListContainer>
                   </TextWrapper>
                 </InfoColumnImg>
@@ -434,7 +484,7 @@ const News = () => {
                           <RecentContainer key={id}>
                             <RecentImg src={recent.image} />
                             <RecentTitle>                              
-                              <RecentTitle>{truncate(recent.title, maxLengthTitleRecent)}</RecentTitle>
+                              <RecentTitle onClick={() => handleReadMore(recent)}>{truncate(recent.title, maxLengthTitleRecent)}</RecentTitle>
                               <RecentDate>{recent.date.split(' ')[0]}</RecentDate>                              
                             </RecentTitle>
                           </RecentContainer>
@@ -470,7 +520,7 @@ const News = () => {
                             <NewsContent>
                               <NewsImage src={post.image}/>
                               <ContentContainer>
-                                <NewsText>{truncate(post.content, maxLengthContent)}</NewsText>
+                                <NewsText>{truncate(post.content[0].data[1].text, maxLengthContent)}</NewsText>
                                 <StyledButton onClick={() => handleReadMore(post)}>Read More</StyledButton>
                               </ContentContainer>
                             </NewsContent>
@@ -478,14 +528,14 @@ const News = () => {
                         </TextWrapper>
                       </InfoColumnJob>
                     ))}                  
+                    <Pagination
+                      postsPerPage={postsPerPage}
+                      totalPosts={postsToShow.length}
+                      paginate={paginate}
+                      currentPage={currentPage}
+                    />                
                   </>
                 )}
-                <Pagination
-                  postsPerPage={postsPerPage}
-                  totalPosts={postsToShow.length}
-                  paginate={paginate}
-                  currentPage={currentPage}
-                />                
               </RightContainer>
 
             </InfoRow>
