@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useCallback} from 'react';
+import { useNavigate } from 'react-router-dom';
 // import bgdonut1 from './image/bg-donut-1.png';
 // import bgdonut2 from './image/bg-donut-2.png';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -95,16 +96,26 @@ const CarouselContenP = styled.p`
 `;
 
 const StyledSwiper = styled(Swiper)`
-    width: 100%;
-    /* padding-top: 3.125rem;     */
+    width: 70%;
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const StyledSwiperSlideContainer = styled(SwiperSlide)`
-    width: 18.75rem;
+    /* width: 18.75rem; */
     height: 28.125rem;
+    width: 100%;
+    /* height: auto; */
     background-size: cover;
     background-position: center;
     border-radius: 10px;
+    background-image: url(${props => props.background});
+
+    @media screen and (max-width: 768px) {
+        width: 18.75rem;
+    }
 `;
 
 // const StyledSwiperSlide = styled.div`
@@ -133,6 +144,7 @@ const StyledSwiperSlideH2 = styled.h2`
     /* padding: 0 0 0 1.563rem; */
     text-transform: uppercase;
     text-align: center;
+    padding: 20px;
 `;
 
 const StyledSwiperSlideP = styled.p`
@@ -243,15 +255,16 @@ const slider = [
     description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
     url: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
-    {
-    title: "Offshore Development",
-    description: "Test image",
-    url: "https://images.pexels.com/photos/113850/pexels-photo-113850.jpeg?auto=compress&cs=tinysrgb&w=1600"
-    },
 ]
 
 const Carousel = () => {
 //   const { word } = useTypingText(['fast', 'reliable', 'affordable'], 130, 20);
+
+  const navigate = useNavigate();
+  const handleSelectService = useCallback((service) => {
+    console.log(service);
+    navigate(`/services/${service.title}`);
+  },[navigate]);
 
   return (
     <CarouselContainer>
@@ -309,11 +322,11 @@ const Carousel = () => {
         >
             {
                 slider.map((slider, index) => (
-                    <StyledSwiperSlideContainer style={{ backgroundImage: `url(${slider.url})` }} key={index}>
+                    <StyledSwiperSlideContainer key={index} background={slider.url}>
                         <StyledSwiperSlideActive>
                             <StyledSwiperSlideH2>{slider.title}</StyledSwiperSlideH2>
                             <StyledSwiperSlideP>{slider.description}</StyledSwiperSlideP>
-                            <StyledButton onClick={() => {}}>EXPLORE</StyledButton>
+                            <StyledButton onClick={() => handleSelectService(slider)}>EXPLORE</StyledButton>
                         </StyledSwiperSlideActive>
                     </StyledSwiperSlideContainer>
                 ))

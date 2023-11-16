@@ -35,8 +35,8 @@ const CarouselContainer = styled.div`
     max-width: 1300px;
     margin-right: auto;
     margin-left: auto;
-    padding-right: 50px;
-    padding-left: 50px;
+    padding-right: 30px;
+    padding-left: 30px;
 
     @media screen and (max-width: 991px) {
         padding-right: 30px;
@@ -45,7 +45,11 @@ const CarouselContainer = styled.div`
 `;
 
 const StyledSwiper = styled(Swiper)`
-    width: 100%;
+    width: 100%;         // here to fix backgroundImage size
+
+    /* @media screen and (max-width: 768px) {
+        width: 100%;
+    } */
 `;
 
 const StyledSwiperSlideContainer = styled(SwiperSlide)`
@@ -53,6 +57,7 @@ const StyledSwiperSlideContainer = styled(SwiperSlide)`
     height: 18.75rem;
     background-size: cover;
     background-position: center;
+    background-image: url(${props => props.background});
     border-radius: 10px;
 `;
 
@@ -221,7 +226,6 @@ const ServicesSlider = () => {
             <TextWrapper>
                 <TopLine>Career Chances</TopLine>
                 <Heading>Exploring Job Opportunities</Heading>
-                <Heading>When browser 100% slider big over --- need to fix</Heading>
             </TextWrapper>
         </InfoColumn>
 
@@ -229,9 +233,10 @@ const ServicesSlider = () => {
             modules={[Pagination, Navigation, Autoplay]}
             slidesPerView={3}
             spaceBetween={30}
-            centeredSlides={true}
+            // centeredSlides={true}
             direction='horizontal'
             effect={'spring'}
+            loop={true}
             autoplay={{
                 delay: 5000,
                 disableOnInteraction: false,
@@ -260,7 +265,7 @@ const ServicesSlider = () => {
         >
             {
                 jobDetailObj.map((job, index) => (
-                    <StyledSwiperSlideContainer style={{ backgroundImage: `url(${job.url})` }} key={index}>
+                    <StyledSwiperSlideContainer key={index} background={job.url}>
                         <StyledSwiperSlideActive>
                             <StyledSwiperSlideH2>{job.jobTitle}</StyledSwiperSlideH2>
                             <StyledSwiperSlide>

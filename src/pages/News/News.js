@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container } from '../../globalStyles';
 import Pagination from '../../components/Pagination/Pagination';
@@ -48,8 +48,9 @@ const InfoColumnImg = styled.div`
     @media screen and (max-width: 768px) {
         max-width: 100%;
         flex-basis: 100%;
-        display: flex;
-        justify-content: center;
+        margin-top: 30px;
+        /* display: flex; */
+        /* justify-content: center; */
     }
 `;
 
@@ -63,9 +64,10 @@ const InfoColumnJob = styled.div`
 
     @media screen and (max-width: 768px) {
         max-width: 100%;
-        flex-basis: 100%;
+        padding-left: unset;
+        /* flex-basis: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: center; */
     }
 `;
 
@@ -74,7 +76,7 @@ const TextWrapper = styled.div`
     /* padding-bottom: 60px; */
 
     @media screen and (max-width: 768px) {
-        padding-bottom: 65px;
+        /* padding-bottom: 65px; */
     }
 `;
 
@@ -127,12 +129,16 @@ const PostInfoContainer = styled.div`
 `;
 
 const PostInfo = styled.div`
-    color: rgb(140, 146, 151);
-    font-size: 12px;
-    line-height: 16px;
-    margin-right: 20px;
-    display: flex;
-    align-items: center;
+  color: rgb(140, 146, 151);
+  font-size: 12px;
+  line-height: 16px;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  
+  @media screen and (max-width: 390px) {
+    margin-right: 8px;
+  }
 `;
 
 const CalendarIcon = styled(BsCalendarCheck)`
@@ -193,6 +199,12 @@ const JobListContainer = styled.label`
   input {
     display: none;
   }
+
+  // 15/11/2023
+  @media screen and (max-width: 768px) {
+    flex-direction: ${({post}) => (post ? 'row' : 'column')};
+    padding: 15px;
+  }
 `;
 
 const JobListHeading = styled.h2`
@@ -200,7 +212,11 @@ const JobListHeading = styled.h2`
     font-size: 20px;
     line-height: 1.1;
     color: rgb(0, 94, 141);
-    font-style: italic;    
+    font-style: italic;
+    
+    @media screen and (max-width: 768px) {
+      margin-bottom: 10px
+    }
 `;
 
 const NewsContent = styled.div`
@@ -213,6 +229,10 @@ const NewsImage = styled.img`
   width: 300px;
   height: 150px;
   object-fit: contain;
+
+  @media screen and (max-width: 390px) {
+    width: 150px;
+  }
 `;
 
 const NewsText = styled.div`
@@ -231,6 +251,12 @@ const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 30%;
+
+  // 15/11/2023
+  @media screen and (max-width: 768px) {
+    /* flex-direction: row; */
+    width: 100%;
+  }
 `;
 
 const RightContainer = styled.div`
@@ -238,6 +264,11 @@ const RightContainer = styled.div`
   flex-direction: column;
   width: 70%;
   margin-top: 48px;
+
+  // 15/11/2023
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -279,6 +310,11 @@ const RecentImg = styled.img`
   object-fit: contain;
   border: 1px inset;
   margin: 0px 5px 10px 0px;
+
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    height: 80px;
+  }
 `;
 
 const RecentTitle = styled.div`
@@ -334,6 +370,11 @@ const NewsDetailImg = styled.img`
   width: 400px;
   height: 400px;
   object-fit: contain;
+
+  @media screen and (max-width: 768px) {
+    width: 300px;
+    height: 300px;
+  }
 `;
 
 const NewsDetailInfoContainer = styled.div`
@@ -341,6 +382,8 @@ const NewsDetailInfoContainer = styled.div`
   flex-direction: row;
   margin-bottom: 70px;
 `;
+
+
 
 
 const NewsDetail = ({ post }) => {
@@ -387,6 +430,17 @@ const News = () => {
   const [postsPerPage] = useState(2);
   const maxLengthContent = 200;
   const maxLengthTitleRecent = 50;
+
+  // id match with Route path in App.js
+  // handle direct access from URL
+  const { id } = useParams();
+  useEffect(() => {
+    if(id) {
+      const postFromUrl = allPostData.find(job => job.id === Number(id));
+      setCurrentReadMorePost(postFromUrl);
+    }
+  },[id]);
+
 
   // Change page
   const paginate = useCallback((pageNumber) => {
@@ -437,7 +491,7 @@ const News = () => {
 
   const handleReadMore = useCallback((post) => {
     setCurrentReadMorePost(post);
-    navigate(`/news/${post.category.toLowerCase().replace(' ', '-')}/${post.title.toLowerCase().replace(' ', '-')}`);
+    navigate(`/news/${post.category.toLowerCase().replace(' ', '-')}/${post.id}/${post.title.toLowerCase().replace(' ', '-')}`);
   },[navigate]);
 
 
@@ -467,7 +521,7 @@ const News = () => {
                 <InfoColumnImg>
                   <TextWrapper>
                     <JobListHeading>News Category</JobListHeading>
-                    <JobListContainer>
+                    <JobListContainer post={true}>
                       {uniqueCategories.map((item, id) => (
                         <JobsOpeningList key={id} onClick={() => handleSelectCategoryFromDetail(item)}>{item}</JobsOpeningList>
                       ))}

@@ -68,7 +68,7 @@ const Heading = styled.h1`
 `;
 
 const StyledButton = styled(Button)`
-  width: 150px;
+  width: 200px;
   margin: 30px auto;
   display: flex;
   align-items: center;
@@ -351,7 +351,7 @@ const ServiceDetail = () => {
                       ))}
                     </Row>
                   ))}
-                  <StyledButton onClick={handleBack}>Back</StyledButton>
+                  <StyledButton onClick={handleBack}>Back to Main Services</StyledButton>
                 </TextWrapper>
               </InfoColumnJob>
             </InfoRow>
