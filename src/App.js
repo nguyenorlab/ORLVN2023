@@ -11,6 +11,8 @@ import Gallery from './pages/Gallery/Gallery';
 import ScrollToTop from './components/ScrollToTop';
 import JobDetail from './pages/JobDetail/JobDetail';
 import ServiceDetail from './pages/ServiceDetail/ServiceDetail';
+import Login from './components/Login/Login';
+import Dashboard from './pages/Dashboard/Dashboard';
 // import NewsDetail from './pages/News/NewsDetails';
 
 
@@ -32,6 +34,8 @@ function App() {
         <Route path='/about' element={<About />} />
         <Route path='/recruitment' element={<Recruitment />} />
         <Route path='/recruitment/:selectedJobTitle' element={<JobDetail />} />
+        <Route path='/admin' element={<Login />} />
+        <Route path='/admin/dashboard' element={<Dashboard />} />
       </Routes>
       <Footer />
     </Router>

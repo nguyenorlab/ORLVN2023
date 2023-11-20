@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { allRecruitData } from './Data';
 
@@ -122,16 +123,20 @@ const StyledButton = styled.button`
 
 
 const Recruitment = () => {
+  const navigate = useNavigate();
+  // const [selectedJob, setSelectedJob] = useState();
 
-  const handleSelectedJob = useCallback((rec) => {
+  const handleSelectedJob = useCallback((id) => {
+    const job = allRecruitData.find(rec => rec.id === id);
+    navigate(`/recruitment/${job.jobTitle}`);
+  },[navigate]);
 
-  },[]);
 
 
   return (
     <>
       {allRecruitData.map((rec, id) => (
-        <InfoSec lightBg={true} key={id}>
+        <InfoSec lightBg={true.toString()} key={id}>
           <Container>
             <InfoRow imgStart={rec.imgStart}>
               <InfoColumn>
@@ -139,12 +144,12 @@ const Recruitment = () => {
                   <TopLine>{rec.topLine}</TopLine>
                   <Heading>{rec.headline}</Heading>
                   <Subtitle>{rec.description}</Subtitle>
-                  <StyledButton onClick={() => handleSelectedJob(rec)}>{rec.buttonLabel}</StyledButton>
+                  <StyledButton onClick={() => handleSelectedJob(rec.id)}>Details & Apply</StyledButton>
                 </TextWrapper>
               </InfoColumn>
 
               <InfoColumn>
-                <ImgWrapper start={true}>
+                <ImgWrapper>
                   <Img src={rec.img} alt={rec.alt} />
                 </ImgWrapper>
               </InfoColumn>

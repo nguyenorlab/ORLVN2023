@@ -3,7 +3,7 @@ import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from './Data';
 import { InfoSection } from '../../components';
 import Carousel from '../../components/Carousel/Carousel';
 import ServicesSlider from '../../components/ServicesSlider/ServicesSlider';
-
+// import CarouselTest from '../../components/Carousel/CarouselTest';
 
 export const ObjectArrayContext = createContext([]);
 
@@ -90,6 +90,8 @@ const Home = () => {
       <ObjectArrayContext.Provider value={jobDetailObj}>
         <ServicesSlider />        
       </ObjectArrayContext.Provider>
+
+      {/* <CarouselTest /> */}
 
       <InfoSection {...homeObjFour} />
     </>

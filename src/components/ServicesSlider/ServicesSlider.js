@@ -30,7 +30,7 @@ import { ObjectArrayContext } from '../../pages/HomePage/Home';
 // `;
 
 const CarouselContainer = styled.div`
-    z-index: 1;
+    /* z-index: 1; */
     width: 100%;
     max-width: 1300px;
     margin-right: auto;
@@ -45,15 +45,11 @@ const CarouselContainer = styled.div`
 `;
 
 const StyledSwiper = styled(Swiper)`
-    width: 100%;         // here to fix backgroundImage size
-
-    /* @media screen and (max-width: 768px) {
-        width: 100%;
-    } */
+    width: 100%;
 `;
 
 const StyledSwiperSlideContainer = styled(SwiperSlide)`
-    width: 18.75rem;    // 300px
+    width: 340px;    // 300px
     height: 18.75rem;
     background-size: cover;
     background-position: center;
@@ -246,6 +242,9 @@ const ServicesSlider = () => {
             }}
             navigation={true}
             breakpoints={{
+                375: {
+                    slidesPerView: 1
+                },
                 414: {
                     slidesPerView: 1
                 },
@@ -256,9 +255,15 @@ const ServicesSlider = () => {
                     slidesPerView: 1
                 },
                 1024: {
-                    slidesPerView: 2
+                    slidesPerView: 3
+                },
+                1428: {
+                    slidesPerView: 3
                 },
                 1560: {
+                    slidesPerView: 3
+                },
+                1929: {
                     slidesPerView: 3
                 },
             }}

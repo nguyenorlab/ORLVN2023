@@ -1,4 +1,3 @@
-// sau thay = API
 export const allPostData = [
     {
       id: 1,
