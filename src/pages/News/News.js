@@ -1,10 +1,10 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container } from '../../globalStyles';
 import Pagination from '../../components/Pagination/Pagination';
 import { BsCalendarCheck, BsBuildingCheck, BsTerminal } from 'react-icons/bs';
-import {allPostData} from './Data';
+import { PostsContext } from '../../api/api';
 
 
 
@@ -422,6 +422,7 @@ const NewsDetail = ({ post }) => {
 
 
 const News = () => {
+  const allPostData = useContext(PostsContext);
   const navigate = useNavigate();
   const [filteredCategory, setFilteredCategory] = useState(null);
   const [titleCategory, setTitleCategory] = useState('All Posts');
@@ -439,7 +440,7 @@ const News = () => {
       const postFromUrl = allPostData.find(job => job.id === Number(id));
       setCurrentReadMorePost(postFromUrl);
     }
-  },[id]);
+  },[allPostData, id]);
 
 
   // Change page
@@ -456,7 +457,7 @@ const News = () => {
     setTitleCategory(newCategory);
     setCurrentPage(1);
     navigate(`/news/${category.toLowerCase().replace(' ', '-')}`);
-  },[navigate]);
+  },[allPostData, navigate]);
 
 
   const handleSelectAllPosts = useCallback(() => {

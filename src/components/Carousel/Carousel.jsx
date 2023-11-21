@@ -262,7 +262,6 @@ const Carousel = () => {
 
   const navigate = useNavigate();
   const handleSelectService = useCallback((service) => {
-    console.log(service);
     navigate(`/services/${service.title}`);
   },[navigate]);
 

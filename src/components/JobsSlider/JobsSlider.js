@@ -6,28 +6,14 @@ import { FaFileContract } from 'react-icons/fa';
 import { Pagination, Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/swiper-bundle.css';
-import './ServicesSlider.css';
+import './JobsSlider.css';
 import styled from 'styled-components';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { useNavigate } from 'react-router-dom';
-import { ObjectArrayContext } from '../../pages/HomePage/Home';
+import { JobsContext } from '../../api/api';
 
 
-// const CarouselContainer = styled.div`
-//     position: relative;
-//     width: calc(min(90rem, 90%));
-//     margin: 0 auto;
-//     /* min-height: 100vh; */
-//     column-gap: 3rem;
-//     padding-block: min(20vh, 3rem);
-//     display: flex;
-//     flex-direction: column;
-//     @media screen and (min-width: 48rem) {
-//         display: flex;
-//         align-items: center;
-//     }
-// `;
 
 const CarouselContainer = styled.div`
     /* z-index: 1; */
@@ -190,8 +176,8 @@ const StyledSalary = styled(FaFileContract)`
 `;
 
 
-const ServicesSlider = () => {
-    const jobDetailObj = useContext(ObjectArrayContext);
+const JobsSlider = () => {
+    const jobDetailObj = useContext(JobsContext);
 
     const navigate = useNavigate();
     const [selectedJobID, setSelectedJobID] = useState('');
@@ -200,12 +186,6 @@ const ServicesSlider = () => {
     const handleExplore = useCallback((job) => {
         setSelectedJobID(job.id);
         setSelectedJobTitle(job.jobTitle);
-        // navigate({
-        //     pathname: '/recruitment',
-        //     search: createSearchParams({
-        //         jobTitle: job.jobTitle
-        //     }).toString()
-        // });
         navigate(`/recruitment/${job.jobTitle}`, { state: { selectedJob: job, jobList: jobDetailObj } });
     },[jobDetailObj, navigate]);
 
@@ -299,4 +279,4 @@ const ServicesSlider = () => {
   )
 }
 
-export default ServicesSlider
+export default JobsSlider

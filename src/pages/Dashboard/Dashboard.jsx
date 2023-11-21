@@ -83,6 +83,7 @@ const Dashboard = () => {
   //   fetchData();
   // })
 
+  console.log(username);
   console.log(posts);
   console.log(jobs);
 
