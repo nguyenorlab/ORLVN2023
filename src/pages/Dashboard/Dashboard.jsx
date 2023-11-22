@@ -1,8 +1,11 @@
 import React, { useState/*, useEffect*/ } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
+// import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { collection, getDocs/*, addDoc*/ } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import DataTable from '../../components/DataTable/DataTable';
+
 // import { allPostData } from '../News/Data';
 // import { allRecruitData } from '../Recruitment/Data';
 
@@ -56,24 +59,41 @@ async function getJobs() {
 const Dashboard = () => {
   const location = useLocation();
   const { username } = location.state;
-  const [users, setUsers] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [jobs, setJobs] = useState([]);
+  const [data, setData] = useState([]);
+  const [fields, setFields] = useState([]);
 
-  const handleUsersClick = async () => {
-    const userList = await getUsers();
-    setUsers(userList);
+
+
+  const itemFields = {
+    'Users': {id: 'ID', username: 'Username', email: 'Email'},
+    'Jobs': {id: 'ID', jobTitle: 'Job Title', location: 'Location', salary: 'Salary', shortDescription: 'Short Description'},
+    'Posts': {id: 'ID', date: 'Date', category: 'Category', title: 'Post Title'}
   };
 
-  const handlePostsClick = async () => {
-    const postList = await getPosts();
-    setPosts(postList);
+
+  const handleItemClick = async (item) => {
+    let data;
+    switch (item) {
+      case 'Users':
+        data = await getUsers();
+        break;
+      case 'Jobs':
+        data = await getJobs();
+        break;
+      case 'Posts':
+        data = await getPosts();
+        break;
+      default:
+        console.log(`No handler for ${item}`);
+    }
+    setData(data);
+    setFields(itemFields[item]);
   };
 
-  const handleJobsClick = async () => {
-    const jobList = await getJobs();
-    setJobs(jobList);
-  };
+  const handleEdit = () => {};
+  const handleDelete = () => {};
+
+
 
   // // create data at beginning, called only one time
   // useEffect(() => {
@@ -83,25 +103,17 @@ const Dashboard = () => {
   //   fetchData();
   // })
 
-  console.log(username);
-  console.log(posts);
-  console.log(jobs);
+  console.log(data);
 
   return (
     <>
       <h2>Welcome, {username}</h2>
       <div style={{ display: 'flex' }}>
-        <Sidebar>
-          <Menu iconShape="square">
-            <MenuItem onClick={handleUsersClick}>Users</MenuItem>
-            <MenuItem onClick={handleJobsClick}>Jobs</MenuItem>
-            <MenuItem onClick={handlePostsClick}>Posts</MenuItem>
-          </Menu>
-        </Sidebar>
-
+        <Sidebar items={['Users', 'Jobs', 'Posts']} onItemClick={handleItemClick}/>
 
         <main>
-          <h3>{users.map((user) => user.username)}</h3>
+          {data.length > 0 && <DataTable data={data} fields={fields} onEdit={handleEdit} onDelete={handleDelete} />}
+
         </main>
       </div>    
     </>
