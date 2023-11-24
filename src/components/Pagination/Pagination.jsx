@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 
@@ -49,7 +49,6 @@ const Dot = styled.p`
 
 
 const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
-  const [startPage, setStartPage] = useState(1);
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
@@ -57,27 +56,25 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
   }
 
   const handleNext = () => {
-    if (startPage + 1 <= pageNumbers.length) {
-      setStartPage(startPage + 1);
-      paginate(startPage + 1);
+    if (currentPage + 1 <= pageNumbers.length) {
+      paginate(currentPage + 1);
     }
   };
 
   const handlePrev = () => {
-    if (startPage > 1) {
-      setStartPage(startPage - 1);
-      paginate(startPage - 1);
+    if (currentPage > 1) {
+      paginate(currentPage - 1);
     }
   };
 
 
   return (
     <PageNumberContainer>
-      <PageNumber onClick={handlePrev} disabled={startPage === 1}>
+      <PageNumber onClick={handlePrev} disabled={currentPage === 1}>
         Prev
       </PageNumber>
 
-      {pageNumbers.slice(startPage - 1, startPage + 1).map(number => (
+      {pageNumbers.slice(currentPage - 1, currentPage + 2).map(number => (
         <PageNumber 
           key={number} 
           onClick={() => paginate(number)} 
@@ -86,11 +83,11 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
           {number}
         </PageNumber>
       ))}
-      {startPage + 1 < pageNumbers.length && <Dot>...</Dot>}
+      {currentPage + 1 < pageNumbers.length && <Dot>...</Dot>}
 
       <PageNumber 
         onClick={handleNext} 
-        disabled={startPage + 1 >= pageNumbers.length}
+        disabled={currentPage >= pageNumbers.length}
       >
         Next
       </PageNumber>

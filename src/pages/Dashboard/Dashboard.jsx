@@ -1,10 +1,11 @@
 import React, { useState/*, useEffect*/ } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { collection, getDocs/*, addDoc*/ } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import DataTable from '../../components/DataTable/DataTable';
+// import PostForm from '../../components/PostForm/PostForm';
 
 // import { allPostData } from '../News/Data';
 // import { allRecruitData } from '../Recruitment/Data';
@@ -58,11 +59,11 @@ async function getJobs() {
 
 const Dashboard = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { username } = location.state;
+
   const [data, setData] = useState([]);
   const [fields, setFields] = useState([]);
-
-
 
   const itemFields = {
     'Users': {id: 'ID', username: 'Username', email: 'Email'},
@@ -90,7 +91,15 @@ const Dashboard = () => {
     setFields(itemFields[item]);
   };
 
+
+  const handleCreate = () => {
+    navigate('/admin/dashboard/create/post', { state: { username: username }});
+  };
+
+
   const handleEdit = () => {};
+
+
   const handleDelete = () => {};
 
 
@@ -103,7 +112,7 @@ const Dashboard = () => {
   //   fetchData();
   // })
 
-  console.log(data);
+
 
   return (
     <>
@@ -112,8 +121,9 @@ const Dashboard = () => {
         <Sidebar items={['Users', 'Jobs', 'Posts']} onItemClick={handleItemClick}/>
 
         <main>
-          {data.length > 0 && <DataTable data={data} fields={fields} onEdit={handleEdit} onDelete={handleDelete} />}
-
+          {data.length > 0 && 
+            <DataTable data={data} fields={fields} onEdit={handleEdit} onDelete={handleDelete} onCreate={handleCreate}/>
+          }
         </main>
       </div>    
     </>

@@ -11,8 +11,10 @@ import ScrollToTop from './components/ScrollToTop';
 import JobDetail from './pages/JobDetail/JobDetail';
 import ServiceDetail from './pages/ServiceDetail/ServiceDetail';
 import Login from './components/Login/Login';
-import Dashboard from './pages/Dashboard/Dashboard';
 import { JobsProvider, PostsProvider, UsersProvider } from './api/api';
+import Dashboard from './pages/Dashboard/Dashboard';
+import PostForm from './components/PostForm/PostForm';
+
 
 
 const LoginWithProvider = () => (
@@ -42,6 +44,7 @@ function App() {
             <Route path='/recruitment/:selectedJobTitle' element={<JobDetail />} />
             <Route path='/admin' element={<LoginWithProvider />} />
             <Route path='/admin/dashboard' element={<Dashboard />} />
+            <Route path='/admin/dashboard/create/post' element={<PostForm />} />
           </Routes>
           <Footer />
         </Router>

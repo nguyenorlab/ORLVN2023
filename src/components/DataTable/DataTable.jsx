@@ -46,21 +46,22 @@ const DeleteButton = styled(Button)`
 
 
 
-const DataTable = ({ data, fields, onEdit, onDelete }) => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const postsPerPage = 5;
+const DataTable = ({ data, fields, onEdit, onDelete, onCreate }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(5);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
-  const paginatedData = data.slice(currentPage * postsPerPage, (currentPage + 1) * postsPerPage);
-  console.log(paginatedData);
+  const paginatedData = data.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
+
+
 
   return (
     <>
       <CreateButtonContainer>
-        <CreateButton onClick={() => alert('Create button clicked')}>Create</CreateButton>
+        <CreateButton onClick={onCreate}>Create</CreateButton>
       </CreateButtonContainer>
       <Table>
         <thead>
@@ -87,7 +88,7 @@ const DataTable = ({ data, fields, onEdit, onDelete }) => {
       </Table>
       <Pagination
         postsPerPage={postsPerPage}
-        totalPosts={Math.ceil(data.length / postsPerPage)}
+        totalPosts={data.length}
         paginate={handlePageChange}
         currentPage={currentPage}
       />
