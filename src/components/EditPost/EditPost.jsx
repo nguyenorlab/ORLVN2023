@@ -1,6 +1,6 @@
-import React, { useState/*, useContext*/ } from 'react';
-import { /*useParams*/ useNavigate, useLocation } from 'react-router-dom';
-// import { PostsContext } from '../../api/api';
+import React, { useState, useContext } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { PostsContext } from '../../api/api';
 import styled from 'styled-components';
 // import NewsDetail from '../../pages/News/NewsDetail';
 // import { BsCalendarCheck, BsBuildingCheck, BsTerminal } from 'react-icons/bs';
@@ -97,22 +97,21 @@ const NewsDetailInfoContainer = styled.div`
 // `;
 
 
-const EditPost = ({ post }) => {
+const EditPost = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { username } = location.state;
 
-  // const allPostData = useContext(PostsContext);
-  // const { id } = useParams();
+  const allPostData = useContext(PostsContext);
+  const { id } = useParams();
 
-  // const postData = allPostData.find((post) => post.id === Number(id));
-  // console.log(postData);
+  const postData = allPostData.find((post) => post.id === Number(id));
 
   // const [isEditing, setIsEditing] = useState(false);
-  const [editedContent, setEditedContent] = useState(post.content);
-  const [editedTitle, setEditedTitle] = useState(post.title);
-  const [editedCategory, setEditedCategory] = useState(post.category);
-  const [editedDate, setEditedDate] = useState(post.date);
+  const [editedTitle, setEditedTitle] = useState(postData.title);
+  const [editedContent, setEditedContent] = useState(postData.content);
+  const [editedCategory, setEditedCategory] = useState(postData.category);
+  const [editedDate, setEditedDate] = useState(postData.date);
 
   
   const handleEdit = (sectionIndex, itemIndex, newText) => {
@@ -140,15 +139,15 @@ const EditPost = ({ post }) => {
         />
         <NewsDetailInfoContainer>
           <input
-              type='text'
-              value={editedDate}
-              onChange={(event) => setEditedDate(event.target.value)}
-            />
+            type='text'
+            value={editedDate}
+            onChange={(event) => setEditedDate(event.target.value)}
+          />
           <input
-              type='text'
-              value={editedCategory}
-              onChange={(event) => setEditedCategory(event.target.value)}
-            />
+            type='text'
+            value={editedCategory}
+            onChange={(event) => setEditedCategory(event.target.value)}
+          />
         </NewsDetailInfoContainer>
 
         {editedContent.map((section, sectionIndex) => (
