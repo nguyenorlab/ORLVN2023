@@ -74,7 +74,7 @@ export const UsersProvider = ({ children }) => {
 };
 
 
-// -- Edit Post Context -- //
+// -- Edit Post Context -- // if not use Context API, dont need to this
 export const EditPostProvider = ({ children }) => {
   const [editedId, setEditedId] = useState();
   const [editedContent, setEditedContent] = useState([]);
