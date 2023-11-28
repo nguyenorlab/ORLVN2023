@@ -6,7 +6,7 @@ import { db } from '../../src/config/firebase';
 export const PostsContext = createContext();
 export const JobsContext = createContext();
 export const UsersContext = createContext();
-
+export const EditPostContext = createContext();
 
 //--- Posts data ---//
 export const PostsProvider = ({ children }) => {
@@ -70,5 +70,35 @@ export const UsersProvider = ({ children }) => {
     <UsersContext.Provider value={users}>
       {children}
     </UsersContext.Provider>    
+  );
+};
+
+
+// -- Edit Post Context -- //
+export const EditPostProvider = ({ children }) => {
+  const [editedId, setEditedId] = useState();
+  const [editedContent, setEditedContent] = useState([]);
+  const [editedTitle, setEditedTitle] = useState('');
+  const [editedCategory, setEditedCategory] = useState('');
+  const [editedDate, setEditedDate] = useState('');
+
+  const setPostToEdit = (post) => {
+    setEditedId(post.id);
+    setEditedContent(post.content);
+    setEditedTitle(post.title);
+    setEditedCategory(post.category);
+    setEditedDate(post.date);
+  };
+
+  const handleEdit = (sectionIndex, itemIndex, newText) => {
+    const newContent = [...editedContent];
+    newContent[sectionIndex].data[itemIndex].text = newText;
+    setEditedContent(newContent);
+  };
+
+  return (
+    <EditPostContext.Provider value={{ editedId, editedContent, editedTitle, editedCategory, editedDate, setEditedContent, setEditedTitle, setEditedCategory, setEditedDate, handleEdit, setPostToEdit }}>
+      {children}
+    </EditPostContext.Provider>
   );
 };

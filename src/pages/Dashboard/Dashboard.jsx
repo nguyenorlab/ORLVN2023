@@ -1,12 +1,13 @@
-import React, { useState/*, useEffect*/ } from 'react';
+import React, { useContext, useState/*, useEffect*/ } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { collection, getDocs/*, addDoc*/ } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import DataTable from '../../components/DataTable/DataTable';
-// import PostForm from '../../components/PostForm/PostForm';
+import { EditPostContext } from '../../api/api';
 
+// import PostForm from '../../components/PostForm/PostForm';
 // import { allPostData } from '../News/Data';
 // import { allRecruitData } from '../Recruitment/Data';
 
@@ -62,6 +63,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { username } = location.state;
 
+  const { setPostToEdit } = useContext(EditPostContext);
+
   const [data, setData] = useState([]);
   const [fields, setFields] = useState([]);
 
@@ -77,12 +80,15 @@ const Dashboard = () => {
     switch (item) {
       case 'Users':
         data = await getUsers();
+        navigate('/admin/dashboard/users', { state: {username: username }});
         break;
       case 'Jobs':
         data = await getJobs();
+        navigate('/admin/dashboard/jobs', { state: {username: username }});
         break;
       case 'Posts':
         data = await getPosts();
+        navigate('/admin/dashboard/posts', { state: {username: username }});
         break;
       default:
         console.log(`No handler for ${item}`);
@@ -97,7 +103,10 @@ const Dashboard = () => {
   };
 
 
-  const handleEdit = () => {};
+  const handleEdit = (post) => {
+    setPostToEdit(post);
+    navigate(`/admin/dashboard/edit/post/${post.id}`, { state: { username: username }});
+  };
 
 
   const handleDelete = () => {};
