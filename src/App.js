@@ -52,7 +52,7 @@ function App() {
               <Route path='/admin/dashboard/jobs' element={<Dashboard />} />
               <Route path='/admin/dashboard/posts' element={<Dashboard />} />
               <Route path='/admin/dashboard/create/post' element={<CreatePost />} />
-              <Route path='/admin/dashboard/edit/post/:id' element={<EditPost />} />
+              <Route path='/admin/dashboard/edit/post/:displayId' element={<EditPost />} />
             </Routes>
             <Footer />
           </Router>

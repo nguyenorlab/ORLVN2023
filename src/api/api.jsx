@@ -102,3 +102,27 @@ export const EditPostProvider = ({ children }) => {
     </EditPostContext.Provider>
   );
 };
+
+// get all users from Firestore Database
+export const getUsers = async () => {
+  const usersCol = collection(db, 'users');
+  const userSnapshot = await getDocs(usersCol);
+  const userList = userSnapshot.docs.map(doc => doc.data());
+  return userList;
+};
+
+// get all posts from Firestore Database
+export const getPosts = async () => {
+  const postsCol = collection(db, 'posts');
+  const postSnapshot = await getDocs(postsCol);
+  const postList = postSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  return postList;
+};
+
+// get all jobs from Firestore Database
+export const getJobs = async () => {
+  const jobCol = collection(db, 'recruit');
+  const jobSnapshot = await getDocs(jobCol);
+  const jobList = jobSnapshot.docs.map(doc => doc.data());
+  return jobList;
+};

@@ -4,8 +4,10 @@ import styled from 'styled-components';
 // import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../config/firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { ref, uploadBytesResumable, getDownloadURL, getStorage } from 'firebase/storage';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+// import { getPosts } from '../../api/api';
 
 
 const Form = styled.form`
@@ -26,21 +28,19 @@ const Button = styled.button`
 
 const findMinUnusedId = async () => {
   const postsSnapshot = await getDocs(collection(db, 'posts'));
-  const usedIds = postsSnapshot.docs.map(doc => doc.data().id);
-  let id = 1;
-  while (usedIds.includes(id)) {
-    id++;
+  const usedIds = postsSnapshot.docs.map(doc => doc.data().displayId);
+  let displayId = 1;
+  while (usedIds.includes(displayId)) {
+    displayId++;
   }
-  return id;
+  return displayId;
 };
 
 let minId;
-findMinUnusedId().then(id => {
-  minId = id;
-  console.log(minId);
+findMinUnusedId().then(displayId => {
+  minId = displayId;
+  // console.log(minId);
 })
-
-
 
 
 const CreatePost = ({ onSubmit }) => {
@@ -52,12 +52,55 @@ const CreatePost = ({ onSubmit }) => {
   const [category, setCategory] = useState('Company News');
   const [usedSectionIds, setUsedSectionIds] = useState([1]);
   const [content, setContent] = useState([{ section: usedSectionIds[0], data: [{ type: '', text: '' }] }]);
+  const [imageFile, setImageFile] = useState(null);
+
+
+  const handleImageUpload = async () => {
+    if (imageFile) {
+      const { file, sectionId } = imageFile;
+      const storage = getStorage();
+      const storageRef = ref(storage, `PostsImagesUpload/${minId}-${sectionId}.jpg`); // Điều chỉnh đường dẫn dựa vào cấu trúc bạn đã chọn
+      const uploadTask = uploadBytesResumable(storageRef, file);
+  
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          // Trạng thái upload (optional)
+        },
+        (error) => {
+          console.error('Error uploading image:', error);
+        },
+        () => {
+          // Upload thành công
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // Lưu đường dẫn của ảnh vào content > section > data > src
+            const newData = [...content];
+            const sectionIndex = newData.findIndex((section) => section.section === sectionId);
+            const dataIndex = newData[sectionIndex].data.findIndex((data) => data.type === 'image');
+            newData[sectionIndex].data[dataIndex].src = downloadURL;
+            setContent(newData);
+  
+            // Xóa file ảnh khỏi state
+            setImageFile(null);
+          });
+        }
+      );
+    }
+  };
+
+
+  const handleImageChange = (event, sectionId) => {
+    const newImageFile = event.target.files[0];
+    setImageFile({ file: newImageFile, sectionId });
+  };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const id = minId;
+    await handleImageUpload();
+    const displayId = minId;
     const postData = {
-      id,
+      displayId,
       title,
       category,
       date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
@@ -70,6 +113,7 @@ const CreatePost = ({ onSubmit }) => {
       toast.success('Post is created successfully', {
         onClose: () => navigate('/admin/dashboard', { state: { username: username }})
       });
+      // await getPosts();
 
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -89,9 +133,9 @@ const CreatePost = ({ onSubmit }) => {
   };
 
 
-  const handleDeleteSection = (id) => {
-    setContent(content.filter(section => section.section !== id));
-    setUsedSectionIds(usedSectionIds.filter(sectionId => sectionId !== id));
+  const handleDeleteSection = (displayId) => {
+    setContent(content.filter(section => section.section !== displayId));
+    setUsedSectionIds(usedSectionIds.filter(sectionId => sectionId !== displayId));
   };
 
   const handleBack = () => {
@@ -139,17 +183,29 @@ const CreatePost = ({ onSubmit }) => {
                   <option value='paragraph'>Paragraph</option>
                   <option value='image'>Image</option>
                 </Select>
-                <label>Text:</label>
-                <Input
-                  type='text'
-                  value={data.text}
-                  onChange={(event) => {
-                    const newData = [...content];
-                    newData[index].data[dataIndex].text = event.target.value;
-                    setContent(newData);
-                  }}
-                  required
-                />
+
+                <label>{data.type === 'image' ? 'Image Upload:' : 'Text'}</label>
+                {console.log(data.type)}
+                {
+                  data.type === 'image' ?
+                    <Input
+                      type='file'
+                      accept='image/*'
+                      onChange={(event) => handleImageChange(event, section.section)}
+                    />
+                    :
+                    <Input
+                      type='text'
+                      value={data.text}
+                      onChange={(event) => {
+                        const newData = [...content];
+                        newData[index].data[dataIndex].text = event.target.value;
+                        setContent(newData);
+                      }}
+                      required
+                    />
+                }
+
                 <Button type='button' onClick={() => {
                   const newData = [...content];
                   newData[index].data.splice(dataIndex, 1);
@@ -166,9 +222,7 @@ const CreatePost = ({ onSubmit }) => {
               setContent(newData);
             }}>Add Data</Button>
 
-
-            {/* upload image here */}
-
+            {/* upload thumbnail image here */}
 
             {content.length > 1 && (
               <Button type='button' onClick={() => handleDeleteSection(section.section)}>Delete Section</Button>

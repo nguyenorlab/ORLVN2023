@@ -1,7 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { PostsContext } from '../../api/api';
 import styled from 'styled-components';
+import { PostsContext } from '../../api/api';
+import { db } from '../../config/firebase';
+import { collection, doc, updateDoc, getDocs, where, query } from 'firebase/firestore';
 // import NewsDetail from '../../pages/News/NewsDetail';
 // import { BsCalendarCheck, BsBuildingCheck, BsTerminal } from 'react-icons/bs';
 import { Button } from '../../globalStyles';
@@ -103,15 +105,31 @@ const EditPost = () => {
   const { username } = location.state;
 
   const allPostData = useContext(PostsContext);
-  const { id } = useParams();
+  const { displayId } = useParams();
+  const [documentId, setDocumentId] = useState(null);
 
-  const postData = allPostData.find((post) => post.id === Number(id));
+  const postData = allPostData.find((post) => post.displayId === Number(displayId));
 
   // const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(postData.title);
   const [editedContent, setEditedContent] = useState(postData.content);
   const [editedCategory, setEditedCategory] = useState(postData.category);
   const [editedDate, setEditedDate] = useState(postData.date);
+
+  // -- get document ID from displayId -- //
+  useEffect(() => {
+    const getDocumentId = async () => {
+      const postsCollection = collection(db, 'posts');
+      const q = query(postsCollection, where('displayId', '==', Number(displayId))); 
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        setDocumentId(doc.id);
+      });
+    };
+
+    getDocumentId();
+  }, [displayId]);
 
   
   const handleEdit = (sectionIndex, itemIndex, newText) => {
@@ -121,7 +139,22 @@ const EditPost = () => {
   };
 
   const handleSave = async () => {
-
+    const postRef = doc(db, 'posts', documentId);  
+    const updatedPost = {
+      title: editedTitle,
+      date: editedDate,
+      category: editedCategory,
+      content: editedContent,
+    };
+  
+    await updateDoc(postRef, updatedPost)
+      .then(() => {
+        console.log('Document successfully written!');
+        navigate('/admin/dashboard', { state: { username: username }});
+      })
+      .catch((error) => {
+        console.error('Error writing document: ', error);
+      });
   };
 
   const handleCancel = () => {
