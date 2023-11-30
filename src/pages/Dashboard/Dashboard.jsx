@@ -130,6 +130,8 @@ const Dashboard = () => {
         <Sidebar items={['Users', 'Jobs', 'Posts']} onItemClick={handleItemClick}/>
 
         <main>
+          <h3>cần thêm vào hàm Delete, khi Delete thì xoá luôn ảnh (nếu có)</h3>
+          <h3>live search, filter by date, by category -- button Search</h3>
           {data.length > 0 && 
             <DataTable data={data} fields={fields} onEdit={handleEdit} onDelete={handleDelete} onCreate={handleCreate}/>
           }

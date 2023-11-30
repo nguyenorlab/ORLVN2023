@@ -108,6 +108,9 @@ export const getUsers = async () => {
   const usersCol = collection(db, 'users');
   const userSnapshot = await getDocs(usersCol);
   const userList = userSnapshot.docs.map(doc => doc.data());
+
+  userList.sort((a, b) => a.id - b.id);
+
   return userList;
 };
 
@@ -116,6 +119,9 @@ export const getPosts = async () => {
   const postsCol = collection(db, 'posts');
   const postSnapshot = await getDocs(postsCol);
   const postList = postSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+  postList.sort((a, b) => a.displayId - b.displayId);
+
   return postList;
 };
 

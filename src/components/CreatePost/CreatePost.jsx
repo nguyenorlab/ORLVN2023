@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 // import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../config/firebase';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, getDocs, updateDoc, getFirestore, doc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL, getStorage } from 'firebase/storage';
 import moment from 'moment';
 import { toast } from 'react-toastify';
@@ -39,7 +39,7 @@ const findMinUnusedId = async () => {
 let minId;
 findMinUnusedId().then(displayId => {
   minId = displayId;
-  // console.log(minId);
+  console.log(minId);
 })
 
 
@@ -52,69 +52,111 @@ const CreatePost = ({ onSubmit }) => {
   const [category, setCategory] = useState('Company News');
   const [usedSectionIds, setUsedSectionIds] = useState([1]);
   const [content, setContent] = useState([{ section: usedSectionIds[0], data: [{ type: '', text: '' }] }]);
-  const [imageFile, setImageFile] = useState(null);
+  // const [imageFile, setImageFile] = useState(null);
+  const [tempImages, setTempImages] = useState({});
 
-
-  const handleImageUpload = async () => {
-    if (imageFile) {
-      const { file, sectionId } = imageFile;
-      const storage = getStorage();
-      const storageRef = ref(storage, `PostsImagesUpload/${minId}-${sectionId}.jpg`); // Điều chỉnh đường dẫn dựa vào cấu trúc bạn đã chọn
-      const uploadTask = uploadBytesResumable(storageRef, file);
+  const handleImageUpload = async (imageFile, postId, sectionId, dataIndex) => {   
+    const storage = getStorage();
+    const storageRef = ref(storage, `PostsImagesUpload/${Date.now()}_${Math.random()}.jpg`);
+    const metadata = {contentType: 'image/jpeg',}
+    const uploadTask = uploadBytesResumable(storageRef, imageFile, metadata);
   
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          // Trạng thái upload (optional)
-        },
+    return new Promise((resolve, reject) => {
+      uploadTask.on('state_changed', 
+        (snapshot) => {}, 
         (error) => {
-          console.error('Error uploading image:', error);
-        },
+          reject(error);
+        }, 
         () => {
-          // Upload thành công
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            // Lưu đường dẫn của ảnh vào content > section > data > src
-            const newData = [...content];
-            const sectionIndex = newData.findIndex((section) => section.section === sectionId);
-            const dataIndex = newData[sectionIndex].data.findIndex((data) => data.type === 'image');
-            newData[sectionIndex].data[dataIndex].src = downloadURL;
-            setContent(newData);
-  
-            // Xóa file ảnh khỏi state
-            setImageFile(null);
+            resolve({
+              postId,
+              sectionId,
+              dataIndex,
+              downloadURL
+            });
           });
         }
       );
+    });
+  };
+
+
+  const handleImageChange = (event, sectionId, dataIndex) => {
+    try {
+      const newImageFile = event.target.files[0];
+      // console.log('image changed:', event.target.files[0]);
+      // setImageFile({ file: newImageFile, sectionId });
+      setTempImages(prevTempImages => ({
+        ...prevTempImages,
+        [`${sectionId}-${dataIndex}`]: newImageFile,
+        // sectionId,
+        // dataIndex
+      }));
+    } catch (error) {
+      console.error('Error in handleImageChange:', error);
     }
   };
-
-
-  const handleImageChange = (event, sectionId) => {
-    const newImageFile = event.target.files[0];
-    setImageFile({ file: newImageFile, sectionId });
-  };
+  // console.log(tempImages);
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await handleImageUpload();
     const displayId = minId;
-    const postData = {
+    let postData = {
       displayId,
       title,
       category,
       date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       content
     };
-    // save data to Firestore
+  
     try {
-      await addDoc(collection(db, 'posts'), postData);
-      // console.log('Document written: ', docRef);
+      const postRef = await addDoc(collection(db, 'posts'), postData);
       toast.success('Post is created successfully', {
         onClose: () => navigate('/admin/dashboard', { state: { username: username }})
       });
-      // await getPosts();
+  
+      const uploadPromises = [];
+  
+      for (let i = 0; i < postData.content.length; i++) {
+        const section = postData.content[i];
+        for (let j = 0; j < section.data.length; j++) {
+          const data = section.data[j];
+          if (data.type === 'image') {
+            const imageFile = tempImages[`${section.section}-${j}`]; // Get the corresponding image file
+            if (imageFile) {
+              const uploadPromise = handleImageUpload(imageFile, postRef.id, section.section, j);
+              uploadPromises.push(uploadPromise);
+            }
+          }
+        }
+      }
+  
+      const uploadResults = await Promise.all(uploadPromises);
+  
+      for (const result of uploadResults) {
+        const db = getFirestore();
+        const postRef = doc(db, 'posts', result.postId);
+        const postSnap = await getDoc(postRef);
+  
+        if (postSnap.exists()) {
+          const postData = postSnap.data();
+          const sectionIndex = postData.content.findIndex(section => section.section === result.sectionId);
 
+          if (!Array.isArray(postData.content[sectionIndex].data[result.dataIndex].text)) {
+            postData.content[sectionIndex].data[result.dataIndex].text = [postData.content[sectionIndex].data[result.dataIndex].text];
+          }
+          if (postData.content[sectionIndex].data[result.dataIndex].text[0] === '') {
+            postData.content[sectionIndex].data[result.dataIndex].text.shift();
+          }
+          // if (postData.content[result.sectionIndex].data[result.dataIndex].text[0] === '') {
+          //   postData.content[result.sectionIndex].data[result.dataIndex].text.shift();
+          // }
+          postData.content[sectionIndex].data[result.dataIndex].text.push(result.downloadURL);
+          await updateDoc(postRef, postData);
+        }
+      }
     } catch (error) {
       console.error('Error adding document: ', error);
       toast.error('An error occurred while creating the post. Please try again.', {
@@ -122,6 +164,7 @@ const CreatePost = ({ onSubmit }) => {
       });
     }
   };
+  
 
   const handleAddSection = async () => {
     let newSectionId = 1;
@@ -166,7 +209,7 @@ const CreatePost = ({ onSubmit }) => {
         {content.map((section, index) => (
           <div key={index}>
             <h4>Section {index + 1}</h4>
-            {section.data.map((data, dataIndex) => (
+            {section.data.map((data, dataIndex) => (              
               <div key={`${section.section}-${dataIndex}`}>
                 <label>Type:</label>
                 <Select
@@ -185,26 +228,28 @@ const CreatePost = ({ onSubmit }) => {
                 </Select>
 
                 <label>{data.type === 'image' ? 'Image Upload:' : 'Text'}</label>
-                {console.log(data.type)}
                 {
-                  data.type === 'image' ?
+                  data.type === 'image' ? (
                     <Input
                       type='file'
                       accept='image/*'
-                      onChange={(event) => handleImageChange(event, section.section)}
+                      onChange={(event) => handleImageChange(event, section.section, dataIndex)}
                     />
-                    :
-                    <Input
-                      type='text'
-                      value={data.text}
-                      onChange={(event) => {
-                        const newData = [...content];
-                        newData[index].data[dataIndex].text = event.target.value;
-                        setContent(newData);
-                      }}
-                      required
-                    />
-                }
+                  ) : (
+                    <>
+                      <Input
+                        type='text'                      
+                        value={data.text}
+                        onChange={(event) => {
+                          const newData = [...content];
+                          newData[index].data[dataIndex].text = event.target.value;
+                          setContent(newData);
+                        }}
+                        required
+                      />
+                      <div></div>   {/* this div tag to fix controlled to uncontrolled */}                     
+                    </>
+                )}
 
                 <Button type='button' onClick={() => {
                   const newData = [...content];

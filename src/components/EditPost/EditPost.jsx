@@ -7,7 +7,6 @@ import { collection, doc, updateDoc, getDocs, where, query } from 'firebase/fire
 // import NewsDetail from '../../pages/News/NewsDetail';
 // import { BsCalendarCheck, BsBuildingCheck, BsTerminal } from 'react-icons/bs';
 import { Button } from '../../globalStyles';
-import UploadFile from '../../components/UploadFile/UploadFile';
 
 
 
@@ -205,8 +204,16 @@ const EditPost = () => {
                       onChange={(event) => handleEdit(sectionIndex, itemIndex, event.target.value)}
                     />
                   );
-                case 'image':
-                  return <UploadFile key={`${sectionIndex}-${itemIndex}`}/>;
+                // case 'image':
+                //   // return <UploadFile key={`${sectionIndex}-${itemIndex}`}/>;
+                //   return (
+                //     <input
+                //       key={`${sectionIndex}-${itemIndex}`}
+                //       type='file'
+                //       accept='image/*'
+                //       onChange={(event) => handleEdit(section.section, itemIndex, event.target.value)}
+                //     />
+                //   );
                 default:
                   return null;
               }

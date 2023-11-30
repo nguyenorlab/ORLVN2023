@@ -407,7 +407,7 @@ const NewsDetail = ({ post }) => {
                   return <NewsDetailText key={index}>{item.text}</NewsDetailText>;
                 case 'image':
                   // Render image
-                  return <NewsDetailImg key={index} src={item.src} alt='no-img' />;
+                  return <NewsDetailImg key={index} src={item.text} alt='no-img' />;
                 default:
                   return null;
               }
