@@ -88,7 +88,7 @@ const Login = () => {
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log(userCredential);
+      // console.log(userCredential);
       let foundUsername;
       usersData.forEach(user => {
         if(user.email === userCredential.user.email) {

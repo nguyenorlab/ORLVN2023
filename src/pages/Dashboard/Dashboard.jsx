@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
-import { collection, getDocs/*, addDoc*/, doc, where, query, deleteDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { collection, getDocs, getDoc/*, addDoc*/, doc, where, query, deleteDoc } from 'firebase/firestore';
+import { deleteObject, ref, getStorage } from 'firebase/storage';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import DataTable from '../../components/DataTable/DataTable';
 import { getUsers, getJobs, getPosts } from '../../api/api';
@@ -89,27 +90,61 @@ const Dashboard = () => {
 
   const handleDelete = async (post) => {
     const shouldDelete = window.confirm('Are you sure you want to delete this post?');
-    const postsCollection = collection(db, 'posts');
-    const q = query(postsCollection, where('displayId', '==', post.displayId)); 
-    const querySnapshot = await getDocs(q);
-
-    let documentIdToDelete = null;
-
-    querySnapshot.forEach((doc) => {
-      documentIdToDelete = doc.id;
-    });
-
-    if(shouldDelete && documentIdToDelete) {
-      try {
-        await deleteDoc(doc(db, 'posts', documentIdToDelete));
-        console.log('Document successfully deleted!');
-        const newData = await getPosts();
-        setData(newData);
-      } catch (error) {
-        console.error('Error deleting document: ', error);
+  
+    if (shouldDelete) {
+      const postsCollection = collection(db, 'posts');
+      const q = query(postsCollection, where('displayId', '==', post.displayId));
+      const querySnapshot = await getDocs(q);
+  
+      let documentIdToDelete = null;
+  
+      querySnapshot.forEach((doc) => {
+        documentIdToDelete = doc.id;
+      });
+  
+      if (documentIdToDelete) {
+        try {
+          // Lấy đường dẫn ảnh từ Firestore trước khi xoá document
+          const postRef = doc(db, 'posts', documentIdToDelete);
+          const postSnap = await getDoc(postRef);
+          const postData = postSnap.data();
+          const imagePaths = [];
+  
+          if (postData) {
+            for (const section of postData.content) {
+              for (const data of section.data) {
+                if (data.type === 'image') {
+                  // Kiểm tra xem có ảnh nào được lưu hay không
+                  if (Array.isArray(data.text) && data.text.length > 0) {
+                    imagePaths.push(...data.text);
+                  }
+                }
+              }
+            }
+          }
+  
+          // Xoá document từ Firestore
+          await deleteDoc(postRef);
+  
+          // Xoá ảnh từ Storage
+          const storage = getStorage();
+          // const storageRef = ref(storage, 'PostsImagesUpload');
+  
+          for (const imagePath of imagePaths) {
+            const imageRef = ref(storage, imagePath);
+            await deleteObject(imageRef);
+          }
+  
+          console.log('Document and images successfully deleted!');
+          navigate('/admin/dashboard/posts', { state: {username: username }});
+          const newData = await getPosts();
+          setData(newData);
+        } catch (error) {
+          console.error('Error deleting document: ', error);
+        }
+      } else {
+        console.log('Invalid Document ID');
       }
-    } else {
-      console.log('Invalid Document ID');
     }
   };
 
@@ -129,9 +164,9 @@ const Dashboard = () => {
       <div style={{ display: 'flex' }}>
         <Sidebar items={['Users', 'Jobs', 'Posts']} onItemClick={handleItemClick}/>
 
-        <main>
-          <h3>cần thêm vào hàm Delete, khi Delete thì xoá luôn ảnh (nếu có)</h3>
+        <main>          
           <h3>live search, filter by date, by category -- button Search</h3>
+          <h3>tim cach xu ly username de khong phai dung location nua</h3>
           {data.length > 0 && 
             <DataTable data={data} fields={fields} onEdit={handleEdit} onDelete={handleDelete} onCreate={handleCreate}/>
           }
