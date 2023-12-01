@@ -8,59 +8,47 @@ export const JobsContext = createContext();
 export const UsersContext = createContext();
 export const EditPostContext = createContext();
 
-//--- Posts data ---//
-export const PostsProvider = ({ children }) => {
-  const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const postsCollection = collection(db, 'posts');
-      const postsSnapshot = await getDocs(postsCollection);
-      const postsList = postsSnapshot.docs.map(doc => doc.data());
-      setPosts(postsList);
-    };
-    fetchPosts();
-  }, []);
+// get all users from Firestore Database
+export const getUsers = async () => {
+  const usersCol = collection(db, 'users');
+  const userSnapshot = await getDocs(usersCol);
+  const userList = userSnapshot.docs.map(doc => doc.data());
+  userList.sort((a, b) => a.id - b.id);
 
-  return (
-    <PostsContext.Provider value={posts}>
-      {children}
-    </PostsContext.Provider>
-  );
+  return userList;
 };
 
 
-//--- Jobs data ---//
-export const JobsProvider = ({ children }) => {
-  const [jobs, setJobs] = useState([]);
+// get all jobs from Firestore Database
+export const getJobs = async () => {
+  const jobCol = collection(db, 'jobs');
+  const jobSnapshot = await getDocs(jobCol);
+  const jobList = jobSnapshot.docs.map(doc => doc.data());
+  jobList.sort((a, b) => a.displayId - b.displayId);
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      const jobsCollection = collection(db, 'recruit');
-      const jobsSnapshot = await getDocs(jobsCollection);
-      const jobsList = jobsSnapshot.docs.map(doc => doc.data());
-      setJobs(jobsList);
-    };
-    fetchJobs();
-  },[]);  
-
-  return (
-    <JobsContext.Provider value={jobs}>
-      {children}
-    </JobsContext.Provider>    
-  );
+  return jobList;
 };
 
 
-//--- Users data ---//
+// get all posts from Firestore Database
+export const getPosts = async () => {
+  const postsCol = collection(db, 'posts');
+  const postSnapshot = await getDocs(postsCol);
+  const postList = postSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), typeName: 'Posts' }));
+  postList.sort((a, b) => a.displayId - b.displayId);
+
+  return postList;
+};
+
+
+//--- Users data Provider ---//
 export const UsersProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const usersCollection = collection(db, 'users');
-      const usersSnapshot = await getDocs(usersCollection);
-      const usersList = usersSnapshot.docs.map(doc => doc.data());
+      const usersList = await getUsers();
       setUsers(usersList);
     };
     fetchUsers();
@@ -74,6 +62,50 @@ export const UsersProvider = ({ children }) => {
 };
 
 
+//--- Jobs data Provider ---//
+export const JobsProvider = ({ children }) => {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      const jobsList = await getJobs();
+      setJobs(jobsList);
+    };
+    fetchJobs();
+  },[]);  
+
+  return (
+    <JobsContext.Provider value={jobs}>
+      {children}
+    </JobsContext.Provider>    
+  );
+};
+
+
+//--- Posts data Provider ---//
+export const PostsProvider = ({ children }) => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const postsList = await getPosts();
+      setPosts(postsList);
+    };
+    fetchPosts();
+  }, []);
+
+  return (
+    <PostsContext.Provider value={posts}>
+      {children}
+    </PostsContext.Provider>
+  );
+};
+
+
+
+
+
+/*---------------------------------------------------------------------------
 // -- Edit Post Context -- // if not use Context API, dont need to this
 export const EditPostProvider = ({ children }) => {
   const [editedId, setEditedId] = useState();
@@ -102,33 +134,4 @@ export const EditPostProvider = ({ children }) => {
     </EditPostContext.Provider>
   );
 };
-
-// get all users from Firestore Database
-export const getUsers = async () => {
-  const usersCol = collection(db, 'users');
-  const userSnapshot = await getDocs(usersCol);
-  const userList = userSnapshot.docs.map(doc => doc.data());
-
-  userList.sort((a, b) => a.id - b.id);
-
-  return userList;
-};
-
-// get all posts from Firestore Database
-export const getPosts = async () => {
-  const postsCol = collection(db, 'posts');
-  const postSnapshot = await getDocs(postsCol);
-  const postList = postSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-  postList.sort((a, b) => a.displayId - b.displayId);
-
-  return postList;
-};
-
-// get all jobs from Firestore Database
-export const getJobs = async () => {
-  const jobCol = collection(db, 'recruit');
-  const jobSnapshot = await getDocs(jobCol);
-  const jobList = jobSnapshot.docs.map(doc => doc.data());
-  return jobList;
-};
+---------------------------------------------------------------------------*/

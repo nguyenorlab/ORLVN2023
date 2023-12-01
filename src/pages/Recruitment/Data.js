@@ -1,6 +1,6 @@
 export const allRecruitData = [
     {
-        id: 1,
+        displayId: 1,
         lightText: false,
         imgStart: true,
         jobTitle: 'Front-End Developer',
@@ -17,7 +17,7 @@ export const allRecruitData = [
         treatment: ['FRONTEND-DEV --- Thử việc hưởng 100% lương', 'Ký hợp đồng lao động chính thức sau 02 tháng thử việc.', 'Nghỉ phép 12 ngày/năm, Golden Week, Tết dương lịch, âm lịch 6 ngày, kỷ niệm thành lập công ty', 'Du lịch hè cùng công ty hoặc nghỉ hè 3 ngày tự chọn.', 'Làm việc: 9h-18h từ T2-T6, nghỉ T7 và CN hàng tuần.', 'Xét tăng lương định kỳ 1 năm/lần, thưởng 2 lần/năm (tháng lương thứ 13 và 14)', 'Hỗ trợ thi chứng chỉ quốc tế.', 'Chế độ BHXH, BHYT, BHTN', 'Môi trường trẻ trung năng động, thoải mái, tạo điều kiện để cá nhân phát triển năng lực nhất có thể.', 'Free trà, cà phê, chỗ gửi xe.'],
     },
     {
-        id: 2,
+        displayId: 2,
         lightText: false,
         imgStart: false,
         jobTitle: 'Back-End Developer',
@@ -34,7 +34,7 @@ export const allRecruitData = [
         treatment: ['BACKEND-DEV --- Thử việc hưởng 100% lương', 'Ký hợp đồng lao động chính thức sau 02 tháng thử việc.', 'Nghỉ phép 12 ngày/năm, Golden Week, Tết dương lịch, âm lịch 6 ngày, kỷ niệm thành lập công ty', 'Du lịch hè cùng công ty hoặc nghỉ hè 3 ngày tự chọn.', 'Làm việc: 9h-18h từ T2-T6, nghỉ T7 và CN hàng tuần.', 'Xét tăng lương định kỳ 1 năm/lần, thưởng 2 lần/năm (tháng lương thứ 13 và 14)', 'Hỗ trợ thi chứng chỉ quốc tế.', 'Chế độ BHXH, BHYT, BHTN', 'Môi trường trẻ trung năng động, thoải mái, tạo điều kiện để cá nhân phát triển năng lực nhất có thể.', 'Free trà, cà phê, chỗ gửi xe.'],
     },
     {
-        id: 3,
+        displayId: 3,
         lightText: false,
         imgStart: true,
         jobTitle: 'Cloud Engineer',
@@ -51,7 +51,7 @@ export const allRecruitData = [
         treatment: ['CLOUD --- Thử việc hưởng 100% lương', 'Ký hợp đồng lao động chính thức sau 02 tháng thử việc.', 'Nghỉ phép 12 ngày/năm, Golden Week, Tết dương lịch, âm lịch 6 ngày, kỷ niệm thành lập công ty', 'Du lịch hè cùng công ty hoặc nghỉ hè 3 ngày tự chọn.', 'Làm việc: 9h-18h từ T2-T6, nghỉ T7 và CN hàng tuần.', 'Xét tăng lương định kỳ 1 năm/lần, thưởng 2 lần/năm (tháng lương thứ 13 và 14)', 'Hỗ trợ thi chứng chỉ quốc tế.', 'Chế độ BHXH, BHYT, BHTN', 'Môi trường trẻ trung năng động, thoải mái, tạo điều kiện để cá nhân phát triển năng lực nhất có thể.', 'Free trà, cà phê, chỗ gửi xe.'],
     },
     {
-        id: 4,
+        displayId: 4,
         lightText: false,
         imgStart: false,
         jobTitle: 'Devops Engineer',

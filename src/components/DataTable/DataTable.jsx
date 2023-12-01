@@ -46,7 +46,7 @@ const DeleteButton = styled(Button)`
 
 
 
-const DataTable = ({ data, fields, onEdit, onDelete, onCreate }) => {
+const DataTable = ({ data, fields, onEdit, onDelete, onCreate, item }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
 
@@ -61,7 +61,7 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate }) => {
   return (
     <>
       <CreateButtonContainer>
-        <CreateButton onClick={onCreate}>Create</CreateButton>
+        <CreateButton onClick={() => onCreate(item)}>Create</CreateButton>
       </CreateButtonContainer>
       <Table>
         <thead>

@@ -14,9 +14,9 @@ async function initializePostData() {
   }
 };
 
-// init recruit data
+// init jobs data
 async function initializeRecruitData() {
-  const recCol = collection(db, 'recruit');
+  const recCol = collection(db, 'jobs');
 
   for (const rec of allRecruitData) {
     await addDoc(recCol, rec);

@@ -575,7 +575,7 @@ const News = () => {
                             <NewsContent>
                               <NewsImage src={post.image}/>
                               <ContentContainer>
-                                <NewsText>{post.content[0].data[1].text === undefined ? '' : truncate(post.content[0].data[1].text, maxLengthContent)}</NewsText>
+                                <NewsText>{post.content[0].data[0].text === undefined ? '' : truncate(post.content[0].data[0].text, maxLengthContent)}</NewsText>
                                 <StyledButton onClick={() => handleReadMore(post)}>Read More</StyledButton>
                               </ContentContainer>
                             </NewsContent>

@@ -50,6 +50,7 @@ const CreatePost = ({ onSubmit }) => {
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('Company News');
+  const [thumbnailImage, setThumbnailImage] = useState(null);
   const [usedSectionIds, setUsedSectionIds] = useState([1]);
   const [content, setContent] = useState([{ section: usedSectionIds[0], data: [{ type: '', text: '' }] }]);
   // const [imageFile, setImageFile] = useState(null);
@@ -100,6 +101,16 @@ const CreatePost = ({ onSubmit }) => {
   // console.log(tempImages);
 
 
+  const handleUploadThumb = async (event) => {
+    try {
+      const thumbImageFile = event.target.files[0];
+      setThumbnailImage(thumbImageFile);
+    } catch (error) {
+      console.error('Error in handleUploadThumb:', error);
+    }
+  };
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const displayId = minId;
@@ -108,10 +119,19 @@ const CreatePost = ({ onSubmit }) => {
       title,
       category,
       date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      image: '',
       content
     };
   
     try {
+      if (thumbnailImage) {
+        const storage = getStorage();
+        const thumbImageRef = ref(storage, `PostsThumbnailImage/${Date.now()}_${Math.random()}.jpg`);
+        await uploadBytesResumable(thumbImageRef, thumbnailImage);
+        const downloadURL = await getDownloadURL(thumbImageRef);
+        postData.image = downloadURL;
+      }
+
       const postRef = await addDoc(collection(db, 'posts'), postData);
       toast.success('Post is created successfully', {
         onClose: () => navigate('/admin/dashboard', { state: { username: username }})
@@ -204,6 +224,14 @@ const CreatePost = ({ onSubmit }) => {
           <option value="Company News">Company News</option>
           <option value="Technology News">Technology News</option>
         </Select>
+
+        <h3>Upload Thumbnail Image</h3>
+        <Input
+          type='file'
+          accept='image/*'
+          onChange={handleUploadThumb}
+          required
+        />
 
         <h3>Your Content</h3>
         {content.map((section, index) => (

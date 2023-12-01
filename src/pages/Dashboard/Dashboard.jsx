@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, /*useContext*/ } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-// import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { db } from '../../config/firebase';
-import { collection, getDocs, getDoc/*, addDoc*/, doc, where, query, deleteDoc } from 'firebase/firestore';
+import { /*collection,*/ /*getDocs,*/ getDoc, /*addDoc,*/ doc, /*where, query,*/ deleteDoc } from 'firebase/firestore';
 import { deleteObject, ref, getStorage } from 'firebase/storage';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import DataTable from '../../components/DataTable/DataTable';
-import { getUsers, getJobs, getPosts } from '../../api/api';
+import { getUsers, getJobs, getPosts, /*UsersContext*/ } from '../../api/api';
 
-// import PostForm from '../../components/PostForm/PostForm';
+
 // import { allPostData } from '../News/Data';
 // import { allRecruitData } from '../Recruitment/Data';
 
@@ -22,9 +21,9 @@ import { getUsers, getJobs, getPosts } from '../../api/api';
 //   }
 // };
 
-// init recruit data
+// init jobs data
 // async function initializeData() {
-//   const recCol = collection(db, 'recruit');
+//   const recCol = collection(db, 'jobs');
 
 //   for (const rec of allRecruitData) {
 //     await addDoc(recCol, rec);
@@ -41,6 +40,10 @@ const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { username } = location.state;
+  // const usersData = useContext(UsersContext);
+
+  // const jobsData = useContext(JobsContext);
+  // const postsData = useContext(PostsContext);
 
   // const { setPostToEdit } = useContext(EditPostContext);
 
@@ -49,7 +52,7 @@ const Dashboard = () => {
 
   const itemFields = {
     'Users': {id: 'ID', username: 'Username', email: 'Email'},
-    'Jobs': {id: 'ID', jobTitle: 'Job Title', location: 'Location', salary: 'Salary', shortDescription: 'Short Description'},
+    'Jobs': {displayId: 'ID', jobTitle: 'Job Title', location: 'Location', salary: 'Salary', shortDescription: 'Short Description'},
     'Posts': {displayId: 'ID', date: 'Date', category: 'Category', title: 'Post Title'}
   };
 
@@ -77,8 +80,25 @@ const Dashboard = () => {
   };
 
 
-  const handleCreate = () => {
-    navigate('/admin/dashboard/create/post', { state: { username: username }});
+  const handleCreate = (item) => {
+    console.log(item);
+    try {
+      switch (item.typeName) {
+        case 'Users':
+          navigate('/admin/dashboard/create/user', { state: { username: username }});
+          break;
+        case 'Jobs':
+          navigate('/admin/dashboard/create/job', { state: { username: username }});
+          break;
+        case 'Posts':
+          navigate('/admin/dashboard/create/post', { state: { username: username }});          
+          break;      
+        default:
+          break;
+      }
+    } catch (error) {
+      console.error('Error createing item: ', error);
+    }
   };
 
 
@@ -88,19 +108,51 @@ const Dashboard = () => {
   };
 
 
-  const handleDelete = async (post) => {
-    const shouldDelete = window.confirm('Are you sure you want to delete this post?');
-  
+  const handleDelete = async (item) => {
+    const shouldDelete = window.confirm(`Are you sure you want to delete ${item.typeName}-${item.displayId}?`);
     if (shouldDelete) {
-      const postsCollection = collection(db, 'posts');
-      const q = query(postsCollection, where('displayId', '==', post.displayId));
-      const querySnapshot = await getDocs(q);
+      try {
+        switch (item.typeName) {
+          case 'Users':
+
+            break;
+          case 'Jobs':
+            await handleDeleteJob(item);
+            break;
+          case 'Posts':
+            await handleDeletePost(item);
+            break;
+          default:
+            console.log(`No handler for ${item}`);
+        }
   
-      let documentIdToDelete = null;
+        console.log(`${item.typeName}-${item.displayId} successfully deleted!`);
+        const newData = await getPosts();
+        setData(newData);
+      } catch (error) {
+        console.error(`Error deleting ${item}: `, error);
+      }
+    }
+  };
+
+  const handleDeleteJob = async (job) => {
+
+  };
+
+
+  const handleDeletePost = async (post) => {
+    // const shouldDelete = window.confirm('Are you sure you want to delete this post?');
+    const documentIdToDelete = post.id;
+    // if (shouldDelete) {
+    //   const postsCollection = collection(db, 'posts');
+    //   const q = query(postsCollection, where('displayId', '==', post.displayId));
+    //   const querySnapshot = await getDocs(q);
   
-      querySnapshot.forEach((doc) => {
-        documentIdToDelete = doc.id;
-      });
+    //   let documentIdToDelete = null;
+  
+    //   querySnapshot.forEach((doc) => {
+    //     documentIdToDelete = doc.id;
+    //   });
   
       if (documentIdToDelete) {
         try {
@@ -145,7 +197,7 @@ const Dashboard = () => {
       } else {
         console.log('Invalid Document ID');
       }
-    }
+    // }
   };
 
   // create data at beginning, called only one time
