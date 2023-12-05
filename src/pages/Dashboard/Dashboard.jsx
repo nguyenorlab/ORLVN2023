@@ -49,6 +49,7 @@ const Dashboard = () => {
 
   const [data, setData] = useState([]);
   const [fields, setFields] = useState([]);
+  const [typeName, setTypeName] = useState('');
 
   const itemFields = {
     'Users': {id: 'ID', username: 'Username', email: 'Email'},
@@ -58,6 +59,7 @@ const Dashboard = () => {
 
 
   const handleItemClick = async (item) => {
+    setTypeName(item);
     let data;
     switch (item) {
       case 'Users':
@@ -66,6 +68,9 @@ const Dashboard = () => {
         break;
       case 'Jobs':
         data = await getJobs();
+        // data.forEach(job => {
+        //   job.shortDescription = job.shortDescription.join(', ');
+        // });
         navigate('/admin/dashboard/jobs', { state: {username: username }});
         break;
       case 'Posts':
@@ -80,10 +85,9 @@ const Dashboard = () => {
   };
 
 
-  const handleCreate = (item) => {
-    console.log(item);
+  const handleCreate = () => {
     try {
-      switch (item.typeName) {
+      switch (typeName) {
         case 'Users':
           navigate('/admin/dashboard/create/user', { state: { username: username }});
           break;
@@ -220,7 +224,7 @@ const Dashboard = () => {
           <h3>live search, filter by date, by category -- button Search</h3>
           <h3>tim cach xu ly username de khong phai dung location nua</h3>
           {data.length > 0 && 
-            <DataTable data={data} fields={fields} onEdit={handleEdit} onDelete={handleDelete} onCreate={handleCreate}/>
+            <DataTable data={data} fields={fields} onEdit={handleEdit} onDelete={handleDelete} onCreate={handleCreate} typeName={typeName} />
           }
         </main>
       </div>    

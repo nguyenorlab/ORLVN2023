@@ -43,7 +43,7 @@ findMinUnusedId().then(displayId => {
 })
 
 
-const CreatePost = ({ onSubmit }) => {
+const CreatePost = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { username } = location.state;
