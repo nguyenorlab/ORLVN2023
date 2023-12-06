@@ -440,27 +440,21 @@ const JobDetail = () => {
                         <DetailContainer>
                           <JobTitleElementDetail>Experience Requirement</JobTitleElementDetail>
                           <JobTitleContent>
-                            {selectedJob.experience.map((item, index) => (
-                              <li key={index}>{item}</li>
-                            ))}
+                            {selectedJob.experience}
                           </JobTitleContent>
                         </DetailContainer>
 
                         <DetailContainer>
                           <JobTitleElementDetail>Nice to have</JobTitleElementDetail>
                           <JobTitleContent>
-                            {selectedJob.expPlus.map((item, index) => (
-                              <li key={index}>{item}</li>
-                            ))}
+                            {selectedJob.expPlus}
                           </JobTitleContent>
                         </DetailContainer>
 
                         <DetailContainer>
                           <JobTitleElementDetail>Treatment</JobTitleElementDetail>
                           <JobTitleContent>
-                            {selectedJob.treatment.map((item, index)  => (
-                              <li key={index}>{item}</li>
-                            ))}
+                            {selectedJob.treatment}
                           </JobTitleContent>
                         </DetailContainer>
 

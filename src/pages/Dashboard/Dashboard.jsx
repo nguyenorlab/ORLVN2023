@@ -68,9 +68,6 @@ const Dashboard = () => {
         break;
       case 'Jobs':
         data = await getJobs();
-        // data.forEach(job => {
-        //   job.shortDescription = job.shortDescription.join(', ');
-        // });
         navigate('/admin/dashboard/jobs', { state: {username: username }});
         break;
       case 'Posts':
@@ -89,13 +86,13 @@ const Dashboard = () => {
     try {
       switch (typeName) {
         case 'Users':
-          navigate('/admin/dashboard/create/user', { state: { username: username }});
+          navigate('/admin/dashboard/users/create', { state: { username: username }});
           break;
         case 'Jobs':
-          navigate('/admin/dashboard/create/job', { state: { username: username }});
+          navigate('/admin/dashboard/jobs/create', { state: { username: username }});
           break;
         case 'Posts':
-          navigate('/admin/dashboard/create/post', { state: { username: username }});          
+          navigate('/admin/dashboard/posts/create', { state: { username: username }});          
           break;      
         default:
           break;
@@ -107,8 +104,23 @@ const Dashboard = () => {
 
 
   const handleEdit = (post) => {
-    // setPostToEdit(post);
-    navigate(`/admin/dashboard/edit/post/${post.displayId}`, { state: { username: username }});
+    try {
+      switch (typeName) {
+        case 'Users':
+          navigate(`/admin/dashboard/users/edit/${post.id}`, { state: { username: username }});
+          break;
+        case 'Jobs':
+          navigate(`/admin/dashboard/jobs/edit/${post.displayId}`, { state: { username: username }});
+          break;
+        case 'Posts':
+          navigate(`/admin/dashboard/posts/edit/${post.displayId}`, { state: { username: username }});
+          break;      
+        default:
+          break;
+      }
+    } catch (error) {
+      console.error('Error createing item: ', error);
+    }    
   };
 
 
@@ -131,8 +143,6 @@ const Dashboard = () => {
         }
   
         console.log(`${item.typeName}-${item.displayId} successfully deleted!`);
-        const newData = await getPosts();
-        setData(newData);
       } catch (error) {
         console.error(`Error deleting ${item}: `, error);
       }
@@ -140,24 +150,42 @@ const Dashboard = () => {
   };
 
   const handleDeleteJob = async (job) => {
+    const documentIdtoDelete = job.id;
+    if(documentIdtoDelete) {
+      try {
+        const jobRef = doc(db, 'jobs', documentIdtoDelete);
+        const jobSnap = await getDoc(jobRef);
+        const jobData = jobSnap.data();
 
+        await deleteDoc(jobRef);
+        
+        if(jobData && jobData.img) {
+          const decodedUrl = decodeURIComponent(jobData.img);        
+          const filename = decodedUrl.split('/').pop();
+          const cleanFilename = filename.split('?alt=media')[0];
+          const imagePaths = 'JobsImagesUpload/' + cleanFilename;
+          const storage = getStorage();
+          const imageRef = ref(storage, imagePaths);
+          await deleteObject(imageRef);
+        } else {
+          console.log('This job has no image to delete');
+        }
+        
+        const newData = await getJobs();
+        setData(newData);
+
+        navigate('/admin/dashboard/jobs', { state: { username: username }});
+      } catch (error) {
+        console.error('Error deleting document: ', error);
+      }
+    } else {
+      console.log('Invalid Document ID');
+    }
   };
 
 
   const handleDeletePost = async (post) => {
-    // const shouldDelete = window.confirm('Are you sure you want to delete this post?');
-    const documentIdToDelete = post.id;
-    // if (shouldDelete) {
-    //   const postsCollection = collection(db, 'posts');
-    //   const q = query(postsCollection, where('displayId', '==', post.displayId));
-    //   const querySnapshot = await getDocs(q);
-  
-    //   let documentIdToDelete = null;
-  
-    //   querySnapshot.forEach((doc) => {
-    //     documentIdToDelete = doc.id;
-    //   });
-  
+    const documentIdToDelete = post.id;  
       if (documentIdToDelete) {
         try {
           // Lấy đường dẫn ảnh từ Firestore trước khi xoá document
@@ -201,7 +229,6 @@ const Dashboard = () => {
       } else {
         console.log('Invalid Document ID');
       }
-    // }
   };
 
   // create data at beginning, called only one time

@@ -250,13 +250,13 @@ const JobsSlider = () => {
         >
             {
                 jobDetailObj.map((job, index) => (
-                    <StyledSwiperSlideContainer key={index} background={job.url}>
+                    <StyledSwiperSlideContainer key={index} background={job.img}>
                         <StyledSwiperSlideActive>
                             <StyledSwiperSlideH2>{job.jobTitle}</StyledSwiperSlideH2>
                             <StyledSwiperSlide>
                                 <StyledSkill>
                                     <StyledSkillStack />
-                                    {job.shortDescription.join(', ')}
+                                    {job.shortDescription}
                                 </StyledSkill>
 
                                 <StyledSkill>

@@ -16,6 +16,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import CreatePost from './components/CreatePost/CreatePost';
 import CreateJob from './components/CreateJob/CreateJob';
 import EditPost from './components/EditPost/EditPost';
+import EditJob from './components/EditJob/EditJob';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
@@ -51,10 +52,11 @@ function App() {
               <Route path='/admin/dashboard' element={<Dashboard />} />
               <Route path='/admin/dashboard/users' element={<Dashboard />} />
               <Route path='/admin/dashboard/jobs' element={<Dashboard />} />
-              <Route path='/admin/dashboard/create/job' element={<CreateJob />} />
+              <Route path='/admin/dashboard/jobs/create' element={<CreateJob />} />
+              <Route path='/admin/dashboard/jobs/edit/:displayId' element={<EditJob />} />
               <Route path='/admin/dashboard/posts' element={<Dashboard />} />
-              <Route path='/admin/dashboard/create/post' element={<CreatePost />} />
-              <Route path='/admin/dashboard/edit/post/:displayId' element={<EditPost />} />
+              <Route path='/admin/dashboard/posts/create' element={<CreatePost />} />
+              <Route path='/admin/dashboard/posts/edit/:displayId' element={<EditPost />} />
             </Routes>
             <Footer />
           </Router>

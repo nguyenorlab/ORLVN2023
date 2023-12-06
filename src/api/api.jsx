@@ -13,7 +13,7 @@ export const EditPostContext = createContext();
 export const getUsers = async () => {
   const usersCol = collection(db, 'users');
   const userSnapshot = await getDocs(usersCol);
-  const userList = userSnapshot.docs.map(doc => doc.data());
+  const userList = userSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), typeName: 'Users' }));
   userList.sort((a, b) => a.id - b.id);
 
   return userList;
@@ -24,7 +24,7 @@ export const getUsers = async () => {
 export const getJobs = async () => {
   const jobCol = collection(db, 'jobs');
   const jobSnapshot = await getDocs(jobCol);
-  const jobList = jobSnapshot.docs.map(doc => doc.data());
+  const jobList = jobSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), typeName: 'Jobs' }));
   jobList.sort((a, b) => a.displayId - b.displayId);
 
   return jobList;

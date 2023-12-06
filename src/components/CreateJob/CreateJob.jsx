@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '../../globalStyles';
 import { db } from '../../config/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
+import { collection, addDoc, getDocs, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytesResumable, getDownloadURL, getStorage } from 'firebase/storage';
 
 
 
@@ -136,6 +136,7 @@ const Input = styled.input`
 `;
 
 
+
 const CreateJob = () => {
   const locationRoute = useLocation();
   const navigate = useNavigate();
@@ -149,46 +150,83 @@ const CreateJob = () => {
   const [exp, setExp] = useState('');
   const [expPlus, setExpPlus] = useState('');
   const [treatment, setTreatment] = useState('');
-  const [coverImg, setCoverImg] = useState(null);
+  // const [coverImg, setCoverImg] = useState(null);
 
-  const handleUploadCoverImg = async (event) => {
-    const storage = getStorage();
-    try {
-      const coverImgFile = event.target.files[0];      
-      const storageRef = ref(storage, 'JobsImagesUpload/' + coverImgFile.name);
+  // const handleUploadCoverImg = async (event) => {
+  //   const storage = getStorage();
+  //   try {
+  //     const coverImgFile = event.target.files[0];      
+  //     const storageRef = ref(storage, 'JobsImagesUpload/' + coverImgFile.name);
   
-      // upload to Storage
-      await uploadBytes(storageRef, coverImgFile);
+  //   // upload to Storage and wait for it to complete
+  //     const uploadTask = uploadBytesResumable(storageRef, coverImgFile);
+  //     const snapshot = await uploadTask;
   
-      // get image URL public
-      const downloadURL = await getDownloadURL(storageRef);
-      console.log('Download URL:', downloadURL);
-      setCoverImg(downloadURL);
-    } catch (error) {
-      console.error('Error in handleUploadCoverImg:', error);
+  //     // get image URL public
+  //     const downloadURL = await getDownloadURL(snapshot.ref);
+  //     console.log('Download URL:', downloadURL);
+  //     setCoverImg(downloadURL);
+  //   } catch (error) {
+  //     console.error('Error in handleUploadCoverImg:', error);
+  //   }
+  // };
+
+  const findMinUnusedId = async () => {
+    const postsSnapshot = await getDocs(collection(db, 'jobs'));
+    const usedIds = postsSnapshot.docs.map(doc => doc.data().displayId);
+    let displayId = 1;
+    while (usedIds.includes(displayId)) {
+      displayId++;
     }
+    return displayId;
   };
+  
+  const [minId, setMinId] = useState();
+  useEffect(() => {
+    findMinUnusedId().then(displayId => {
+      setMinId(displayId);
+    })
+  },[]);
+  // console.log(minId);
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Cover Image:', coverImg);
-    const jobData = {
-      displayId: 1,
-      lightText: false,
-      jobTitle: title,
-      location: location,
-      shortDescription: shortDescription,
-      salary: salary,
-      description: description,
-      experience: exp,
-      expPlus: expPlus,
-      img: coverImg,
-      treatment: treatment,
-      createdAt: serverTimestamp(),
-    };
 
-    try {      
+    try {
+      const storage = getStorage();
+      const coverImgInput = document.querySelector('input[type=file]');
+      const coverImgFile = coverImgInput.files[0];
+      if(!coverImgFile) {
+        console.error('Please select an image');
+        return;
+      }
+      
+      const storageRef = ref(storage, 'JobsImagesUpload/' + coverImgFile.name);
+    
+      // upload to Storage and wait for it to complete
+      const uploadTask = uploadBytesResumable(storageRef, coverImgFile);
+      const snapshot = await uploadTask;
+
+      // get image URL public
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      // setCoverImg(downloadURL);
+    
+      const jobData = {
+        displayId: minId,
+        lightText: false,
+        jobTitle: title,
+        location: location,
+        shortDescription: shortDescription,
+        salary: salary,
+        description: description,
+        experience: exp,
+        expPlus: expPlus,
+        img: downloadURL,
+        treatment: treatment,
+        createdAt: serverTimestamp(),
+      };
+     
       await addDoc(collection(db, 'jobs'), jobData);      
       navigate('/admin/dashboard', { state: { username: username } });
     } catch (error) {
@@ -298,7 +336,7 @@ const CreateJob = () => {
                   <Input
                     type='file'
                     accept='image/*'
-                    onChange={handleUploadCoverImg}
+                    // onChange={handleUploadCoverImg}
                     required
                   />
                 </DetailContainer>

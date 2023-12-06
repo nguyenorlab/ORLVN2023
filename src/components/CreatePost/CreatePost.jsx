@@ -39,7 +39,7 @@ const findMinUnusedId = async () => {
 let minId;
 findMinUnusedId().then(displayId => {
   minId = displayId;
-  console.log(minId);
+  // console.log(minId);
 })
 
 
