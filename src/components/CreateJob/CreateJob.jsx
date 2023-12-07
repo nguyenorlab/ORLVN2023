@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '../../globalStyles';
 import { db } from '../../config/firebase';
 import { collection, addDoc, getDocs, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL, getStorage } from 'firebase/storage';
+import Cookies from 'js-cookie';
+import { getJobs } from '../../api/api';
 
 
 
@@ -138,9 +140,9 @@ const Input = styled.input`
 
 
 const CreateJob = () => {
-  const locationRoute = useLocation();
+  // const locationRoute = useLocation();
   const navigate = useNavigate();
-  const { username } = locationRoute.state;
+  // const { username } = locationRoute.state;
 
   const [title, setTitle] = useState('');
   const [salary, setSalary] = useState('');
@@ -150,6 +152,32 @@ const CreateJob = () => {
   const [exp, setExp] = useState('');
   const [expPlus, setExpPlus] = useState('');
   const [treatment, setTreatment] = useState('');
+  const [username, setUsername] = useState('');
+
+  // -- get username from cookie -- //
+  useEffect(() => {
+    const usernameFromCookie = Cookies.get('username');
+    if (usernameFromCookie) {
+      setUsername(usernameFromCookie);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = 'Are you sure you want to leave this page? Any changes will not be saved';
+    };
+
+    // add event beforeunload into window before component is reloaded
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // remove event when component unmount
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [navigate]);
+
+
   // const [coverImg, setCoverImg] = useState(null);
 
   // const handleUploadCoverImg = async (event) => {
@@ -228,7 +256,8 @@ const CreateJob = () => {
       };
      
       await addDoc(collection(db, 'jobs'), jobData);      
-      navigate('/admin/dashboard', { state: { username: username } });
+      navigate('/admin/dashboard');
+      await getJobs();
     } catch (error) {
       console.error('Error adding document: ', error);
     }
@@ -236,120 +265,123 @@ const CreateJob = () => {
 
 
   const handleBack = () => {
-    navigate('/admin/dashboard', { state: { username: username }});
+    navigate('/admin/dashboard');
   };
 
 
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Container>
-        <InfoColumnJob>
-          <TextWrapper>
-            <CreateJobHeading>Create Job</CreateJobHeading>
-            <JDContainer>
-              <JDSubtitle>Job Description</JDSubtitle>
-              <JDText>
-                <JobTitleContainer>
-                  <JobTitleElement>Job Title:</JobTitleElement>
-                  <Input
-                    type='text'
-                    value={title}
-                    onChange={(event) => setTitle(event.target.value)}
-                    required
-                  />
-                </JobTitleContainer>
+    <>
+      <h2>Hi, {username}. You are creating a job.</h2>
+      <Form onSubmit={handleSubmit}>
+        <Container>
+          <InfoColumnJob>
+            <TextWrapper>
+              <CreateJobHeading>Create Job</CreateJobHeading>
+              <JDContainer>
+                <JDSubtitle>Job Description</JDSubtitle>
+                <JDText>
+                  <JobTitleContainer>
+                    <JobTitleElement>Job Title:</JobTitleElement>
+                    <Input
+                      type='text'
+                      value={title}
+                      onChange={(event) => setTitle(event.target.value)}
+                      required
+                    />
+                  </JobTitleContainer>
 
-                <JobTitleContainer>
-                  <JobTitleElement>Salary:</JobTitleElement>
-                  <Input
-                    type='text'
-                    value={salary}
-                    onChange={(event) => setSalary(event.target.value)}
-                    required
-                  />
-                </JobTitleContainer>
+                  <JobTitleContainer>
+                    <JobTitleElement>Salary:</JobTitleElement>
+                    <Input
+                      type='text'
+                      value={salary}
+                      onChange={(event) => setSalary(event.target.value)}
+                      required
+                    />
+                  </JobTitleContainer>
 
-                <JobTitleContainer>
-                  <JobTitleElement>Location:</JobTitleElement>
-                  <Input
-                    type='text'
-                    value={location}
-                    onChange={(event) => setLocation(event.target.value)}
-                    required
-                  />
-                </JobTitleContainer>
+                  <JobTitleContainer>
+                    <JobTitleElement>Location:</JobTitleElement>
+                    <Input
+                      type='text'
+                      value={location}
+                      onChange={(event) => setLocation(event.target.value)}
+                      required
+                    />
+                  </JobTitleContainer>
 
-                <DetailContainer>
-                  <JobTitleElementDetail>General Description</JobTitleElementDetail>
-                  <Input
-                    type='text'
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                    required
-                  />
-                </DetailContainer>
+                  <DetailContainer>
+                    <JobTitleElementDetail>General Description</JobTitleElementDetail>
+                    <Input
+                      type='text'
+                      value={description}
+                      onChange={(event) => setDescription(event.target.value)}
+                      required
+                    />
+                  </DetailContainer>
 
-                <DetailContainer>
-                  <JobTitleElementDetail>Short Description</JobTitleElementDetail>
-                  <p>nên có dòng in nghiêng mô tả nội dung cần nhập là gì ở tất cả các trường</p>
-                  <Input
-                    type='text'
-                    value={shortDescription}
-                    onChange={(event) => setShortDescription(event.target.value)}
-                    required
-                  />
-                </DetailContainer>
+                  <DetailContainer>
+                    <JobTitleElementDetail>Short Description</JobTitleElementDetail>
+                    <p>nên có dòng in nghiêng mô tả nội dung cần nhập là gì ở tất cả các trường</p>
+                    <Input
+                      type='text'
+                      value={shortDescription}
+                      onChange={(event) => setShortDescription(event.target.value)}
+                      required
+                    />
+                  </DetailContainer>
 
-                <DetailContainer>
-                  <JobTitleElementDetail>Experience Requirement</JobTitleElementDetail>
-                  <Input
-                    type='text'
-                    value={exp}
-                    onChange={(event) => setExp(event.target.value)}
-                    required
-                  />
-                </DetailContainer>
+                  <DetailContainer>
+                    <JobTitleElementDetail>Experience Requirement</JobTitleElementDetail>
+                    <Input
+                      type='text'
+                      value={exp}
+                      onChange={(event) => setExp(event.target.value)}
+                      required
+                    />
+                  </DetailContainer>
 
-                <DetailContainer>
-                  <JobTitleElementDetail>Nice to have</JobTitleElementDetail>
-                  <Input
-                    type='text'
-                    value={expPlus}
-                    onChange={(event) => setExpPlus(event.target.value)}
-                    required
-                  />
-                </DetailContainer>
+                  <DetailContainer>
+                    <JobTitleElementDetail>Nice to have</JobTitleElementDetail>
+                    <Input
+                      type='text'
+                      value={expPlus}
+                      onChange={(event) => setExpPlus(event.target.value)}
+                      required
+                    />
+                  </DetailContainer>
 
-                <DetailContainer>
-                  <JobTitleElementDetail>Treatment</JobTitleElementDetail>
-                  <Input
-                    type='text'
-                    value={treatment}
-                    onChange={(event) => setTreatment(event.target.value)}
-                    required
-                  />
-                </DetailContainer>
+                  <DetailContainer>
+                    <JobTitleElementDetail>Treatment</JobTitleElementDetail>
+                    <Input
+                      type='text'
+                      value={treatment}
+                      onChange={(event) => setTreatment(event.target.value)}
+                      required
+                    />
+                  </DetailContainer>
 
-                <DetailContainer>
-                  <JobTitleElementDetail>Upload Cover Image</JobTitleElementDetail>
-                  <Input
-                    type='file'
-                    accept='image/*'
-                    // onChange={handleUploadCoverImg}
-                    required
-                  />
-                </DetailContainer>
+                  <DetailContainer>
+                    <JobTitleElementDetail>Upload Cover Image</JobTitleElementDetail>
+                    <Input
+                      type='file'
+                      accept='image/*'
+                      // onChange={handleUploadCoverImg}
+                      required
+                    />
+                  </DetailContainer>
 
-              </JDText>
-              <Button type="submit">Submit</Button>
-              <Button onClick={handleBack}>Back to Dashboard</Button>
-            </JDContainer>
-          </TextWrapper>
-        </InfoColumnJob>
+                </JDText>
+                <Button type="submit">Submit</Button>
+                <Button onClick={handleBack}>Back to Dashboard</Button>
+              </JDContainer>
+            </TextWrapper>
+          </InfoColumnJob>
 
-      </Container>
-    </Form>
+        </Container>
+      </Form>    
+    </>
   )
 }
 

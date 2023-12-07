@@ -1,12 +1,13 @@
-import React, { useState, /*useContext*/ } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { db } from '../../config/firebase';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { db, auth } from '../../config/firebase';
 import { /*collection,*/ /*getDocs,*/ getDoc, /*addDoc,*/ doc, /*where, query,*/ deleteDoc } from 'firebase/firestore';
 import { deleteObject, ref, getStorage } from 'firebase/storage';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import DataTable from '../../components/DataTable/DataTable';
-import { getUsers, getJobs, getPosts, /*UsersContext*/ } from '../../api/api';
-
+import { getUsers, getJobs, getPosts } from '../../api/api';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import Cookies from 'js-cookie';
 
 // import { allPostData } from '../News/Data';
 // import { allRecruitData } from '../Recruitment/Data';
@@ -31,48 +32,50 @@ import { getUsers, getJobs, getPosts, /*UsersContext*/ } from '../../api/api';
 // };
 
 
-// get all users from Firestore Database
-
-
-
-
 const Dashboard = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const { username } = location.state;
-  // const usersData = useContext(UsersContext);
-
-  // const jobsData = useContext(JobsContext);
-  // const postsData = useContext(PostsContext);
-
-  // const { setPostToEdit } = useContext(EditPostContext);
-
+  const [username, setUsername] = useState('');
   const [data, setData] = useState([]);
   const [fields, setFields] = useState([]);
   const [typeName, setTypeName] = useState('');
-
   const itemFields = {
     'Users': {id: 'ID', username: 'Username', email: 'Email'},
     'Jobs': {displayId: 'ID', jobTitle: 'Job Title', location: 'Location', salary: 'Salary', shortDescription: 'Short Description'},
     'Posts': {displayId: 'ID', date: 'Date', category: 'Category', title: 'Post Title'}
   };
 
+  // -- get username from cookie -- //
+  useEffect(() => {
+    const usernameFromCookie = Cookies.get('username');
+    if (usernameFromCookie) {
+      setUsername(usernameFromCookie);
+    } else {
+      navigate('/admin');
+    }
+  }, [navigate]);
 
+
+  // Sidebar click item
   const handleItemClick = async (item) => {
     setTypeName(item);
     let data;
     switch (item) {
       case 'Users':
         data = await getUsers();
-        navigate('/admin/dashboard/users', { state: {username: username }});
+        navigate('/admin/dashboard/users');
         break;
       case 'Jobs':
         data = await getJobs();
-        navigate('/admin/dashboard/jobs', { state: {username: username }});
+        console.log(data);
+        navigate('/admin/dashboard/jobs');
         break;
       case 'Posts':
         data = await getPosts();
-        navigate('/admin/dashboard/posts', { state: {username: username }});
+        navigate('/admin/dashboard/posts');
+        break;
+      case 'Logout':
+        data = [];
+        await handleLogout();        
         break;
       default:
         console.log(`No handler for ${item}`);
@@ -81,18 +84,18 @@ const Dashboard = () => {
     setFields(itemFields[item]);
   };
 
-
+  // Create function
   const handleCreate = () => {
     try {
       switch (typeName) {
         case 'Users':
-          navigate('/admin/dashboard/users/create', { state: { username: username }});
+          navigate('/admin/dashboard/users/create');
           break;
         case 'Jobs':
-          navigate('/admin/dashboard/jobs/create', { state: { username: username }});
+          navigate('/admin/dashboard/jobs/create');
           break;
         case 'Posts':
-          navigate('/admin/dashboard/posts/create', { state: { username: username }});          
+          navigate('/admin/dashboard/posts/create');          
           break;      
         default:
           break;
@@ -103,17 +106,18 @@ const Dashboard = () => {
   };
 
 
+  // Edit function
   const handleEdit = (post) => {
     try {
       switch (typeName) {
         case 'Users':
-          navigate(`/admin/dashboard/users/edit/${post.id}`, { state: { username: username }});
+          navigate(`/admin/dashboard/users/edit/${post.id}`);
           break;
         case 'Jobs':
-          navigate(`/admin/dashboard/jobs/edit/${post.displayId}`, { state: { username: username }});
+          navigate(`/admin/dashboard/jobs/edit/${post.displayId}`);
           break;
         case 'Posts':
-          navigate(`/admin/dashboard/posts/edit/${post.displayId}`, { state: { username: username }});
+          navigate(`/admin/dashboard/posts/edit/${post.displayId}`);
           break;      
         default:
           break;
@@ -124,6 +128,7 @@ const Dashboard = () => {
   };
 
 
+  // ------------------- start Delete function ------------------- //
   const handleDelete = async (item) => {
     const shouldDelete = window.confirm(`Are you sure you want to delete ${item.typeName}-${item.displayId}?`);
     if (shouldDelete) {
@@ -148,6 +153,7 @@ const Dashboard = () => {
       }
     }
   };
+
 
   const handleDeleteJob = async (job) => {
     const documentIdtoDelete = job.id;
@@ -174,7 +180,7 @@ const Dashboard = () => {
         const newData = await getJobs();
         setData(newData);
 
-        navigate('/admin/dashboard/jobs', { state: { username: username }});
+        navigate('/admin/dashboard/jobs');
       } catch (error) {
         console.error('Error deleting document: ', error);
       }
@@ -220,7 +226,7 @@ const Dashboard = () => {
           }
   
           console.log('Document and images successfully deleted!');
-          navigate('/admin/dashboard/posts', { state: {username: username }});
+          navigate('/admin/dashboard/posts');
           const newData = await getPosts();
           setData(newData);
         } catch (error) {
@@ -230,7 +236,33 @@ const Dashboard = () => {
         console.log('Invalid Document ID');
       }
   };
+  // ------------------- end Delete function ------------------- //
 
+  // Reset Password
+  const handleResetPassword = async (user) => {
+    try {
+      await sendPasswordResetEmail(auth, user.email);
+      console.log(`Reset password email sent to ${user.email}`);
+    } catch (error) {
+      console.error('Error resetting password: ', error);
+    }
+  };
+
+  // Logout
+  const handleLogout = () => {
+    // logout from Firebase
+    auth.signOut().then(() => {
+      Cookies.remove('username');
+      setUsername(null);  
+      navigate('/admin');
+    }).catch((error) => {
+      console.error('Error signing out: ', error);
+    });
+  };
+
+
+
+  // ------------------- initial data ------------------- //
   // create data at beginning, called only one time
   // useEffect(() => {
   //   async function fetchData() {
@@ -245,14 +277,24 @@ const Dashboard = () => {
     <>
       <h2>Welcome, {username}</h2>
       <div style={{ display: 'flex' }}>
-        <Sidebar items={['Users', 'Jobs', 'Posts']} onItemClick={handleItemClick}/>
+        <Sidebar items={['Users', 'Jobs', 'Posts', 'Logout']} onItemClick={handleItemClick}/>
 
         <main>          
-          <h3>live search, filter by date, by category -- button Search</h3>
-          <h3>tim cach xu ly username de khong phai dung location nua</h3>
-          {data.length > 0 && 
-            <DataTable data={data} fields={fields} onEdit={handleEdit} onDelete={handleDelete} onCreate={handleCreate} typeName={typeName} />
-          }
+          <h3>1. live search, filter by date, by category -- button Search</h3>          
+          <h3>4. bug --- tạo post xong không refresh mà ấn edit luôn thì postData bị undefined</h3>
+          {data.length > 0 ? (
+            <DataTable 
+              data={data} 
+              fields={fields} 
+              onEdit={handleEdit} 
+              onDelete={handleDelete} 
+              onCreate={handleCreate}
+              onResetPassword={handleResetPassword} 
+              typeName={typeName}
+            />
+          ) : (
+            <h3>Select item from Sidebar</h3>
+          )}
         </main>
       </div>    
     </>

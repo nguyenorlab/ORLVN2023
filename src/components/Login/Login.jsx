@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../config/firebase';
-import { UsersContext } from '../../api/api';
+import { UsersContext, CurrentUserContext } from '../../api/api';
 import { Button } from '../../globalStyles';
+import Cookies from 'js-cookie';
 
 
 const Container = styled.div`
@@ -64,11 +65,12 @@ const StyledButton = styled(Button)`
 
 const Login = () => {
   const usersData = useContext(UsersContext);
+  const { setUsername } = useContext(CurrentUserContext);
 
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+  // const [username, setUsername] = useState('');
   const [alert, setAlert] = useState('');
   const [invalid, setInvalid] = useState(null);
 
@@ -97,6 +99,8 @@ const Login = () => {
       });      
       if(foundUsername) {
         setUsername(foundUsername);
+        Cookies.set('username', foundUsername, { expires: 1/96 });  // 1/96 of a day = 15 mins
+        navigate('/admin/dashboard');
       } else {
         setAlert('User not found');
       }
@@ -110,10 +114,17 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if(username) {
-      navigate('/admin/dashboard', {state: { username: username }});
+    const usernameFromCookie = Cookies.get('username');
+    if (usernameFromCookie) {
+      setUsername(usernameFromCookie);
     }
-  },[navigate, username]);
+  },[setUsername]);
+
+  // useEffect(() => {
+  //   if(username) {
+  //     navigate('/admin/dashboard');
+  //   }
+  // },[navigate, username]);
 
 
 

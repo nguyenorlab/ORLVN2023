@@ -1,13 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { PostsContext } from '../../api/api';
 import { db } from '../../config/firebase';
 import { collection, doc, updateDoc, getDocs, where, query } from 'firebase/firestore';
-// import NewsDetail from '../../pages/News/NewsDetail';
-// import { BsCalendarCheck, BsBuildingCheck, BsTerminal } from 'react-icons/bs';
 import { Button } from '../../globalStyles';
-
+import Cookies from 'js-cookie';
 
 
 const InfoColumnJob = styled.div`
@@ -100,20 +98,24 @@ const NewsDetailInfoContainer = styled.div`
 
 const EditPost = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { username } = location.state;
-
   const allPostData = useContext(PostsContext);
   const { displayId } = useParams();
   const [documentId, setDocumentId] = useState(null);
+  const [username, setUsername] = useState('');  
+  const [editedTitle, setEditedTitle] = useState('');
+  const [editedContent, setEditedContent] = useState([]);
+  const [editedCategory, setEditedCategory] = useState('');
+  const [editedDate, setEditedDate] = useState('');
+  
 
-  const postData = allPostData.find((post) => post.displayId === Number(displayId));
+  // -- get username from cookie -- //
+  useEffect(() => {
+    const usernameFromCookie = Cookies.get('username');
+    if (usernameFromCookie) {
+      setUsername(usernameFromCookie);
+    }
+  }, []);  
 
-  // const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(postData.title);
-  const [editedContent, setEditedContent] = useState(postData.content);
-  const [editedCategory, setEditedCategory] = useState(postData.category);
-  const [editedDate, setEditedDate] = useState(postData.date);
 
   // -- get document ID from displayId -- //
   useEffect(() => {
@@ -126,9 +128,24 @@ const EditPost = () => {
         setDocumentId(doc.id);
       });
     };
-
     getDocumentId();
   }, [displayId]);
+  
+
+  // check allPostData and await it from Firebase API
+  useEffect(() => {
+    if(allPostData.length > 0) {
+      const postData = allPostData.find((post) => post.displayId === Number(displayId));
+      setEditedTitle(postData.title);
+      setEditedContent(postData.content);
+      setEditedCategory(postData.category);
+      setEditedDate(postData.date);
+    }
+  },[allPostData, displayId]);
+
+  if(allPostData.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   
   const handleEdit = (sectionIndex, itemIndex, newText) => {
@@ -149,7 +166,7 @@ const EditPost = () => {
     await updateDoc(postRef, updatedPost)
       .then(() => {
         console.log('Document successfully written!');
-        navigate('/admin/dashboard', { state: { username: username }});
+        navigate('/admin/dashboard');
       })
       .catch((error) => {
         console.error('Error writing document: ', error);
@@ -157,74 +174,67 @@ const EditPost = () => {
   };
 
   const handleCancel = () => {
-    navigate('/admin/dashboard', { state: { username: username }});
+    navigate('/admin/dashboard');
   };
 
 
   return (
-    <InfoColumnJob>
-      <TextWrapper>
-        <input
-          type='text'
-          value={editedTitle}
-          onChange={(event) => setEditedTitle(event.target.value)}
-        />
-        <NewsDetailInfoContainer>
+    <>
+      <h2>Hi, {username}. You are editing a post.</h2>
+      <InfoColumnJob>
+        <TextWrapper>
           <input
             type='text'
-            value={editedDate}
-            onChange={(event) => setEditedDate(event.target.value)}
+            value={editedTitle}
+            onChange={(event) => setEditedTitle(event.target.value)}
           />
-          <input
-            type='text'
-            value={editedCategory}
-            onChange={(event) => setEditedCategory(event.target.value)}
-          />
-        </NewsDetailInfoContainer>
+          <NewsDetailInfoContainer>
+            <input
+              type='text'
+              value={editedDate}
+              onChange={(event) => setEditedDate(event.target.value)}
+            />
+            <input
+              type='text'
+              value={editedCategory}
+              onChange={(event) => setEditedCategory(event.target.value)}
+            />
+          </NewsDetailInfoContainer>
 
-        {editedContent.map((section, sectionIndex) => (
-          <div key={sectionIndex}>
-            {section.data.map((item, itemIndex) => {
-              switch (item.type) {
-                case 'header':
-                  return (
-                    <input
-                      key={`${sectionIndex}-${itemIndex}`}
-                      type='text'
-                      value={item.text}
-                      onChange={(event) => handleEdit(sectionIndex, itemIndex, event.target.value)}
-                    />
-                  );
-                case 'paragraph':
-                  return (
-                    <input
-                      key={`${sectionIndex}-${itemIndex}`}
-                      type='text'
-                      value={item.text}
-                      onChange={(event) => handleEdit(sectionIndex, itemIndex, event.target.value)}
-                    />
-                  );
-                // case 'image':
-                //   // return <UploadFile key={`${sectionIndex}-${itemIndex}`}/>;
-                //   return (
-                //     <input
-                //       key={`${sectionIndex}-${itemIndex}`}
-                //       type='file'
-                //       accept='image/*'
-                //       onChange={(event) => handleEdit(section.section, itemIndex, event.target.value)}
-                //     />
-                //   );
-                default:
-                  return null;
-              }
-            })}
-          </div>
-        ))}
+          {editedContent.map((section, sectionIndex) => (
+            <div key={sectionIndex}>
+              {section.data.map((item, itemIndex) => {
+                switch (item.type) {
+                  case 'header':
+                    return (
+                      <input
+                        key={`${sectionIndex}-${itemIndex}`}
+                        type='text'
+                        value={item.text}
+                        onChange={(event) => handleEdit(sectionIndex, itemIndex, event.target.value)}
+                      />
+                    );
+                  case 'paragraph':
+                    return (
+                      <input
+                        key={`${sectionIndex}-${itemIndex}`}
+                        type='text'
+                        value={item.text}
+                        onChange={(event) => handleEdit(sectionIndex, itemIndex, event.target.value)}
+                      />
+                    );
+                  default:
+                    return null;
+                }
+              })}
+            </div>
+          ))}
 
-        <Button onClick={handleSave}>Save Changes</Button>
-        <Button onClick={handleCancel}>Cancel</Button>
-      </TextWrapper>
-    </InfoColumnJob>
+          <Button onClick={handleSave}>Save Changes</Button>
+          <Button onClick={handleCancel}>Cancel</Button>
+        </TextWrapper>
+      </InfoColumnJob>    
+    </>
   );
 };
 

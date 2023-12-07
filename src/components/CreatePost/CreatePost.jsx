@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 // import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../config/firebase';
@@ -8,6 +8,8 @@ import { ref, uploadBytesResumable, getDownloadURL, getStorage } from 'firebase/
 import moment from 'moment';
 import { toast } from 'react-toastify';
 // import { getPosts } from '../../api/api';
+import Cookies from 'js-cookie';
+
 
 
 const Form = styled.form`
@@ -44,18 +46,43 @@ findMinUnusedId().then(displayId => {
 
 
 const CreatePost = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const { username } = location.state;
+  // const location = useLocation();
+  // const { username } = location.state;
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('Company News');
   const [thumbnailImage, setThumbnailImage] = useState(null);
   const [usedSectionIds, setUsedSectionIds] = useState([1]);
   const [content, setContent] = useState([{ section: usedSectionIds[0], data: [{ type: '', text: '' }] }]);
-  // const [imageFile, setImageFile] = useState(null);
   const [tempImages, setTempImages] = useState({});
+  const [username, setUsername] = useState('');
 
+  // -- get username from cookie -- //
+  useEffect(() => {
+    const usernameFromCookie = Cookies.get('username');
+    if (usernameFromCookie) {
+      setUsername(usernameFromCookie);
+    }
+  }, []);
+
+  // reload browser
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = 'Are you sure you want to leave this page? Any changes will not be saved';
+    };
+
+    // add event beforeunload into window before component is reloaded
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // remove event when component unmount
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [navigate]);
+
+  
   const handleImageUpload = async (imageFile, postId, sectionId, dataIndex) => {   
     const storage = getStorage();
     const storageRef = ref(storage, `PostsImagesUpload/${Date.now()}_${Math.random()}.jpg`);
@@ -134,7 +161,7 @@ const CreatePost = () => {
 
       const postRef = await addDoc(collection(db, 'posts'), postData);
       toast.success('Post is created successfully', {
-        onClose: () => navigate('/admin/dashboard', { state: { username: username }})
+        onClose: () => navigate('/admin/dashboard')
       });
   
       const uploadPromises = [];
@@ -180,7 +207,7 @@ const CreatePost = () => {
     } catch (error) {
       console.error('Error adding document: ', error);
       toast.error('An error occurred while creating the post. Please try again.', {
-        onClose: () => navigate('/admin/dashboard', { state: { username: username }})
+        onClose: () => navigate('/admin/dashboard')
       });
     }
   };
@@ -202,7 +229,7 @@ const CreatePost = () => {
   };
 
   const handleBack = () => {
-    navigate('/admin/dashboard', { state: { username: username }});
+    navigate('/admin/dashboard');
   };
 
 

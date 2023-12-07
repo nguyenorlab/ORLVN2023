@@ -38,6 +38,11 @@ const EditButton = styled(Button)`
   margin: 0px 10px 10px 0px;
 `;
 
+const ResetButton = styled(Button)`
+  padding: 8px 15px;
+  margin: 0px 10px 10px 0px;
+`;
+
 const DeleteButton = styled(Button)`
   background-color: #e80a0ac8;
   padding: 8px 15px;
@@ -46,7 +51,7 @@ const DeleteButton = styled(Button)`
 
 
 
-const DataTable = ({ data, fields, onEdit, onDelete, onCreate, typeName }) => {
+const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, typeName }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
 
@@ -78,10 +83,16 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, typeName }) => {
               {Object.keys(fields).map((field, index) => (
                 <Td key={index}>{item[field]}</Td>
               ))}
-              <Td>
-                <EditButton onClick={() => onEdit(item)}>Edit</EditButton>
-                <DeleteButton onClick={() => onDelete(item)}>Delete</DeleteButton>
-              </Td>
+              {typeName === 'Users' ? (
+                <Td>
+                  <ResetButton onClick={() => onResetPassword(item)}>Reset Password</ResetButton>
+                </Td>
+              ) : (
+                <Td>
+                  <EditButton onClick={() => onEdit(item)}>Edit</EditButton>
+                  <DeleteButton onClick={() => onDelete(item)}>Delete</DeleteButton>
+                </Td>
+              )}
             </tr>
           ))}
         </tbody>

@@ -7,7 +7,7 @@ export const PostsContext = createContext();
 export const JobsContext = createContext();
 export const UsersContext = createContext();
 export const EditPostContext = createContext();
-
+export const CurrentUserContext = createContext();
 
 // get all users from Firestore Database
 export const getUsers = async () => {
@@ -58,6 +58,16 @@ export const UsersProvider = ({ children }) => {
     <UsersContext.Provider value={users}>
       {children}
     </UsersContext.Provider>    
+  );
+};
+
+export const CurrentUserProvider = ({ children }) => {
+  const [username, setUsername] = useState(null);
+
+  return (
+    <CurrentUserContext.Provider value={{ username, setUsername }}>
+      {children}
+    </CurrentUserContext.Provider>
   );
 };
 

@@ -11,7 +11,7 @@ import ScrollToTop from './components/ScrollToTop';
 import JobDetail from './pages/JobDetail/JobDetail';
 import ServiceDetail from './pages/ServiceDetail/ServiceDetail';
 import Login from './components/Login/Login';
-import { JobsProvider, PostsProvider, UsersProvider } from './api/api';
+import { JobsProvider, PostsProvider, UsersProvider, CurrentUserProvider } from './api/api';
 import Dashboard from './pages/Dashboard/Dashboard';
 import CreatePost from './components/CreatePost/CreatePost';
 import CreateJob from './components/CreateJob/CreateJob';
@@ -31,37 +31,39 @@ import { ToastContainer } from 'react-toastify';
 function App() {
   return (
     <UsersProvider>
-      <PostsProvider>
-        <JobsProvider>
-          <Router>
-            <GlobalStyle />
-            <ScrollToTop />
-            <Navbar />
-            <ToastContainer />
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/about' element={<About />} />
-              <Route path='/services' element={<Services />} />
-              <Route path='/services/:selectedService' element={<ServiceDetail />} />
-              <Route path='/news' element={<News />} />
-              <Route path='/news/:category' element={<News />} />
-              <Route path='/news/:categoty/:id/:title' element={<News />} />
-              <Route path='/recruitment' element={<Recruitment />} />
-              <Route path='/recruitment/:selectedJobTitle' element={<JobDetail />} />
-              <Route path='/admin' element={<Login />} />
-              <Route path='/admin/dashboard' element={<Dashboard />} />
-              <Route path='/admin/dashboard/users' element={<Dashboard />} />
-              <Route path='/admin/dashboard/jobs' element={<Dashboard />} />
-              <Route path='/admin/dashboard/jobs/create' element={<CreateJob />} />
-              <Route path='/admin/dashboard/jobs/edit/:displayId' element={<EditJob />} />
-              <Route path='/admin/dashboard/posts' element={<Dashboard />} />
-              <Route path='/admin/dashboard/posts/create' element={<CreatePost />} />
-              <Route path='/admin/dashboard/posts/edit/:displayId' element={<EditPost />} />
-            </Routes>
-            <Footer />
-          </Router>
-        </JobsProvider>
-      </PostsProvider>
+      <CurrentUserProvider>
+        <PostsProvider>
+          <JobsProvider>
+            <Router>
+              <GlobalStyle />
+              <ScrollToTop />
+              <Navbar />
+              <ToastContainer />
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/about' element={<About />} />
+                <Route path='/services' element={<Services />} />
+                <Route path='/services/:selectedService' element={<ServiceDetail />} />
+                <Route path='/news' element={<News />} />
+                <Route path='/news/:category' element={<News />} />
+                <Route path='/news/:categoty/:id/:title' element={<News />} />
+                <Route path='/recruitment' element={<Recruitment />} />
+                <Route path='/recruitment/:selectedJobTitle' element={<JobDetail />} />
+                <Route path='/admin' element={<Login />} />
+                <Route path='/admin/dashboard' element={<Dashboard />} />
+                <Route path='/admin/dashboard/users' element={<Dashboard />} />
+                <Route path='/admin/dashboard/jobs' element={<Dashboard />} />
+                <Route path='/admin/dashboard/jobs/create' element={<CreateJob />} />
+                <Route path='/admin/dashboard/jobs/edit/:displayId' element={<EditJob />} />
+                <Route path='/admin/dashboard/posts' element={<Dashboard />} />
+                <Route path='/admin/dashboard/posts/create' element={<CreatePost />} />
+                <Route path='/admin/dashboard/posts/edit/:displayId' element={<EditPost />} />
+              </Routes>
+              <Footer />
+            </Router>
+          </JobsProvider>
+        </PostsProvider>
+      </CurrentUserProvider>
     </UsersProvider>
   );
 }
