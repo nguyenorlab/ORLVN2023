@@ -2,6 +2,7 @@
   "name": "orl2023",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://nguyenorlab.github.io/ORL2023_doing/",
   "dependencies": {
     "@nextui-org/react": "^2.1.12",
     "@reduxjs/toolkit": "^2.0.1",
