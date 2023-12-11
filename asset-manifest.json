@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ORLVN2023/static/css/main.12f704be.css",
-    "main.js": "/ORLVN2023/static/js/main.c19d263e.js",
+    "main.js": "/ORLVN2023/static/js/main.a26c44c4.js",
     "static/media/software.jpg": "/ORLVN2023/static/media/software.48e9c9c16a8d4bbf8de8.jpg",
     "static/media/coding-flow1.jpg": "/ORLVN2023/static/media/coding-flow1.c56b86f22c5061472140.jpg",
     "static/media/recruitment-flow.jpg": "/ORLVN2023/static/media/recruitment-flow.b6bd6a2442e49e5551f1.jpg",
@@ -19,10 +19,10 @@
     "static/media/japan-flag-circular-17764.svg": "/ORLVN2023/static/media/japan-flag-circular-17764.4b3687dafbae500fa5907e633e107ef2.svg",
     "index.html": "/ORLVN2023/index.html",
     "main.12f704be.css.map": "/ORLVN2023/static/css/main.12f704be.css.map",
-    "main.c19d263e.js.map": "/ORLVN2023/static/js/main.c19d263e.js.map"
+    "main.a26c44c4.js.map": "/ORLVN2023/static/js/main.a26c44c4.js.map"
   },
   "entrypoints": [
     "static/css/main.12f704be.css",
-    "static/js/main.c19d263e.js"
+    "static/js/main.a26c44c4.js"
   ]
 }
