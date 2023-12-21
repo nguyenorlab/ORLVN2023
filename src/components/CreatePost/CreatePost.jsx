@@ -16,8 +16,12 @@ const Form = styled.form`
   /* Add your styles here */
 `;
 
-const Input = styled.input`
+const Input = styled.textarea`
   /* Add your styles here */
+`;
+
+const InputImg = styled.input`
+
 `;
 
 const Select = styled.select`
@@ -27,22 +31,6 @@ const Select = styled.select`
 const Button = styled.button`
   /* Add your styles here */
 `;
-
-const findMinUnusedId = async () => {
-  const postsSnapshot = await getDocs(collection(db, 'posts'));
-  const usedIds = postsSnapshot.docs.map(doc => doc.data().displayId);
-  let displayId = 1;
-  while (usedIds.includes(displayId)) {
-    displayId++;
-  }
-  return displayId;
-};
-
-let minId;
-findMinUnusedId().then(displayId => {
-  minId = displayId;
-  // console.log(minId);
-})
 
 
 const CreatePost = () => {
@@ -57,6 +45,7 @@ const CreatePost = () => {
   const [content, setContent] = useState([{ section: usedSectionIds[0], data: [{ type: '', text: '' }] }]);
   const [tempImages, setTempImages] = useState({});
   const [username, setUsername] = useState('');
+  const [minId, setMinId] = useState();
 
   // -- get username from cookie -- //
   useEffect(() => {
@@ -82,7 +71,23 @@ const CreatePost = () => {
     };
   }, [navigate]);
 
+
+  // get min ID before create
+  const findMinUnusedId = async () => {
+    const postsSnapshot = await getDocs(collection(db, 'posts'));
+    const usedIds = postsSnapshot.docs.map(doc => doc.data().displayId);
+    let displayId = 1;
+    while (usedIds.includes(displayId)) {
+      displayId++;
+    }
+    return displayId;
+  };
   
+  findMinUnusedId().then(displayId => {
+    setMinId(displayId);
+  })
+  
+
   const handleImageUpload = async (imageFile, postId, sectionId, dataIndex) => {   
     const storage = getStorage();
     const storageRef = ref(storage, `PostsImagesUpload/${Date.now()}_${Math.random()}.jpg`);
@@ -253,7 +258,7 @@ const CreatePost = () => {
         </Select>
 
         <h3>Upload Thumbnail Image</h3>
-        <Input
+        <InputImg
           type='file'
           accept='image/*'
           onChange={handleUploadThumb}
@@ -285,7 +290,7 @@ const CreatePost = () => {
                 <label>{data.type === 'image' ? 'Image Upload:' : 'Text'}</label>
                 {
                   data.type === 'image' ? (
-                    <Input
+                    <InputImg
                       type='file'
                       accept='image/*'
                       onChange={(event) => handleImageChange(event, section.section, dataIndex)}
@@ -321,8 +326,6 @@ const CreatePost = () => {
               newData[index].data.push({ type: '', text: '' });
               setContent(newData);
             }}>Add Data</Button>
-
-            {/* upload thumbnail image here */}
 
             {content.length > 1 && (
               <Button type='button' onClick={() => handleDeleteSection(section.section)}>Delete Section</Button>

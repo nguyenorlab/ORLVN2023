@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { allRecruitData } from './Data';
+import { JobsContext } from '../../api/api';
+
 
 
 const Container = styled.div`
@@ -31,7 +32,7 @@ const InfoRow = styled.div`
     /* margin: 0 -15px -15px -15px; */
     flex-wrap: wrap;
     align-items: center;
-    flex-direction: ${({imgStart}) => (imgStart ? 'row-reverse' : 'row')};
+    flex-direction: ${({imgStart}) => (imgStart % 2 === 1 ? 'row-reverse' : 'row')};
 `;
 
 const InfoColumn = styled.div`
@@ -124,40 +125,46 @@ const StyledButton = styled.button`
 
 const Recruitment = () => {
   const navigate = useNavigate();
+  const allRecruitData = useContext(JobsContext);
+
   // const [selectedJob, setSelectedJob] = useState();
 
   const handleSelectedJob = useCallback((id) => {
-    const job = allRecruitData.find(rec => rec.id === id);
+    const job = allRecruitData.find(rec => rec.displayId === id);
     navigate(`/recruitment/${job.jobTitle}`);
-  },[navigate]);
+  },[allRecruitData, navigate]);
 
 
 
   return (
     <>
-      {allRecruitData.map((rec, id) => (
-        <InfoSec lightBg={true.toString()} key={id}>
-          <Container>
-            <InfoRow imgStart={rec.imgStart}>
-              <InfoColumn>
-                <TextWrapper>
-                  <TopLine>{rec.topLine}</TopLine>
-                  <Heading>{rec.headline}</Heading>
-                  <Subtitle>{rec.description}</Subtitle>
-                  <StyledButton onClick={() => handleSelectedJob(rec.id)}>Details & Apply</StyledButton>
-                </TextWrapper>
-              </InfoColumn>
+      {allRecruitData ?
+        allRecruitData.map((rec, displayId) => (
+          <InfoSec lightBg={true.toString()} key={displayId}>
+            <Container>
+              <InfoRow imgStart={rec.displayId}>
+                <InfoColumn>
+                  <TextWrapper>
+                    <TopLine>Recruitment</TopLine>
+                    <Heading>{rec.jobTitle}</Heading>
+                    <Subtitle>{rec.description}</Subtitle>
+                    <StyledButton onClick={() => handleSelectedJob(rec.displayId)}>Details</StyledButton>
+                  </TextWrapper>
+                </InfoColumn>
+  
+                <InfoColumn>
+                  <ImgWrapper>
+                    <Img src={rec.img} alt='rec-img' />
+                  </ImgWrapper>
+                </InfoColumn>
+  
+              </InfoRow>
+            </Container>
+          </InfoSec>
+        )) : (
+        <div>Loading...</div>
+      )}
 
-              <InfoColumn>
-                <ImgWrapper>
-                  <Img src={rec.img} alt={rec.alt} />
-                </ImgWrapper>
-              </InfoColumn>
-
-            </InfoRow>
-          </Container>
-        </InfoSec>
-      ))}
     </>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { PostsContext } from '../../api/api';
+import { PostsContext, getPosts } from '../../api/api';
 import { db } from '../../config/firebase';
 import { collection, doc, updateDoc, getDocs, where, query } from 'firebase/firestore';
 import { Button } from '../../globalStyles';
@@ -24,6 +24,10 @@ const TextWrapper = styled.div`
     @media screen and (max-width: 768px) {
 
     }
+`;
+
+const Input = styled.textarea`
+
 `;
 
 // const NewsDetailTitle = styled.p`
@@ -98,7 +102,7 @@ const NewsDetailInfoContainer = styled.div`
 
 const EditPost = () => {
   const navigate = useNavigate();
-  const allPostData = useContext(PostsContext);
+  const [allPostData, setAllPostData] = useState(useContext(PostsContext));
   const { displayId } = useParams();
   const [documentId, setDocumentId] = useState(null);
   const [username, setUsername] = useState('');  
@@ -106,7 +110,7 @@ const EditPost = () => {
   const [editedContent, setEditedContent] = useState([]);
   const [editedCategory, setEditedCategory] = useState('');
   const [editedDate, setEditedDate] = useState('');
-  
+  const [dataReady, setDataReady] = useState(false);  
 
   // -- get username from cookie -- //
   useEffect(() => {
@@ -132,18 +136,26 @@ const EditPost = () => {
   }, [displayId]);
   
 
+  useEffect(() => {
+    getPosts().then(data => {
+      setAllPostData(data);
+      setDataReady(true);
+    })
+  },[]); 
+
+
   // check allPostData and await it from Firebase API
   useEffect(() => {
-    if(allPostData.length > 0) {
+    if(dataReady) {
       const postData = allPostData.find((post) => post.displayId === Number(displayId));
       setEditedTitle(postData.title);
       setEditedContent(postData.content);
       setEditedCategory(postData.category);
       setEditedDate(postData.date);
     }
-  },[allPostData, displayId]);
+  },[allPostData, dataReady, displayId]);
 
-  if(allPostData.length === 0) {
+  if(allPostData.length === 0 || !dataReady) {
     return <div>Loading...</div>;
   }
 
@@ -183,18 +195,18 @@ const EditPost = () => {
       <h2>Hi, {username}. You are editing a post.</h2>
       <InfoColumnJob>
         <TextWrapper>
-          <input
+          <Input
             type='text'
             value={editedTitle}
             onChange={(event) => setEditedTitle(event.target.value)}
           />
           <NewsDetailInfoContainer>
-            <input
+            <Input
               type='text'
               value={editedDate}
               onChange={(event) => setEditedDate(event.target.value)}
             />
-            <input
+            <Input
               type='text'
               value={editedCategory}
               onChange={(event) => setEditedCategory(event.target.value)}
@@ -207,7 +219,7 @@ const EditPost = () => {
                 switch (item.type) {
                   case 'header':
                     return (
-                      <input
+                      <Input
                         key={`${sectionIndex}-${itemIndex}`}
                         type='text'
                         value={item.text}
@@ -216,7 +228,7 @@ const EditPost = () => {
                     );
                   case 'paragraph':
                     return (
-                      <input
+                      <Input
                         key={`${sectionIndex}-${itemIndex}`}
                         type='text'
                         value={item.text}

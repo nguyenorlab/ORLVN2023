@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from '../../globalStyles';
 import Pagination from '../Pagination/Pagination';
@@ -59,8 +59,16 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
     setCurrentPage(pageNumber);
   };
 
-  const paginatedData = data.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
-
+  const [paginatedData, setPaginatedData] = useState([]);
+  useEffect(() => {
+    const tmpPaginatedData = data.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
+    if(tmpPaginatedData.length < 1) {
+      setPaginatedData(data);
+      setCurrentPage(1);
+    } else {
+      setPaginatedData(tmpPaginatedData);
+    }
+  },[currentPage, data, postsPerPage]);
 
 
   return (

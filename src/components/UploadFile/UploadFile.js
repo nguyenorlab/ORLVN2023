@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Close } from "@styled-icons/material";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 
 const Dropzone = styled.label`
@@ -14,7 +15,8 @@ const Dropzone = styled.label`
   width: 100%;
   height: 100px;
   color: #707070;
-  border: 3px dashed #bdbdbd;
+  /* border: 3px dashed #bdbdbd; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   font-size: 14px;
   cursor: pointer;
   border-radius: 10px;
@@ -113,7 +115,7 @@ const validationSchema = Yup.object().shape({
 
 const UploadFile = () => {
   const [selectedFile, setSelectedFile] = useState();
-  const [setSubmitedFile] = useState('');
+  // const [setSubmitedFile] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   
   const { handleSubmit } = useForm({
@@ -121,7 +123,7 @@ const UploadFile = () => {
   });
   
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
-    if (rejectedFiles) {
+    if (rejectedFiles.length > 0) {
       setAlertMessage('Please choose .pdf, .doc, .docx, .xls, .xlsx files.')
       setSelectedFile(null);
     }
@@ -148,7 +150,29 @@ const UploadFile = () => {
   });
 
   const onSubmit = () => {
-    setSubmitedFile(selectedFile);
+    if (selectedFile) {
+      console.log(selectedFile);
+      const storage = getStorage();
+      const storageRef = ref(storage, `CV/${selectedFile.name}`);
+  
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+  
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        }, 
+        (error) => {
+          console.error('Error uploading file:', error);
+        }, 
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log('File available at', downloadURL);
+          });
+        }
+      );
+    }
+    // setSubmitedFile(selectedFile);
   };
 
 
@@ -180,6 +204,7 @@ const UploadFile = () => {
               <>
                 {selectedFile ? 
                   <SelectedFileContainer>
+                    <h3>upload thành công thì ẩn cái selected file này đi</h3>
                     <FileUploadedTitle>Your selected file: </FileUploadedTitle>
                     <SelectedFile>{selectedFile[0].path}</SelectedFile>               
                     <ClearFile 

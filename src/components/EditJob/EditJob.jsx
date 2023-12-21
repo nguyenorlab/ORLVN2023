@@ -130,7 +130,7 @@ const CreateJobHeading = styled.h2`
     font-style: italic;    
 `;
 
-const Input = styled.input`
+const Input = styled.textarea`
   color: black;
 `;
 
@@ -138,7 +138,6 @@ const Input = styled.input`
 const EditJob = () => {
   // const allJobsData = useContext(JobsContext);
   const [allJobsData, setAllJobsData] = useState([]);
-  console.log(allJobsData);
   const { displayId } = useParams();
   const navigate = useNavigate();
 

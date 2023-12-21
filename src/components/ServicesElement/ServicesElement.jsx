@@ -24,7 +24,7 @@ const Container = styled.div`
 
 const CardContainer = styled.div`
   width: 100%;
-  height: 600px;
+  height: 500px;
   background-color: white;
   margin-right: 30px;
 	border-radius: 14px;
@@ -100,11 +100,14 @@ const SocialItems = styled.div``;
 
 const StyledP = styled.p`
   color: rgb(140, 146, 151);
-  font-size: 18px;
+  font-size: 17px;
   line-height: 22px;
-  padding: 30px 30px;
+  padding: 30px;
   text-align: justify;
+  hyphens: auto;
+  position: relative;
 `;
+
 
 const HeaderContainer = styled.div``;
 
@@ -112,7 +115,7 @@ const HeaderContainer = styled.div``;
 const StyledButton = styled.button`
     font-size: 16px;
     border-radius: 5px;
-    margin: 20px 24px 130px;
+    margin: 20px 24px 50px;
     padding: 10px;
     background: #fff;
     color: #686868;
@@ -154,7 +157,7 @@ const ServicesElement = () => {
                   <h2>{data.serviceName}</h2>
                 </Header>
 
-                <StyledP>{data.description}</StyledP>
+                <StyledP backgroundImage={data.image}>{data.description}</StyledP>
               </HeaderContainer>
 
               <SocialContainer>

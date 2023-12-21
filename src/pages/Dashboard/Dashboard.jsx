@@ -66,7 +66,6 @@ const Dashboard = () => {
         break;
       case 'Jobs':
         data = await getJobs();
-        console.log(data);
         navigate('/admin/dashboard/jobs');
         break;
       case 'Posts':
@@ -180,7 +179,7 @@ const Dashboard = () => {
         const newData = await getJobs();
         setData(newData);
 
-        navigate('/admin/dashboard/jobs');
+        navigate('/admin/dashboard');
       } catch (error) {
         console.error('Error deleting document: ', error);
       }
@@ -226,9 +225,9 @@ const Dashboard = () => {
           }
   
           console.log('Document and images successfully deleted!');
-          navigate('/admin/dashboard/posts');
           const newData = await getPosts();
           setData(newData);
+          navigate('/admin/dashboard');
         } catch (error) {
           console.error('Error deleting document: ', error);
         }
@@ -280,8 +279,7 @@ const Dashboard = () => {
         <Sidebar items={['Users', 'Jobs', 'Posts', 'Logout']} onItemClick={handleItemClick}/>
 
         <main>          
-          <h3>1. live search, filter by date, by category -- button Search</h3>          
-          <h3>4. bug --- tạo post xong không refresh mà ấn edit luôn thì postData bị undefined</h3>
+          <h3>1. live search, filter by date, by category -- button Search</h3>
           {data.length > 0 ? (
             <DataTable 
               data={data} 
@@ -293,7 +291,7 @@ const Dashboard = () => {
               typeName={typeName}
             />
           ) : (
-            <h3>Select item from Sidebar</h3>
+            <h3>Please select item from Sidebar</h3>
           )}
         </main>
       </div>    

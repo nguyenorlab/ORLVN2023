@@ -99,7 +99,7 @@ const Login = () => {
       });      
       if(foundUsername) {
         setUsername(foundUsername);
-        Cookies.set('username', foundUsername, { expires: 1/96 });  // 1/96 of a day = 15 mins
+        Cookies.set('username', foundUsername, { expires: 1/48 });  // 1/48 of a day = 30 mins
         navigate('/admin/dashboard');
       } else {
         setAlert('User not found');

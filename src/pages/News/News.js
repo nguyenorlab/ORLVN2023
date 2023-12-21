@@ -38,7 +38,8 @@ const TopLine = styled.div`
 `;
 
 const InfoColumnImg = styled.div`
-    margin-top: 48px;
+    /* margin-top: 48px; */
+    margin-top: 30px;
     /* max-width: 30%; */
     width: 100%;
     align-items: left;
@@ -55,7 +56,7 @@ const InfoColumnImg = styled.div`
 `;
 
 const InfoColumnJob = styled.div`
-    padding-left: 30px;
+    padding-left: 15px;
     width: 100%;
     /* margin-bottom: 15px; */
     /* flex: 1; */
@@ -88,7 +89,8 @@ const JDContainer = styled.label`
   /* height: auto; */
   height: 250px;
   color: #707070;
-  border: 3px solid #bdbdbd;
+  /* border: 3px solid #bdbdbd; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   font-size: 14px;
   border-radius: 10px;
   padding: 20px;
@@ -191,7 +193,8 @@ const JobListContainer = styled.label`
   width: 100%;
   height: auto;
   color: #707070;
-  border: 3px solid #bdbdbd;
+  /* border: 3px solid #bdbdbd; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   font-size: 14px;
   border-radius: 10px;
   padding: 20px;
@@ -208,7 +211,7 @@ const JobListContainer = styled.label`
 `;
 
 const JobListHeading = styled.h2`
-    margin-bottom: 39px;
+    margin-bottom: ${({ bottom }) => bottom ? '10px' : 'unset'};
     font-size: 20px;
     line-height: 1.1;
     color: rgb(0, 94, 141);
@@ -263,7 +266,8 @@ const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 70%;
-  margin-top: 48px;
+  /* margin-top: 48px; */
+  margin-top: 50px;
 
   // 15/11/2023
   @media screen and (max-width: 768px) {
@@ -456,16 +460,14 @@ const News = () => {
     setFilteredCategory(newPosts);
     setTitleCategory(newCategory);
     setCurrentPage(1);
-    navigate(`/news/${category.toLowerCase().replace(' ', '-')}`);
-  },[allPostData, navigate]);
+  },[allPostData]);
 
 
   const handleSelectAllPosts = useCallback(() => {
     setFilteredCategory(null);
     setTitleCategory('All Posts');
     setCurrentPage(1);
-    navigate(`/news`);
-  },[navigate]);
+  },[]);
 
   const postsToShow = filteredCategory || allPostData;
 
@@ -474,7 +476,7 @@ const News = () => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   // const [currentPosts, setCurrentPost] = useState(postsToShow.slice(indexOfFirstPost, indexOfLastPost));
   const currentPosts = postsToShow.slice(indexOfFirstPost, indexOfLastPost);
-
+  // console.log(currentPosts);
 
   // shorten text content 
   const truncate = (str, num) => {
@@ -490,24 +492,37 @@ const News = () => {
   .sort((a, b) => new Date(b.date) - new Date(a.date))
   .slice(0, 3);
 
+
+  const [tmpPost, setTmpPost] = useState(null);
   const handleReadMore = useCallback((post) => {
-    setCurrentReadMorePost(post);
-    navigate(`/news/${post.category.toLowerCase().replace(' ', '-')}/${post.id}/${post.title.toLowerCase().replace(' ', '-')}`);
-  },[navigate]);
+    setTmpPost(post);
+  },[]);  
+  
+  // hearing if tmpPost is changed setCurrentReadMorePost to new value
+  useEffect(() => {
+    if(tmpPost) {
+      setCurrentReadMorePost(tmpPost);
+      navigate(`/news/${tmpPost.category?.toLowerCase().replace(' ', '-')}/${tmpPost.displayId}/${tmpPost.title?.toLowerCase().replace(' ', '-')}`);    }
+  },[navigate, tmpPost]);
+  // ----- //
 
 
   // to handle click category from NewsDetail
   const handleSelectCategoryFromDetail = useCallback((category) => {
+    setTmpPost(null);
     setCurrentReadMorePost(null);
     handleSelectCategory(category);
     navigate(`/news/${category.toLowerCase().replace(' ', '-')}`);
   },[handleSelectCategory, navigate]);
 
+
   const handleSelectAllPostsFromDetail = useCallback(() => {
+    setTmpPost(null);
     setCurrentReadMorePost(null);
     handleSelectAllPosts();
     navigate(`/news`);    
   },[handleSelectAllPosts, navigate]);
+
 
 
   return (
@@ -519,9 +534,9 @@ const News = () => {
             <InfoRow>
 
               <LeftContainer>
+                <JobListHeading>News Category</JobListHeading>
                 <InfoColumnImg>
                   <TextWrapper>
-                    <JobListHeading>News Category</JobListHeading>
                     <JobListContainer post={true}>
                       {uniqueCategories.map((item, id) => (
                         <JobsOpeningList key={id} onClick={() => handleSelectCategoryFromDetail(item)}>{item}</JobsOpeningList>
@@ -533,7 +548,7 @@ const News = () => {
 
                 <InfoColumnImg>
                   <TextWrapper>
-                    <JobListHeading>Recent Posts</JobListHeading>
+                    <JobListHeading bottom>Recent Posts</JobListHeading>
                     <JobListContainer>
                       {recentPosts.map((recent, id) => (
                           <RecentContainer key={id}>

@@ -34,8 +34,8 @@ const CarouselContainer = styled.div`
     max-width: 1300px;
     margin-right: auto;
     margin-left: auto;
-    padding-right: 50px;
-    padding-left: 50px;
+    padding-right: 30px;
+    padding-left: 30px;
 
     /* @media screen and (min-width: 48rem) {
         display: flex;
@@ -140,20 +140,20 @@ const StyledSwiperSlideH2 = styled.h2`
     font-weight: 400;
     font-size: 1.4rem;
     line-height: 1.4;
-    margin-bottom: 3.625rem;
-    /* padding: 0 0 0 1.563rem; */
+    /* margin: 30px; */
     text-transform: uppercase;
     text-align: center;
-    padding: 20px;
 `;
 
 const StyledSwiperSlideP = styled.p`
     color: #dadada;
-    padding: 0 1.563rem 3rem 1.563rem;
-    line-height: 1.6;
-    font-size: 0.75rem;
+    margin: 20px;
+    line-height: 21px;
+    font-size: 17px;
     align-items: center;
     justify-content: center;
+    text-align: justify;
+    hyphens: auto;
 `;
 
 // const StyledSwiperSlideA = styled.a`
@@ -241,18 +241,17 @@ const StyledButton = styled.button`
 const slider = [
     {
     title: "Software Outsourcing",
-    description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
+    description: "Software Outsourcing and Offshore development are powerful strategies, opening doors to global talent and innovation for businesses worldwide.",
     url: "https://images.pexels.com/photos/57007/pexels-photo-57007.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
-
     {
-    title: "Software Development",
-    description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
+    title: "Business Agency Agreement",
+    description: "The Business Agency Agreement serves as the legal framework for our partnership, for the purpose of business development, contract negotiation, and market presence.",
     url: "https://images.pexels.com/photos/785418/pexels-photo-785418.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
     {
     title: "Recruitment",
-    description: "Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.",
+    description: "Efficiency meets expertise in our Recruitment Service. We handle the entire recruitment lifecycle, from sourcing to placement, ensuring a smooth and successful hiring experience.",
     url: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
 ]
@@ -268,19 +267,19 @@ const Carousel = () => {
   return (
     <CarouselContainer>
         <CarouselContent>
-            <CarouselContentSpan>discover</CarouselContentSpan>            
-            <CarouselContentH1>Something like</CarouselContentH1>
+            <CarouselContentSpan>We Are ORLAB Viet Nam</CarouselContentSpan>            
+            <CarouselContentH1>We bring To You</CarouselContentH1>
             <StyledTypeWriter>
                 <Typewriter
                     options={{
-                        strings: ['Hello World', 'We are ORL'],
+                        strings: ['Chance', 'and Change'],
                         autoStart: true,
                         loop: true,
                     }}
                 />
             </StyledTypeWriter>
             <CarouselContentHr />
-            <CarouselContenP>Our Donut Collection Offers a Mouthwatering Array of Flavors, Toppings, and Shapes for Every Craving and Occasion.</CarouselContenP>
+            <CarouselContenP>We are here to connect Vietnamese engineers who wish to develop their careers in Viet Nam and Japan.</CarouselContenP>
         </CarouselContent>
 
         <StyledSwiper
@@ -315,7 +314,7 @@ const Carousel = () => {
                     slidesPerView: 2
                 },
                 1560: {
-                    slidesPerView: 3
+                    slidesPerView: 2
                 },
             }}
         >

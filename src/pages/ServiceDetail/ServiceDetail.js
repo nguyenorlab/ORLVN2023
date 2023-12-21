@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 import { Container, Button } from '../../globalStyles';
-
+import { serDetailObj } from '../Services/Services'
 
 // import service1 from '../../images/hero.png';    // test images public
 // import service3 from '../../images/hero.png';
@@ -61,7 +61,7 @@ const TopLine = styled.div`
 
 const Heading = styled.h1`
     margin-bottom: 24px;
-    font-size: 48px;
+    font-size: ${({ heading }) => heading ? '48px' : '20px'};
     line-height: 1.1;
     color: rgb(0, 94, 141);
     /* text-shadow: 5px -5px 3px rgba(0, 0, 0, 0.5);     */
@@ -94,14 +94,17 @@ const InfoColumn = styled.div`
 `;
 
 const Subtitle = styled.p`
-    max-width: 600px;
-    margin-bottom: 35px;
-    font-size: 18px;
-    line-height: 24px;
-    /* color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : '#1c2237')}; */
-    color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : 'rgb(140, 146, 151)')};
-    position: relative;
-    z-index: 2;
+  position: ${({ absolute }) => absolute ? 'absolute' : 'unset'};
+  top: 80px;
+  margin-top: ${({ top }) => top ? '10px' : '0px'};
+  max-width: 600px;
+  margin-bottom: ${({ subTitle }) => subTitle ? '35px' : '10px'};
+  font-size: 17px;
+  line-height: 24px;
+  color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : 'rgb(140, 146, 151)')};
+  /* position: relative; */
+  text-align: justify;
+  padding: ${({ left }) => left ? '0px 20px' : '0px'};
 `;
 
 const ImgWrapper = styled.div`
@@ -113,10 +116,11 @@ const ImgWrapper = styled.div`
 const Img = styled.img`
     padding-right: 0;
     border: 0;
-    max-width: 100%;
+    width: 500px;
+    height: 500px;
+    object-fit: contain;
     vertical-align: middle;
     display: inline-block;
-    max-height: 500px;
     border-radius: 10px;
 `;
 
@@ -149,18 +153,20 @@ const moveLeft = keyframes`
 `;
 
 const Square = styled.div`
-  border: 3px solid #bdbdbd;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  /* border: 3px solid #bdbdbd; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  width: 600px;
-  height: 600px;
-  margin-top: 30px;
-  margin-bottom: 10px;
+  width: 350px;
+  height: 450px;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 700px;
-  color: rgba(140, 146, 151, 0.1);
+  color: rgba(140, 146, 151, 0.2);
   padding: 10px;
   box-sizing: border-box;
   transition: all 0.5s ease-out;
@@ -183,92 +189,78 @@ const Square = styled.div`
   }
 
   @media screen and (max-width: 1300px) {
-    margin-top: 30px;
-    margin-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   @media screen and (max-width: 768px) {
-    margin-top: 30px;
-    margin-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   @media screen and (max-width: 640px) {
-    width: 500px;
-    height: 500px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
+`;
+
+const SubHeading = styled.h4`
+  text-align: center;
+  color: rgb(0, 94, 141);
+  position: absolute;
+  top: 30px;  
 `;
 
 const StepId = styled.div`
   position: absolute;
-  z-index: 1;
+  bottom: 0px;
+  text-align: center;
+  font-size: 30px;
+`;
+
+const Image = styled.img`
+  width: 150px;
+  height: 150px;
+  /* max-height: calc(100% - 50px); */
+  object-fit: cover;
+  position: absolute;
+  bottom: 40px;
+  border-radius: 10px;
 `;
 
 const Row = styled.div`
   display: flex;
   /* flex-direction: row; */
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
 
   @media screen and (max-width: 1300px) {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
   }
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
     align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  @media screen and (max-width: 640px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
   }
 `;
 // -- end keyframes -- //
 
 
-
-// sau thay = API
-const serDetailObj = [
-  {
-    id: 1,
-    serviceName: 'Software Outsourcing',
-    image: require('../../images/software.jpg'),
-    description: 'Software Outsourcing --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic qui excepturi alias vel sunt necessitatibus incidunt reiciendis voluptatibus eaque quos molestiae dolorem perferendis, nisi nostrum consequuntur accusantium optio. Error, magni.',
-    step: [],
-  },
-  {
-    id: 2,
-    serviceName: 'Software Development',
-    image: require('../../images/coding-flow1.jpg'),
-    description: 'Software Development --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic qui excepturi alias vel sunt necessitatibus incidunt reiciendis voluptatibus eaque quos molestiae dolorem perferendis, nisi nostrum consequuntur accusantium optio. Error, magni.',
-    step: [],
-  },
-  {
-    id: 3,
-    serviceName: 'Recruitment',
-    image: require('../../images/recruitment-flow.jpg'),
-    description: 'Recruitment --- Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic qui excepturi alias vel sunt necessitatibus incidunt reiciendis voluptatibus eaque quos molestiae dolorem perferendis, nisi nostrum consequuntur accusantium optio. Error, magni.',
-    step: [
-      {
-        id: 1,
-        step1: 'Open vacancy',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sequi, debitis hic molestias, ullam voluptatem nisi fugit sunt cum porro repudiandae itaque neque, eaque vitae quasi. Ea asperiores illum vel?',
-      },
-      {
-        id: 2,
-        step2: 'Hiring Process',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sequi, debitis hic molestias, ullam voluptatem nisi fugit sunt cum porro repudiandae itaque neque, eaque vitae quasi. Ea asperiores illum vel?',
-      },
-      {
-        id: 3,
-        step3: 'Interview',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sequi, debitis hic molestias, ullam voluptatem nisi fugit sunt cum porro repudiandae itaque neque, eaque vitae quasi. Ea asperiores illum vel?',
-      },
-      {
-        id: 4,
-        step4: 'Ready to work',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sequi, debitis hic molestias, ullam voluptatem nisi fugit sunt cum porro repudiandae itaque neque, eaque vitae quasi. Ea asperiores illum vel?',
-      },
-    ],
-  }
-];
 
 const ServiceDetail = () => {
   const navigate = useNavigate();
@@ -295,8 +287,8 @@ const ServiceDetail = () => {
 
   // display only 2 square in a row
   const rows = [];
-  for (let i = 0; i < selectedServiceName.step.length; i += 2) {
-    rows.push(selectedServiceName.step.slice(i, i + 2));
+  for (let i = 0; i < selectedServiceName.step.length; i += 4) {
+    rows.push(selectedServiceName.step.slice(i, i + 4));
   }
 
   const StepComponent = ({ step, index }) => {
@@ -312,13 +304,14 @@ const ServiceDetail = () => {
     return (
       <>
         <Square animation={animation}>
+          <SubHeading>{step.step.toUpperCase()}</SubHeading>
+          <Subtitle absolute left>{step.description}</Subtitle>
+          <Image src={step.image} />
           <StepId>{step.id}</StepId>
-          <Subtitle>{step.description}</Subtitle>        
         </Square>
       </>
     );
   };
-
 
 
   return (
@@ -330,8 +323,15 @@ const ServiceDetail = () => {
               <InfoColumn start={true.toString()}>
                 <TextWrapper>
                   <TopLine>Service Detail</TopLine>
-                  <Heading>{selectedServiceName.serviceName}</Heading>
-                  <Subtitle>{selectedServiceName.description}</Subtitle>
+                  <Heading heading>{selectedServiceName.serviceName}</Heading>
+                  <Subtitle subTitle>{selectedServiceName.shortDescription}</Subtitle>
+                  {selectedServiceName.serviceName === 'Software Outsourcing' ? 
+                    <>
+                      <Heading>Our range of services includes:</Heading>
+                      <Subtitle top>・Web Designing</Subtitle>
+                      <Subtitle top>・Web Development</Subtitle>
+                      <Subtitle top>・Web Customization</Subtitle>
+                    </> : ''}                 
                 </TextWrapper>
               </InfoColumn>
 

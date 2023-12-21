@@ -27,10 +27,12 @@ import styled from 'styled-components';
 
 
 const StyledP = styled.p`
-  /* color: #1c2237; */
   color: rgb(140, 146, 151);
   font-size: 18px;
   line-height: 24px;
+  text-align: justify;
+  hyphens: auto;
+  padding-right: 10px;
 
   @media screen and (max-width: 768px) {
     display: flex;
@@ -128,7 +130,7 @@ const Footer = () => {
           <FooterLinksWrapper>
             <FooterLinkItems>
               <FooterLinkTitle>About Us</FooterLinkTitle>
-              <StyledP>ORLAB Hanoi was established in February 2020 as a subsidiary of ORLAB Japan. We look forward to bringing Japanese job opportunities to Vietnamese engineers.</StyledP>
+              <StyledP>ORLAB Hanoi was established in 2020 as a subsidiary of ORLAB Japan. We look forward to bringing Japanese job opportunities to Vietnamese engineers.</StyledP>
             </FooterLinkItems>
           </FooterLinksWrapper>
 
@@ -178,7 +180,7 @@ const Footer = () => {
 
           <FooterLinksWrapper>
             <FooterLinkItems>
-              <FooterLinkTitle>Gallery</FooterLinkTitle>
+              <FooterLinkTitle>Our Activities</FooterLinkTitle>
               <StyledGalleryContainer>
               {
                 gallery.map((image, index) => (

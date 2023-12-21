@@ -52,7 +52,7 @@ export const MobileIcon = styled.div`
         font-size: 1.8rem;
         cursor: pointer;
         svg {
-            color: hsla(200,77.5%,68.6%,1.000) !important;
+            color: rgb(0, 94, 141) !important;
         }
     }
 `;

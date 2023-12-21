@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback,  useContext } from 'react';
+import React, { useCallback,  useContext } from 'react';
 import { BsStack } from 'react-icons/bs';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -180,19 +180,19 @@ const JobsSlider = () => {
     const jobDetailObj = useContext(JobsContext);
 
     const navigate = useNavigate();
-    const [selectedJobID, setSelectedJobID] = useState('');
-    const [selectedJobTitle, setSelectedJobTitle] = useState('');
+    // const [selectedJobID, setSelectedJobID] = useState('');
+    // const [selectedJobTitle, setSelectedJobTitle] = useState('');
 
     const handleExplore = useCallback((job) => {
-        setSelectedJobID(job.id);
-        setSelectedJobTitle(job.jobTitle);
+        // setSelectedJobID(job.id);
+        // setSelectedJobTitle(job.jobTitle);
         navigate(`/recruitment/${job.jobTitle}`, { state: { selectedJob: job, jobList: jobDetailObj } });
     },[jobDetailObj, navigate]);
 
     // có API sẽ sửa lại chỗ này
-    useEffect(() => {
-        console.log(`Selected Job ID: ${selectedJobID}, Selected Job Title: ${selectedJobTitle}`);
-    }, [selectedJobID, selectedJobTitle]);
+    // useEffect(() => {
+    //     console.log(`Selected Job ID: ${selectedJobID}, Selected Job Title: ${selectedJobTitle}`);
+    // }, [selectedJobID, selectedJobTitle]);
 
 
     

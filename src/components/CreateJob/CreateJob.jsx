@@ -9,7 +9,6 @@ import Cookies from 'js-cookie';
 import { getJobs } from '../../api/api';
 
 
-
 const Form = styled.form``;
 
 const Container = styled.div`
@@ -133,7 +132,11 @@ const CreateJobHeading = styled.h2`
     font-style: italic;    
 `;
 
-const Input = styled.input`
+const Input = styled.textarea`
+  color: black;
+`;
+
+const InputCoverImg = styled.input`
   color: black;
 `;
 
@@ -153,6 +156,7 @@ const CreateJob = () => {
   const [expPlus, setExpPlus] = useState('');
   const [treatment, setTreatment] = useState('');
   const [username, setUsername] = useState('');
+  const [minId, setMinId] = useState();
 
   // -- get username from cookie -- //
   useEffect(() => {
@@ -199,6 +203,8 @@ const CreateJob = () => {
   //   }
   // };
 
+
+  // get min ID before create
   const findMinUnusedId = async () => {
     const postsSnapshot = await getDocs(collection(db, 'jobs'));
     const usedIds = postsSnapshot.docs.map(doc => doc.data().displayId);
@@ -209,7 +215,6 @@ const CreateJob = () => {
     return displayId;
   };
   
-  const [minId, setMinId] = useState();
   useEffect(() => {
     findMinUnusedId().then(displayId => {
       setMinId(displayId);
@@ -267,7 +272,6 @@ const CreateJob = () => {
   const handleBack = () => {
     navigate('/admin/dashboard');
   };
-
 
 
   return (
@@ -364,7 +368,7 @@ const CreateJob = () => {
 
                   <DetailContainer>
                     <JobTitleElementDetail>Upload Cover Image</JobTitleElementDetail>
-                    <Input
+                    <InputCoverImg
                       type='file'
                       accept='image/*'
                       // onChange={handleUploadCoverImg}
