@@ -1,17 +1,27 @@
 {
   "files": {
     "main.css": "/ORLVN2023/static/css/main.12f704be.css",
-    "main.js": "/ORLVN2023/static/js/main.0e680064.js",
-    "static/media/software.jpg": "/ORLVN2023/static/media/software.48e9c9c16a8d4bbf8de8.jpg",
-    "static/media/coding-flow1.jpg": "/ORLVN2023/static/media/coding-flow1.c56b86f22c5061472140.jpg",
-    "static/media/recruitment-flow.jpg": "/ORLVN2023/static/media/recruitment-flow.b6bd6a2442e49e5551f1.jpg",
+    "main.js": "/ORLVN2023/static/js/main.d03dd63a.js",
+    "static/media/business-partnership-scope.jpg": "/ORLVN2023/static/media/business-partnership-scope.012d015da1f04ac01859.jpg",
+    "static/media/recruitment-interview.jpg": "/ORLVN2023/static/media/recruitment-interview.998ea47363764b0b997b.jpg",
+    "static/media/business-partnership-negotiate.jpg": "/ORLVN2023/static/media/business-partnership-negotiate.ad81cbf1a4995ae8373b.jpg",
+    "static/media/software-outsourcing-contract.jpg": "/ORLVN2023/static/media/software-outsourcing-contract.76521fc2952bc3d5b73d.jpg",
+    "static/media/software-outsourcing.jpg": "/ORLVN2023/static/media/software-outsourcing.20fd2ede425dee6159f4.jpg",
+    "static/media/recruitment.jpg": "/ORLVN2023/static/media/recruitment.e30bc21843c9ff5ad6ee.jpg",
+    "static/media/recruitment-profile-review.jpg": "/ORLVN2023/static/media/recruitment-profile-review.d62b54ff3cd40cecd450.jpg",
+    "static/media/software-outsourcing-talk-with-customer.jpg": "/ORLVN2023/static/media/software-outsourcing-talk-with-customer.21c1d8079f58b19baa85.jpg",
+    "static/media/business-partnership.jpg": "/ORLVN2023/static/media/business-partnership.6a8082c3097299d7f947.jpg",
+    "static/media/home-we-provide.jpg": "/ORLVN2023/static/media/home-we-provide.f000e88b65126323f7f6.jpg",
+    "static/media/home-vision.jpg": "/ORLVN2023/static/media/home-vision.1f491dd250d2972a97e8.jpg",
+    "static/media/recruitment-ready-to-work.jpg": "/ORLVN2023/static/media/recruitment-ready-to-work.520b693327ef8a78a111.jpg",
+    "static/media/software-outsourcing-develop.jpg": "/ORLVN2023/static/media/software-outsourcing-develop.9fe948a020cdf5259218.jpg",
+    "static/media/recruitment-open-vacancy.jpg": "/ORLVN2023/static/media/recruitment-open-vacancy.4988edfc33b11c189f4b.jpg",
+    "static/media/software-outsourcing-support.jpg": "/ORLVN2023/static/media/software-outsourcing-support.7a9618aa60e649439340.jpg",
     "static/media/orl.png": "/ORLVN2023/static/media/orl.1c15e837d254508209db.png",
-    "static/media/svg3.png": "/ORLVN2023/static/media/svg3.27f1ebed0f8045cdf259.png",
-    "static/media/profile.png": "/ORLVN2023/static/media/profile.3477581e05007759dfe6.png",
+    "static/media/logo-kse.png": "/ORLVN2023/static/media/logo-kse.fce241487383428cc88e.png",
     "static/media/profile1.png": "/ORLVN2023/static/media/profile1.33c90ee697eed73702f3.png",
     "static/media/profile3.png": "/ORLVN2023/static/media/profile3.169ae305737812617ba9.png",
-    "static/media/svg2.png": "/ORLVN2023/static/media/svg2.d89d9b6f4257510adde5.png",
-    "static/media/svg1.png": "/ORLVN2023/static/media/svg1.7535319a2b2e058e277a.png",
+    "static/media/home-who-we-are.png": "/ORLVN2023/static/media/home-who-we-are.7535319a2b2e058e277a.png",
     "static/media/profile2.png": "/ORLVN2023/static/media/profile2.b85e8ef877b83d40e585.png",
     "static/media/about.png": "/ORLVN2023/static/media/about.cba50b1b7f619e36af9b.png",
     "static/media/orl.svg": "/ORLVN2023/static/media/orl.210c78cea1f050ad9c652a246a7a9acd.svg",
@@ -19,10 +29,10 @@
     "static/media/japan-flag-circular-17764.svg": "/ORLVN2023/static/media/japan-flag-circular-17764.4b3687dafbae500fa5907e633e107ef2.svg",
     "index.html": "/ORLVN2023/index.html",
     "main.12f704be.css.map": "/ORLVN2023/static/css/main.12f704be.css.map",
-    "main.0e680064.js.map": "/ORLVN2023/static/js/main.0e680064.js.map"
+    "main.d03dd63a.js.map": "/ORLVN2023/static/js/main.d03dd63a.js.map"
   },
   "entrypoints": [
     "static/css/main.12f704be.css",
-    "static/js/main.0e680064.js"
+    "static/js/main.d03dd63a.js"
   ]
 }
