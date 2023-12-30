@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container } from '../../globalStyles';
 import styled from 'styled-components';
 import ProfileCard from '../../components/ProfileCard/ProfileCard';
+import { useTranslation } from 'react-i18next';
 
 
 const InfoSec = styled.div`
@@ -66,14 +67,14 @@ const ImgWrapper = styled.div`
 `;
 
 
-const Img = styled.img`
-  padding-right: 0;
-  border: 0;
-  max-width: 100%;
-  vertical-align: middle;
-  display: inline-block;
-  max-height: 500px;
-`;
+// const Img = styled.img`
+//   padding-right: 0;
+//   border: 0;
+//   max-width: 100%;
+//   vertical-align: middle;
+//   display: inline-block;
+//   max-height: 500px;
+// `;
 
 const TeamInfo = styled.div`
   padding: 70px 0px 70px 0px;
@@ -113,23 +114,57 @@ const TeamHeading = styled.h1`
   color: ${({lightText}) => (lightText ? '#f7f8fa' : '#1c2237')};    
 `;
 
+const TableContainer = styled.div`
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px; // Tuỳ chỉnh theo ý muốn
+`;
+
+const TableRow = styled.div`
+  display: table-row;
+`;
+
+const TableCell = styled.div`
+  display: table-cell;
+  padding: 10px;
+  text-align: left;
+  color: ${({ color }) => color ? 'rgb(28, 34, 55)': 'rgb(140, 146, 151)'};
+  width: ${({ width }) => width ? '30%' : '70%'};
+`;
+
 const aboutData = {
   lightBg: true,
   imgStart: '',
   lightTopLine: false,
   lightTextDesc: false,
-  description: 'Công ty mẹ của chúng tôi, ORLAB Japan được thành lập từ năm 1997 tại Tokyo với nhiều hạng mục kinh doanh trong lĩnh vực công nghệ thông tin. Có thể kể đến như tư vấn phát triển phần mềm, dịch vụ máy chủ, lưu trữ, thiết kế và xây dựng phần mềm, máy chủ, thiết kế vận hành thiết bị mạng. Hoà cùng làn sóng chuyển đổi, mở rộng thị trường, năm 2020 chúng tôi từng bước, bắt đầu đặt nền móng xây dựng văn phòng chi nhánh tại Hà Nội với sứ mệnh mang tới những cơ hội việc làm tốt cho kỹ sư Việt Nam.',
+  description: 'Our parent company, ORLAB Japan, was established in 1997 in Tokyo with many business categories in the field of information technology. These include consulting on software development, server services, storage, design and construction of software, servers, design and operation of network equipment. Joining the wave of transformation and market expansion, in 2020 we gradually began to lay the foundation for building a branch office in Hanoi with the mission of bringing good job opportunities to Vietnamese engineers.',
   headline: 'About Us', 
   lightText: false,
   primary: false,
   img: require('../../images/about.png'),
   alt: 'Image',
-  start: ''
+  start: '',
+  companyName: 'ORLAB Viet Nam Co.Ltd',
+  address: '9F - Detech Tower 2 - 107 Nguyen Phong Sac, Dich Vong Hau, Cau Giay, Ha Noi',
+  contact: 'contact.vn@orlab.co.jp',
+  establishment: '2020',
+  mainService: 'Software Outsourcing, Business Agency Agreement, Recruitment',
+  capital: '1500万円'
 }
 
 
 
 const About = () => {
+  const { i18n, t } = useTranslation('About');
+  
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
+
   return (
     <>
         <InfoSec lightBg={aboutData.lightBg}>
@@ -137,20 +172,45 @@ const About = () => {
             <InfoRow imgStart={aboutData.imgStart}>
               <InfoColumn>
                 <TextWrapper>
-                  <Heading>About Us</Heading>
-                  <Subtitle lightTextDesc={aboutData.lightTextDesc}>{aboutData.description}</Subtitle>
+                  <Heading>{t('About Us')}</Heading>
+                  <Subtitle lightTextDesc={aboutData.lightTextDesc}>{t(`${aboutData.description}`)}</Subtitle>
                 </TextWrapper>
               </InfoColumn>
 
               <InfoColumn>
                 <ImgWrapper start={aboutData.start}>
-                  <Img src={aboutData.img} alt={aboutData.alt} />
+                  <TableContainer>
+                    <TableRow>
+                      <TableCell width={true.toString()} color={true.toString()}>{t('Company Name')}</TableCell>
+                      <TableCell>{aboutData.companyName}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell width={true.toString()} color={true.toString()}>{t('Address')}</TableCell>
+                      <TableCell>{aboutData.address}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell width={true.toString()} color={true.toString()}>{t('Contact')}</TableCell>
+                      <TableCell>{aboutData.contact}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell width={true.toString()} color={true.toString()}>{t('Establishment')}</TableCell>
+                      <TableCell>{aboutData.establishment}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell width={true.toString()} color={true.toString()}>{t('Main Service')}</TableCell>
+                      <TableCell>{aboutData.mainService}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell width={true.toString()} color={true.toString()}>{t('Capital')}</TableCell>
+                      <TableCell>{aboutData.capital}</TableCell>
+                    </TableRow>
+                  </TableContainer>
                 </ImgWrapper>
               </InfoColumn>
 
               <TeamInfo>
                 <TeamWrapper>
-                  <TeamHeading>Our Team</TeamHeading>
+                  <TeamHeading>{t('Our Team')}</TeamHeading>
                   <ProfileCard />
                 </TeamWrapper>
               </TeamInfo>

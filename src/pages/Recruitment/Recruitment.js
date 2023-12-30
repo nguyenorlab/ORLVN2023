@@ -1,7 +1,8 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useEffect, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { JobsContext } from '../../api/api';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -37,8 +38,8 @@ const InfoRow = styled.div`
 
 const InfoColumn = styled.div`
     margin-bottom: 15px;
-    padding-right: 15px;
-    padding-left: 15px;
+    /* padding-right: 15px;
+    padding-left: 15px; */
     flex: 1;
     max-width: 50%;
     flex-basis: 50%;
@@ -85,6 +86,8 @@ const Subtitle = styled.p`
     line-height: 24px;
     /* color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : '#1c2237')}; */
     color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : 'rgb(140, 146, 151)')};
+    text-align: justify;
+    hyphens: auto;
 `;
 
 
@@ -124,10 +127,16 @@ const StyledButton = styled.button`
 
 
 const Recruitment = () => {
+  const { i18n, t } = useTranslation('Recruitment');
   const navigate = useNavigate();
   const allRecruitData = useContext(JobsContext);
 
-  // const [selectedJob, setSelectedJob] = useState();
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
 
   const handleSelectedJob = useCallback((id) => {
     const job = allRecruitData.find(rec => rec.displayId === id);
@@ -145,10 +154,10 @@ const Recruitment = () => {
               <InfoRow imgStart={rec.displayId}>
                 <InfoColumn>
                   <TextWrapper>
-                    <TopLine>Recruitment</TopLine>
-                    <Heading>{rec.jobTitle}</Heading>
-                    <Subtitle>{rec.description}</Subtitle>
-                    <StyledButton onClick={() => handleSelectedJob(rec.displayId)}>Details</StyledButton>
+                    <TopLine>{t('Recruitment')}</TopLine>
+                    <Heading>{t(`${rec.jobTitle}`)}</Heading>
+                    <Subtitle>{t(`${rec.description}`)}</Subtitle>
+                    <StyledButton onClick={() => handleSelectedJob(rec.displayId)}>{t('Details')}</StyledButton>
                   </TextWrapper>
                 </InfoColumn>
   

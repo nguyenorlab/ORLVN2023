@@ -1,7 +1,9 @@
-import React, { createContext } from 'react';
+import React, { useEffect, createContext } from 'react';
 import { Container } from '../../globalStyles';
 import styled from 'styled-components';
 import ServicesElement from '../../components/ServicesElement/ServicesElement';
+import { useTranslation } from 'react-i18next';
+
 // import cloud from '../../images/cloud.jpg';
 // import hero from '../../images/hero.png';
 
@@ -102,30 +104,30 @@ export const serDetailObj = [
     serviceName: 'Software Outsourcing',
     image: require('../../images/software-outsourcing.jpg'),
     description: 'We are proud to be a reliable and professional partner in the field of Software Outsourcing. With a team of dedicated and passionate software experts, we are committed to delivering top-notch solutions and meeting all your software development needs.',
-    shortDescription: 'Chúng tôi không chỉ cung cấp dịch vụ phần mềm, mà còn là đối tác chiến lược đồng hành trong hành trình số hóa của bạn. Chúng tôi tập trung vào việc mang đến giải pháp đột phá, giúp doanh nghiệp tiết kiệm chi phí và tăng cường sức mạnh cạnh tranh.',
+    shortDescription: 'We not only provide software services, but also are a strategic partner in your digitalization journey. We focus on providing breakthrough solutions, helping businesses save costs and enhance their competitive strength.',
     step: [
       {
         id: 1,
-        step: 'Đánh giá nhu cầu và yêu cầu',
-        description: 'Gặp gỡ khách hàng để hiểu rõ nhu cầu và yêu cầu cụ thể của dự án. Xác định kỹ thuật, ngôn ngữ lập trình, và các yếu tố kỹ thuật khác.',
+        step: 'Assess needs and requirements',
+        description: 'Meet with customers to understand the specific needs and requirements of the project. Identify techniques, programming languages, and other technical elements.',
         image: require('../../images/software-outsourcing-talk-with-customer.jpg')
       },
       {
         id: 2,
-        step: 'thương lượng và hợp đồng',
-        description: 'Lên hợp đồng chi tiết với khách hàng. Thương lượng về giá cả, thời gian hoàn thành, và các điều kiện khác.',
+        step: 'Negotiations and contracts',
+        description: 'Make detailed contracts with customers. Negotiate price, completion time, and other conditions.',
         image: require('../../images/software-outsourcing-contract.jpg')
       },
       {
         id: 3,
-        step: 'Phát triển và báo cáo',
-        description: 'Bắt đầu quá trình phát triển theo yêu cầu của khách hàng. Thực hiện kiểm thử đầy đủ để đảm bảo chất lượng sản phẩm. Họp báo cáo tiến độ định kỳ với khách hàng.',
+        step: 'Development and reporting',
+        description: 'Start the development process according to customer requirements. Perform complete testing to ensure product quality. Regular progress reporting meetings with customers.',
         image: require('../../images/software-outsourcing-develop.jpg')
       },
       {
         id: 4,
-        step: 'Hỗ trợ và bảo dưỡng',
-        description: 'Cung cấp hỗ trợ kỹ thuật sau triển khai. Đảm bảo sự ổn định và bảo dưỡng cho sản phẩm.',
+        step: 'Support and maintenance',
+        description: 'Provide post-deployment technical support. Ensure product stability and maintenance.',
         image: require('../../images/software-outsourcing-support.jpg')
       },
     ],
@@ -135,18 +137,18 @@ export const serDetailObj = [
     serviceName: 'Business Agency Agreement',
     image: require('../../images/business-partnership.jpg'),
     description: 'We have a legal entity in Tokyo, we can cooperate with you when you do not have enough conditions to establish a legal entity in Japan, at this time you can still do business, receive letters and documents... from customers and partners through our office address. This helps you access the labor market faster and find employment in Japan with the least amount of difficulty.',
-    shortDescription: 'Chúng tôi mang đến không chỉ là một hợp đồng, mà là khả năng tối ưu hoá quy trình kinh doanh. Chúng tôi tạo ra một môi trường thuận lợi, giúp doanh nghiệp tập trung vào lõi nghiệp vụ, chính sự linh hoạt này giúp doanh nghiệp của bạn tận dụng được mọi cơ hội kinh doanh. Chúng tôi không chỉ là đối tác, mà là đồng đội cùng nhau hướng tới mục tiêu chung, tạo ra sự hiệu quả cao nhất.',
+    shortDescription: 'We offer more than just a contract, but the ability to optimize business processes. We create a favorable environment, helping businesses focus on their core business. This flexibility helps your business take advantage of all business opportunities. We are not just partners, but teammates working together towards a common goal, creating the highest efficiency.',
     step: [
       {
         id: 1,
-        step: 'mục tiêu và phạm vi',
-        description: 'Xác định mục tiêu cụ thể của khách hàng. Rõ ràng về phạm vi và quyền lợi của hai bên.',
+        step: 'Objectives and scope',
+        description: 'Identify specific customer goals. Be clear about the scope and interests of both sides.',
         image: require('../../images/business-partnership-scope.jpg')
       },
       {
         id: 2,
-        step: 'Thảo luận và đàm phán',
-        description: 'Thảo luận về điều kiện cụ thể của hợp đồng. Đàm phán về chính sách hoa hồng, trách nhiệm, điều kiện thanh toán và các điều khoản khác.',
+        step: 'Discuss and negotiate',
+        description: 'Discuss specific conditions of the contract. Negotiate commission policies, responsibilities, payment conditions and other terms.',
         image: require('../../images/business-partnership-negotiate.jpg')
       }
     ],
@@ -155,31 +157,31 @@ export const serDetailObj = [
     id: 3,
     serviceName: 'Recruitment',
     image: require('../../images/recruitment.jpg'),
-    description: 'Chúng tôi có nhiều đối tác và khách hàng đáng tin cậy dựa trên những liên kết chặt chẽ từ khi mới thành lập. Việc tuyển dụng diễn ra nhanh chóng với tỷ lệ thành công cao. Chúng tôi mong muốn không chỉ mang đến cơ hội cho các kỹ sư mà còn mong muốn được gắn kết với họ trong suốt con đường sự nghiệp.',
-    shortDescription: 'Từ khi thành lập cho tới nay chúng tôi luôn xây dựng và duy trì các mối quan hệ tốt đẹp với các đối tác, khách hàng. Bởi vậy mà, việc tuyển dụng không chỉ là tìm kiếm nhân sự mà còn là sự lắng nghe mong muốn của khách hàng, đối tác cũng như các kỹ sư với mục tiêu kết nối nhanh nhất với tỷ lệ thành công cao nhất.',
+    description: 'We have many trusted partners and customers based on close links since our inception. Recruitment takes place quickly with a high success rate. We want to not only provide opportunities for engineers but also engage with them throughout their career path.',
+    shortDescription: 'Since our establishment until now, we have always built and maintained good relationships with partners and customers. Therefore, recruitment is not only about finding personnel but also about listening to the wishes of customers, partners as well as engineers with the goal of connecting the fastest with the highest success rate.',
     step: [
       {
         id: 1,
         step: 'Open vacancy',
-        description: 'Nhận thông tin yêu cầu tuyển dụng từ các đối tác, khách hàng, thông báo về cơ hội nghề nghiệp đang mở cho một vị trí trên website của chúng tôi.',
+        description: 'Receive recruitment request information from partners and customers, and notify about open career opportunities for a position on our website.',
         image: require('../../images/recruitment-open-vacancy.jpg')
       },
       {
         id: 2,
         step: 'Hiring Process',
-        description: 'Đánh giá hồ sơ, mời ứng viên tham gia một cuộc trao đổi với nhóm tuyển dụng của chúng tôi. Đây là cơ hội để chúng tôi hiểu rõ về kinh nghiệm, kỹ năng, và tầm quan trọng của ứng viên nhằm tìm ra cơ hội phù hợp nhất.',
+        description: "Evaluate the profile, invite the candidate to a conversation with our recruitment team. This is an opportunity for us to clearly understand the candidate's experience, skills, and importance to find the most suitable opportunity.",
         image: require('../../images/recruitment-profile-review.jpg')
       },
       {
         id: 3,
         step: 'Interview',
-        description: 'Phỏng vấn trực tiếp với khách hàng (online/offline) sẽ tập trung vào khám phá thêm về kỹ năng cá nhân, đánh giá sự phù hợp với văn hóa công ty, và trả lời mọi thắc mắc bạn có về vị trí và công ty.',
+        description: 'Face-to-face interviews with customers (online/offline) will focus on discovering more about personal skills, assessing fit with company culture, and answering any questions you have about the position and company.',
         image: require('../../images/recruitment-interview.jpg')
       },
       {
         id: 4,
         step: 'Ready to work',
-        description: 'Chào mừng. Chúng tôi chuẩn bị sẵn sàng các thủ tục để bạn có thể sớm làm việc tại Việt Nam hoặc Nhật Bản tuỳ vào vị trí/yêu cầu công việc mà không phát sinh chi phí.',
+        description: 'Welcome. We have prepared the procedures so you can soon work in Vietnam or Japan depending on the position/job requirements without incurring costs.',
         image: require('../../images/recruitment-ready-to-work.jpg')
       },
     ],
@@ -189,6 +191,15 @@ export const serDetailObj = [
 
 
 const Services = () => {
+  const { i18n, t } = useTranslation('Services');
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
+
   return (
     <>
       <InfoSec>
@@ -197,7 +208,7 @@ const Services = () => {
 
             <TeamInfo>
               <TeamWrapper>
-                <TeamHeading>Main Services</TeamHeading>
+                <TeamHeading>{t('Main Services')}</TeamHeading>
 
                 <ObjectArrayContext.Provider value={serDetailObj}>
                   <ServicesElement />

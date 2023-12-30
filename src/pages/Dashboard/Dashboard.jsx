@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { db, auth } from '../../config/firebase';
 import { /*collection,*/ /*getDocs,*/ getDoc, /*addDoc,*/ doc, /*where, query,*/ deleteDoc } from 'firebase/firestore';
@@ -30,6 +31,34 @@ import Cookies from 'js-cookie';
 //     await addDoc(recCol, rec);
 //   }
 // };
+
+
+const Wrapper = styled.div`
+  display: flex;
+  height: 100vh;
+`;
+
+const MainContent = styled.main`
+  flex: 1;
+  padding: 20px;
+`;
+
+const MessageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
+
+const WelcomeMessage = styled.h2`
+  margin-bottom: 20px;
+`;
+
+const ResponsiveContainer = styled.div`
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
 
 
 const Dashboard = () => {
@@ -274,27 +303,29 @@ const Dashboard = () => {
 
   return (
     <>
-      <h2>Welcome, {username}</h2>
-      <div style={{ display: 'flex' }}>
-        <Sidebar items={['Users', 'Jobs', 'Posts', 'Logout']} onItemClick={handleItemClick}/>
-
-        <main>          
-          <h3>1. live search, filter by date, by category -- button Search</h3>
+      <Wrapper>
+        <Sidebar items={['Users', 'Jobs', 'Posts', 'Logout']} onItemClick={handleItemClick} />
+        <MainContent>
+        <WelcomeMessage>Welcome, {username}</WelcomeMessage>
           {data.length > 0 ? (
-            <DataTable 
-              data={data} 
-              fields={fields} 
-              onEdit={handleEdit} 
-              onDelete={handleDelete} 
-              onCreate={handleCreate}
-              onResetPassword={handleResetPassword} 
-              typeName={typeName}
-            />
+            <ResponsiveContainer>
+              <DataTable
+                data={data}
+                fields={fields}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onCreate={handleCreate}
+                onResetPassword={handleResetPassword}
+                typeName={typeName}
+              />
+            </ResponsiveContainer>
           ) : (
-            <h3>Please select item from Sidebar</h3>
+            <MessageContainer>
+              <h3>Please select an item from the Sidebar</h3>
+            </MessageContainer>
           )}
-        </main>
-      </div>    
+        </MainContent>
+      </Wrapper>
     </>
   );
 }

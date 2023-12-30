@@ -54,12 +54,12 @@ const DeleteButton = styled(Button)`
 const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, typeName }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
+  const [paginatedData, setPaginatedData] = useState([]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const [paginatedData, setPaginatedData] = useState([]);
   useEffect(() => {
     const tmpPaginatedData = data.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
     if(tmpPaginatedData.length < 1) {
@@ -69,7 +69,6 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
       setPaginatedData(tmpPaginatedData);
     }
   },[currentPage, data, postsPerPage]);
-
 
   return (
     <>

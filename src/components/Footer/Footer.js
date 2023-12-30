@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { HiOutlineLocationMarker, HiOutlineMail } from 'react-icons/hi';
 import { AiOutlinePhone } from 'react-icons/ai';
 import vietnam from '../../assets/vietnam-flag-circular-17769.svg';
 import japan from '../../assets/japan-flag-circular-17764.svg';
 import ImageViewer from "react-simple-image-viewer";
+import { useTranslation } from 'react-i18next';
 
 
 import { 
@@ -109,9 +110,18 @@ const gallery = [
 ];
 
 const Footer = () => {
+  const { i18n, t } = useTranslation('Footer');
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   let currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
+  
 
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
@@ -129,14 +139,14 @@ const Footer = () => {
         <FooterLinksContainer>
           <FooterLinksWrapper>
             <FooterLinkItems>
-              <FooterLinkTitle>About Us</FooterLinkTitle>
-              <StyledP>ORLAB Hanoi was established in 2020 as a subsidiary of ORLAB Japan. We look forward to bringing Japanese job opportunities to Vietnamese engineers.</StyledP>
+              <FooterLinkTitle>{t('About Us')}</FooterLinkTitle>
+              <StyledP>{t('ORLAB Hanoi was established in 2020 as a subsidiary of ORLAB Japan. We look forward to bringing Japanese job opportunities to Vietnamese engineers.')}</StyledP>
             </FooterLinkItems>
           </FooterLinksWrapper>
 
           <FooterLinksWrapper>
             <FooterLinkItems>
-              <FooterLinkTitle>Contact Us</FooterLinkTitle>
+              <FooterLinkTitle>{t('Contact Us')}</FooterLinkTitle>
               {/* VN */}
               <StyledFlag>
                 <StyledImg alt='vn' src={vietnam} />
@@ -180,7 +190,7 @@ const Footer = () => {
 
           <FooterLinksWrapper>
             <FooterLinkItems>
-              <FooterLinkTitle>Our Activities</FooterLinkTitle>
+              <FooterLinkTitle>{t('Our Activities')}</FooterLinkTitle>
               <StyledGalleryContainer>
               {
                 gallery.map((image, index) => (

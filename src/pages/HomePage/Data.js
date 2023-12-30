@@ -6,7 +6,7 @@ export const homeData = [
         lightTopLine: false,
         lightTextDesc: false,
         buttonLabel: 'Explore',
-        description: 'ORLAB tạo ra những ứng dụng giúp khách hàng giải quyết được bài toán của mình, mang lại lợi nhuận và sự tin tưởng hợp tác lâu dài. ORLAB có một đội ngũ kỹ sư đa quốc gia, ngoài am hiểu văn hoá, thế mạnh của chúng tôi là sự đoàn kết với một mục tiêu duy nhất - làm hài lòng khách hàng.',
+        description: 'ORLAB creates applications that help customers solve their problems, bringing profits and trust for long-term cooperation. ORLAB has a multinational team of engineers. In addition to cultural understanding, our strength is solidarity with a single goal - customer satisfaction.',
         headline: 'Our Story, Our Identity', 
         lightText: false, 
         topLine: 'Who we are',
@@ -22,7 +22,7 @@ export const homeData = [
         lightTopLine: false,
         lightTextDesc: false,
         buttonLabel: 'Get Started',
-        description: 'Sử dụng linh hoạt các thế mạnh sẵn có từ công ty mẹ, chúng tôi tập trung phát triển các dịch vụ chính tại Hà Nội là Software Outsourcing và tuyển dụng phái cử.',
+        description: 'Flexibly using existing strengths from the parent company, we focus on developing main services in Hanoi such as Software Outsourcing and dispatch recruitment.',
         headline: 'Leverage Local Talent, Grow Globally', 
         lightText: false, 
         topLine: 'We Provide',
@@ -39,7 +39,7 @@ export const visionData = {
     lightTopLine: false,
     lightTextDesc: false,
     buttonLabel: 'Get Started',
-    description: 'Với giá trị cốt lõi là yếu tố con người, chúng tôi đang từng bước đi trên con đường để trở thành sự lựa chọn tin cậy cho khách hàng không chỉ về giá cả và chất lượng sản phẩm mà còn xây dựng mối quan hệ đối tác dựa trên sự tin cậy.',
+    description: 'With the core value of the human factor, we are step by step on the path to becoming a reliable choice for customers not only in terms of price and product quality but also in building partnership relationships. based on trust.',
     headline: 'Together We Thrive', 
     lightText: false, 
     topLine: 'Our Vision',
@@ -47,36 +47,4 @@ export const visionData = {
     img: require('../../images/home-vision.jpg'),
     alt: 'Image',
     start: 'true'
-}
-
-// export const homeObjThree = {
-//     lightBg: true,
-//     imgStart: '',
-//     lightTopLine: false,
-//     lightTextDesc: false,
-//     buttonLabel: 'Get Started',
-//     description: 'We help business owners increase their revenue. Our team of unique specialist can help you acheive your business goals.',
-//     headline: 'Lead Generation specialist for Online Business', 
-//     lightText: false, 
-//     topLine: 'Margeting Agency',
-//     primary: false,
-//     img: require('../../images/profile.png'),
-//     alt: 'Image',
-//     start: ''
-// }
-
-// export const homeObjFour = {
-//     lightBg: true,
-//     imgStart: '',
-//     lightTopLine: false,
-//     lightTextDesc: false,
-//     buttonLabel: 'Get Started',
-//     description: 'We help business owners increase their revenue. Our team of unique specialist can help you acheive your business goals.',
-//     headline: 'Lead Generation specialist for Online Business', 
-//     lightText: false, 
-//     topLine: 'Margeting Agency',
-//     primary: false,
-//     img: require('../../images/svg3.png'),
-//     alt: 'Image',
-//     start: 'true'
-// }
+};

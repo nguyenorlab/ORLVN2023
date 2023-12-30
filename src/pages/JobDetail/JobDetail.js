@@ -3,6 +3,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container } from '../../globalStyles';
 import { JobsContext } from '../../api/api';
+import { useTranslation } from 'react-i18next';
+
 
 const InfoSec = styled.div`
     color: #fff;
@@ -283,6 +285,8 @@ const JobListHeading = styled.h2`
 
 
 const JobDetail = () => {
+  const { t } = useTranslation('Recruitment');
+
   const navigate = useNavigate();
   const location = useLocation();
   const jobDetailObj = useContext(JobsContext);
@@ -341,11 +345,11 @@ const JobDetail = () => {
             <InfoRow>
               <InfoColumnImg>
                 <TextWrapper>
-                  <JobListHeading>Jobs Opening List</JobListHeading>
+                  <JobListHeading>{t('Jobs Opening List')}</JobListHeading>
                   <JobListContainer>
                     {jobDetailObj.map((job, id) => (
                       <OpenningContainer key={id}>
-                        <JobsOpeningList onClick={() => handleSelectJob(job.id)}>{job.jobTitle}</JobsOpeningList>
+                        <JobsOpeningList onClick={() => handleSelectJob(job.id)}>{t(`${job.jobTitle}`)}</JobsOpeningList>
                       </OpenningContainer>
                     ))}
                   </JobListContainer>
@@ -355,60 +359,60 @@ const JobDetail = () => {
               {selectedJob ?
                 <InfoColumnJob>
                   <TextWrapper>
-                    <TopLine>Job Detail</TopLine>
-                    <Heading>{selectedJob.jobTitle}</Heading>
+                    <TopLine>{t('Job Detail')}</TopLine>
+                    <Heading>{t(`${selectedJob.jobTitle}`)}</Heading>
 
                     <JDContainer>
-                      <JDSubtitle>Job Description</JDSubtitle>
+                      <JDSubtitle>{t('Job Description')}</JDSubtitle>
                       <JDText>
                         <JobTitleContainer>
-                          <JobTitleElement>Job Title:</JobTitleElement>
-                          <JobTitleContent>{selectedJob.jobTitle}</JobTitleContent>
+                          <JobTitleElement>{t('Job Title')}:</JobTitleElement>
+                          <JobTitleContent>{t(`${selectedJob.jobTitle}`)}</JobTitleContent>
                         </JobTitleContainer>
 
                         <JobTitleContainer>
-                          <JobTitleElement>Salary:</JobTitleElement>
-                          <JobTitleContent>{selectedJob.salary}</JobTitleContent>
+                          <JobTitleElement>{t('Salary')}:</JobTitleElement>
+                          <JobTitleContent>{t(`${selectedJob.salary}`)}</JobTitleContent>
                         </JobTitleContainer>
 
                         <JobTitleContainer>
-                          <JobTitleElement>Location:</JobTitleElement>
-                          <JobTitleContent>{selectedJob.location}</JobTitleContent>
+                          <JobTitleElement>{t('Location')}:</JobTitleElement>
+                          <JobTitleContent>{t(`${selectedJob.location}`)}</JobTitleContent>
                         </JobTitleContainer>
 
                         <DetailContainer>
-                          <JobTitleElementDetail>General Description</JobTitleElementDetail>
-                          <JobTitleContent>{selectedJob.description}</JobTitleContent>
+                          <JobTitleElementDetail>{t('General Description')}</JobTitleElementDetail>
+                          <JobTitleContent>{t(`${selectedJob.description}`)}</JobTitleContent>
                         </DetailContainer>
 
                         <DetailContainer>
-                          <JobTitleElementDetail>Experience Requirement</JobTitleElementDetail>
+                          <JobTitleElementDetail>{t('Experience Requirement')}</JobTitleElementDetail>
                           <JobTitleContent>
                             {selectedJob.experience.split('. ').map((sentence, index) => (
                               <div key={index}>
-                                • {sentence}
+                                • {t(`${sentence}`)}
                               </div>
                             ))}
                           </JobTitleContent>
                         </DetailContainer>
 
                         <DetailContainer>
-                          <JobTitleElementDetail>Nice to have</JobTitleElementDetail>
+                          <JobTitleElementDetail>{t('Nice to have')}</JobTitleElementDetail>
                           <JobTitleContent>
                             {selectedJob.expPlus.split('. ').map((sentence, index) => (
                               <div key={index}>
-                                • {sentence}
+                                • {t(`${sentence}`)}
                               </div>
                             ))}
                           </JobTitleContent>
                         </DetailContainer>
 
                         <DetailContainer>
-                          <JobTitleElementDetail>Treatment</JobTitleElementDetail>
+                          <JobTitleElementDetail>{t('Benefit')}</JobTitleElementDetail>
                           <JobTitleContent>
                             {selectedJob.treatment.split('. ').map((sentence, index) => (
                               <div key={index}>
-                                • {sentence}
+                                • {t(`${sentence}`)}
                               </div>
                             ))}
                           </JobTitleContent>

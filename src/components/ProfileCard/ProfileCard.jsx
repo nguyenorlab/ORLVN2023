@@ -5,6 +5,7 @@ import profile2 from '../../images/profile2.png';
 import profile3 from '../../images/profile3.png';
 import logoSVG from '../../images/orl.svg';
 import { FaLinkedin } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 
 const Container = styled.div`
@@ -35,7 +36,8 @@ const CardContainer = styled.div`
 	/* max-width: 600px; */
 	/* height: auto; */
 	border-radius: 14px;
-  box-shadow: rgb(0, 94, 141) 5px 5px 20px 0px;
+  /* box-shadow: rgb(0, 94, 141) 5px 5px 20px 0px; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   position: relative;
@@ -172,6 +174,8 @@ const profileData = [
 
 
 const ProfileCard = () => {
+  const { t } = useTranslation('About');
+
   return (
     <>
       <Container>
@@ -186,7 +190,7 @@ const ProfileCard = () => {
                   <NormalTextH2>{data.position}</NormalTextH2>
                   <NormalTextH2>{data.location}</NormalTextH2>
                 </StyledPosition>
-                <StyledP>{data.about}</StyledP>
+                <StyledP>{t(`${data.about}`)}</StyledP>
               </HeaderContainer>
 
               <SocialContainer>

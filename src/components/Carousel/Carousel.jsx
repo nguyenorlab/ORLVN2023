@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import bgdonut1 from './image/bg-donut-1.png';
 // import bgdonut2 from './image/bg-donut-2.png';
@@ -8,22 +8,9 @@ import 'swiper/css';
 import 'swiper/swiper-bundle.css';
 import './Carousel.css';
 import styled from 'styled-components';
-// import { useTypingText } from '../TypingText/useTypingText';
-// import '../TypingText/styles.css';
 import Typewriter from 'typewriter-effect';
+import { useTranslation } from 'react-i18next';
 
-// const CarouselContainer = styled.div`
-//     position: relative;
-//     width: calc(min(90rem, 90%));
-//     margin: 0 auto;
-//     min-height: 100vh;
-//     column-gap: 3rem;
-//     padding-block: min(20vh, 3rem);
-//     @media screen and (min-width: 48rem) {
-//         display: flex;
-//         align-items: center;
-//     }
-// `;
 
 const CarouselContainer = styled.div`
     display: flex;
@@ -140,9 +127,9 @@ const StyledSwiperSlideH2 = styled.h2`
     font-weight: 400;
     font-size: 1.4rem;
     line-height: 1.4;
-    /* margin: 30px; */
     text-transform: uppercase;
     text-align: center;
+    padding: 18px;
 `;
 
 const StyledSwiperSlideP = styled.p`
@@ -179,18 +166,19 @@ const StyledSwiperSlideP = styled.p`
 // `;
 
 const StyledButton = styled.button`
+    height: 38px;
     font-size: 16px;
     border-radius: 5px;
     /* margin: 20px 24px 56px; */
     /* margin: 20px 24px 130px; */
     margin: 50px 24px 20px;
-    padding: 10px 30px;
+    padding: 10px;
     background: #fff;
     color: #686868;
     text-decoration: none;
     text-transform: uppercase;
     border: 2px solid #d2d2d2;
-    width: 150px;
+    width: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -257,9 +245,16 @@ const slider = [
 ]
 
 const Carousel = () => {
-//   const { word } = useTypingText(['fast', 'reliable', 'affordable'], 130, 20);
-
+  const { i18n, t } = useTranslation('Home');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
+  
   const handleSelectService = useCallback((service) => {
     navigate(`/services/${service.title}`);
   },[navigate]);
@@ -267,19 +262,19 @@ const Carousel = () => {
   return (
     <CarouselContainer>
         <CarouselContent>
-            <CarouselContentSpan>We Are ORLAB Viet Nam</CarouselContentSpan>            
-            <CarouselContentH1>We bring To You</CarouselContentH1>
+            <CarouselContentSpan>{t('We Are ORLAB Viet Nam')}</CarouselContentSpan>            
+            <CarouselContentH1>{t('We Bring To You')}</CarouselContentH1>
             <StyledTypeWriter>
                 <Typewriter
                     options={{
-                        strings: ['Chance', 'and Change'],
+                        strings: [t('Chance'), t('and Change')],
                         autoStart: true,
                         loop: true,
                     }}
                 />
             </StyledTypeWriter>
             <CarouselContentHr />
-            <CarouselContenP>We are here to connect Vietnamese engineers who wish to develop their careers in Viet Nam and Japan.</CarouselContenP>
+            <CarouselContenP>{t('We are here to connect Vietnamese engineers who wish to develop their careers in Viet Nam and Japan')}</CarouselContenP>
         </CarouselContent>
 
         <StyledSwiper
@@ -322,9 +317,9 @@ const Carousel = () => {
                 slider.map((slider, index) => (
                     <StyledSwiperSlideContainer key={index} background={slider.url}>
                         <StyledSwiperSlideActive>
-                            <StyledSwiperSlideH2>{slider.title}</StyledSwiperSlideH2>
-                            <StyledSwiperSlideP>{slider.description}</StyledSwiperSlideP>
-                            <StyledButton onClick={() => handleSelectService(slider)}>EXPLORE</StyledButton>
+                            <StyledSwiperSlideH2>{t(`${slider.title}`)}</StyledSwiperSlideH2>
+                            <StyledSwiperSlideP>{t(`${slider.description}`)}</StyledSwiperSlideP>
+                            <StyledButton onClick={() => handleSelectService(slider)}>{t('EXPLORE')}</StyledButton>
                         </StyledSwiperSlideActive>
                     </StyledSwiperSlideContainer>
                 ))

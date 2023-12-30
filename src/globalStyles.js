@@ -26,7 +26,7 @@ export const Container = styled.div`
 
 
 export const Button = styled.button`
-    width: 150px;
+    width: 120px;
     border-radius: 4px;
     /* background: ${({primary}) => (primary ? 'hsla(200,77.5%,68.6%,1.000)' : 'hsla(200,77.5%,68.6%,1.000)')}; */
     background: ${({primary}) => (primary ? 'rgb(0 94 141)' : 'rgb(0 94 141)')};
@@ -37,6 +37,10 @@ export const Button = styled.button`
     outline: none;
     border: none;
     cursor: pointer;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:hover {
         transition: all 0.3s ease-out;

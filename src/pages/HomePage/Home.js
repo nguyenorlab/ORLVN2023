@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes, css } from 'styled-components';
 import { homeData, visionData } from './Data';
@@ -6,6 +6,8 @@ import Carousel from '../../components/Carousel/Carousel';
 import JobsSlider from '../../components/JobsSlider/JobsSlider';
 import { Container, Button } from '../../globalStyles';
 import VisibilitySensor from 'react-visibility-sensor';
+import { useTranslation } from 'react-i18next';
+
 
 
 const InfoSec = styled.div`
@@ -65,7 +67,7 @@ const InfoColumn = styled.div`
 
 const PartnerDiv = styled.div`
   margin-bottom: 15px;
-  padding-left: 30px;
+  padding-left: 20px;
   padding-right: 20px;
   flex: 1;
   max-width: 100%;
@@ -76,6 +78,8 @@ const PartnerDiv = styled.div`
       flex-basis: 100%;
       display: flex;
       justify-content: center;
+      padding-left: 0px;
+      padding-right: 0px;
   }
 `;
 
@@ -136,6 +140,13 @@ const ImageContainer = styled.div`
   width: 100%;
   flex-wrap: wrap;
   justify-content: center;
+
+
+  @media screen and (max-width: 600px) {
+    max-width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+  }
 `;
 
 const SmallImage = styled.img`
@@ -146,11 +157,24 @@ const SmallImage = styled.img`
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
+
+  /* @media screen and (max-width: 768px) {
+    width: calc(100% - 20px);
+  } */
 `;
 
 
 const Home = () => {
   const navigate = useNavigate();
+  const { i18n, t } = useTranslation('Home');
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
+
   const handleExplore = (id) => {
     if(id === 1) {
       navigate('/about');
@@ -200,6 +224,7 @@ const Home = () => {
 
   return (
     <>
+      {/* <LanguageSwitcher /> */}
       <Carousel />
 
       {homeData.map((item, index) => (
@@ -210,10 +235,10 @@ const Home = () => {
                   <InfoRow imgStart={item.imgStart}>
                     <InfoColumn isVisible={isVisible} imgStart={item.imgStart}>
                       <TextWrapper>
-                        <TopLine lightTopLine={item.lightTopLine}>{item.topLine}</TopLine>
-                        <Heading lightText={item.lightText}>{item.headline}</Heading>
-                        <Subtitle lightTextDesc={item.lightTextDesc}>{item.description}</Subtitle>
-                        <Button onClick={() => handleExplore(item.id)}>EXPLORE</Button>
+                        <TopLine lightTopLine={item.lightTopLine}>{t(`${item.topLine}`)}</TopLine>
+                        <Heading lightText={item.lightText}>{t(`${item.headline}`)}</Heading>
+                        <Subtitle lightTextDesc={item.lightTextDesc}>{t(`${item.description}`)}</Subtitle>
+                        <Button onClick={() => handleExplore(item.id)}>{t('EXPLORE')}</Button>
                       </TextWrapper>
                     </InfoColumn>
                     <InfoColumn isVisible={isVisible} imgStart={!item.imgStart}>
@@ -237,9 +262,9 @@ const Home = () => {
               <InfoRow imgStart={visionData.imgStart}>
                 <InfoColumn isVisible={isVisible} imgStart={visionData.imgStart}>
                   <TextWrapper>
-                    <TopLine lightTopLine={visionData.lightTopLine}>{visionData.topLine}</TopLine>
-                    <Heading lightText={visionData.lightText}>{visionData.headline}</Heading>
-                    <Subtitle lightTextDesc={visionData.lightTextDesc}>{visionData.description}</Subtitle>
+                    <TopLine lightTopLine={visionData.lightTopLine}>{t(`${visionData.topLine}`)}</TopLine>
+                    <Heading lightText={visionData.lightText}>{t(`${visionData.headline}`)}</Heading>
+                    <Subtitle lightTextDesc={visionData.lightTextDesc}>{t(`${visionData.description}`)}</Subtitle>
                   </TextWrapper>
                 </InfoColumn>
                 <InfoColumn isVisible={isVisible} imgStart={!visionData.imgStart}>
@@ -258,7 +283,7 @@ const Home = () => {
           <InfoRow center>
             <PartnerDiv>
               <TextWrapper>
-                  <Heading center>Customers And Partners</Heading>
+                  <Heading center>{t('Customers And Partners')}</Heading>
                   <ImageContainer>
                     {PartnerImage.map((image, id) => (
                       <SmallImage key={id} src={image.img} alt={`logo ${id + 1}`} />

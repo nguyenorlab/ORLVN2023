@@ -5,6 +5,7 @@ import { Container } from '../../globalStyles';
 import Pagination from '../../components/Pagination/Pagination';
 import { BsCalendarCheck, BsBuildingCheck, BsTerminal } from 'react-icons/bs';
 import { PostsContext } from '../../api/api';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -391,13 +392,15 @@ const NewsDetailInfoContainer = styled.div`
 
 
 const NewsDetail = ({ post }) => {
+  const { t } = useTranslation('News');
+
   return (
     <InfoColumnJob>
       <TextWrapper>
-        <NewsDetailTitle>{post.title}</NewsDetailTitle>
+        <NewsDetailTitle>{t(`${post.title}`)}</NewsDetailTitle>
         <NewsDetailInfoContainer>
           <PostInfo><CalendarIcon />{post.date.split(' ')[0]}</PostInfo>
-          <PostInfo>{post.category === 'Company News' ? <CompanyIcon /> : <TechIcon />}{post.category}</PostInfo>
+          <PostInfo>{post.category === 'Company News' ? <CompanyIcon /> : <TechIcon />}{t(`${post.category}`)}</PostInfo>
         </NewsDetailInfoContainer>
         {post.content.map((section, index) => (
           <div key={index}>
@@ -405,13 +408,13 @@ const NewsDetail = ({ post }) => {
               switch (item.type) {
                 case 'header':
                   // Render header
-                  return <NewsDetailHeader key={index}>{item.text}</NewsDetailHeader>;
+                  return <NewsDetailHeader key={index}>{t(`${item.text}`)}</NewsDetailHeader>;
                 case 'paragraph':
                   // Render paragraph
-                  return <NewsDetailText key={index}>{item.text}</NewsDetailText>;
+                  return <NewsDetailText key={index}>{t(`${item.text}`)}</NewsDetailText>;
                 case 'image':
                   // Render image
-                  return <NewsDetailImg key={index} src={item.text} alt='no-img' />;
+                  return <NewsDetailImg key={index} src={t(`${item.text}`)} alt='no-img' />;
                 default:
                   return null;
               }
@@ -426,13 +429,15 @@ const NewsDetail = ({ post }) => {
 
 
 const News = () => {
+  const { t } = useTranslation('News');
+
   const allPostData = useContext(PostsContext);
   const navigate = useNavigate();
   const [filteredCategory, setFilteredCategory] = useState(null);
   const [titleCategory, setTitleCategory] = useState('All Posts');
   const [currentPage, setCurrentPage] = useState(1);
   const [currentReadMorePost, setCurrentReadMorePost] = useState(null);
-  const [postsPerPage] = useState(2);
+  const [postsPerPage] = useState(3);
   const maxLengthContent = 200;
   const maxLengthTitleRecent = 50;
 
@@ -529,32 +534,32 @@ const News = () => {
     <>
         <InfoSec>
           <Container>            
-            <TopLine>News</TopLine>
-            <Heading>{titleCategory}</Heading>
+            <TopLine>{t('News')}</TopLine>
+            <Heading>{t(`${titleCategory}`)}</Heading>
             <InfoRow>
 
               <LeftContainer>
-                <JobListHeading>News Category</JobListHeading>
+                <JobListHeading>{t('News Category')}</JobListHeading>
                 <InfoColumnImg>
                   <TextWrapper>
                     <JobListContainer post={true}>
                       {uniqueCategories.map((item, id) => (
-                        <JobsOpeningList key={id} onClick={() => handleSelectCategoryFromDetail(item)}>{item}</JobsOpeningList>
+                        <JobsOpeningList key={id} onClick={() => handleSelectCategoryFromDetail(item)}>{t(`${item}`)}</JobsOpeningList>
                       ))}
-                      <JobsOpeningList onClick={handleSelectAllPostsFromDetail}>All Posts</JobsOpeningList>
+                      <JobsOpeningList onClick={handleSelectAllPostsFromDetail}>{t('All Posts')}</JobsOpeningList>
                     </JobListContainer>
                   </TextWrapper>
                 </InfoColumnImg>
 
                 <InfoColumnImg>
                   <TextWrapper>
-                    <JobListHeading bottom>Recent Posts</JobListHeading>
+                    <JobListHeading bottom>{t('Recent Posts')}</JobListHeading>
                     <JobListContainer>
                       {recentPosts.map((recent, id) => (
                           <RecentContainer key={id}>
                             <RecentImg src={recent.image} />
                             <RecentTitle>                              
-                              <RecentTitle onClick={() => handleReadMore(recent)}>{truncate(recent.title, maxLengthTitleRecent)}</RecentTitle>
+                              <RecentTitle onClick={() => handleReadMore(recent)}>{truncate(t(`${recent.title}`), maxLengthTitleRecent)}</RecentTitle>
                               <RecentDate>{recent.date.split(' ')[0]}</RecentDate>                              
                             </RecentTitle>
                           </RecentContainer>
@@ -582,7 +587,7 @@ const News = () => {
                                   </PostInfo>
                                   <PostInfo>
                                     {post.category === 'Company News' ? <CompanyIcon /> : <TechIcon />}
-                                    {post.category}
+                                    {t(`${post.category}`)}
                                   </PostInfo>
                                 </PostInfoContainer>
                             </TitleContainer>
@@ -591,7 +596,7 @@ const News = () => {
                               <NewsImage src={post.image}/>
                               <ContentContainer>
                                 <NewsText>{post.content[0].data[0].text === undefined ? '' : truncate(post.content[0].data[0].text, maxLengthContent)}</NewsText>
-                                <StyledButton onClick={() => handleReadMore(post)}>Read More</StyledButton>
+                                <StyledButton onClick={() => handleReadMore(post)}>{t('Read More')}</StyledButton>
                               </ContentContainer>
                             </NewsContent>
                           </JDContainer>

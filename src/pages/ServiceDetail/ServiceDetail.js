@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 import { Container, Button } from '../../globalStyles';
 import { serDetailObj } from '../Services/Services'
+import { useTranslation } from 'react-i18next';
 
 // import service1 from '../../images/hero.png';    // test images public
 // import service3 from '../../images/hero.png';
@@ -95,7 +96,7 @@ const InfoColumn = styled.div`
 
 const Subtitle = styled.p`
   position: ${({ absolute }) => absolute ? 'absolute' : 'unset'};
-  top: 80px;
+  top: 65px;
   margin-top: ${({ top }) => top ? '10px' : '0px'};
   max-width: 600px;
   margin-bottom: ${({ subTitle }) => subTitle ? '35px' : '10px'};
@@ -208,7 +209,8 @@ const SubHeading = styled.h4`
   text-align: center;
   color: rgb(0, 94, 141);
   position: absolute;
-  top: 30px;  
+  top: 30px;
+  text-transform: uppercase;
 `;
 
 const StepId = styled.div`
@@ -263,8 +265,17 @@ const Row = styled.div`
 
 
 const ServiceDetail = () => {
+  const { i18n, t } = useTranslation('Services');
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
+
 
   // selectedService match with Route path in App.js
   const { selectedService: serviceNameParam } = useParams();
@@ -304,8 +315,8 @@ const ServiceDetail = () => {
     return (
       <>
         <Square animation={animation}>
-          <SubHeading>{step.step.toUpperCase()}</SubHeading>
-          <Subtitle absolute left>{step.description}</Subtitle>
+          <SubHeading>{t(`${step.step}`)}</SubHeading>
+          <Subtitle absolute left>{t(`${step.description}`)}</Subtitle>
           <Image src={step.image} />
           <StepId>{step.id}</StepId>
         </Square>
@@ -322,15 +333,15 @@ const ServiceDetail = () => {
             <InfoRow>
               <InfoColumn start={true.toString()}>
                 <TextWrapper>
-                  <TopLine>Service Detail</TopLine>
-                  <Heading heading>{selectedServiceName.serviceName}</Heading>
-                  <Subtitle subTitle>{selectedServiceName.shortDescription}</Subtitle>
+                  <TopLine>{t('Service Detail')}</TopLine>
+                  <Heading heading>{t(`${selectedServiceName.serviceName}`)}</Heading>
+                  <Subtitle subTitle>{t(`${selectedServiceName.shortDescription}`)}</Subtitle>
                   {selectedServiceName.serviceName === 'Software Outsourcing' ? 
                     <>
-                      <Heading>Our range of services includes:</Heading>
-                      <Subtitle top>・Web Designing</Subtitle>
-                      <Subtitle top>・Web Development</Subtitle>
-                      <Subtitle top>・Web Customization</Subtitle>
+                      <Heading>{t('Our range of services includes:')}</Heading>
+                      <Subtitle top>・{t('Web Designing')}</Subtitle>
+                      <Subtitle top>・{t('Web Development')}</Subtitle>
+                      <Subtitle top>・{t('Web Customization')}</Subtitle>
                     </> : ''}                 
                 </TextWrapper>
               </InfoColumn>
@@ -343,7 +354,7 @@ const ServiceDetail = () => {
 
               <InfoColumnJob>
                 <TextWrapper>
-                  <ProcedureHeading>Our Procedure</ProcedureHeading>
+                  <ProcedureHeading>{t('Our Procedure')}</ProcedureHeading>
                   {rows.map((row, rowIndex) => (
                     <Row key={rowIndex}>
                       {row.map((step, index) => (
@@ -351,7 +362,7 @@ const ServiceDetail = () => {
                       ))}
                     </Row>
                   ))}
-                  <StyledButton onClick={handleBack}>Back to Main Services</StyledButton>
+                  <StyledButton onClick={handleBack}>{t('Back to Main Services')}</StyledButton>
                 </TextWrapper>
               </InfoColumnJob>
             </InfoRow>

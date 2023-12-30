@@ -357,7 +357,7 @@ const CreateJob = () => {
                   </DetailContainer>
 
                   <DetailContainer>
-                    <JobTitleElementDetail>Treatment</JobTitleElementDetail>
+                    <JobTitleElementDetail>Benefit</JobTitleElementDetail>
                     <Input
                       type='text'
                       value={treatment}

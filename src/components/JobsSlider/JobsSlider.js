@@ -12,6 +12,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { useNavigate } from 'react-router-dom';
 import { JobsContext } from '../../api/api';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -177,6 +178,7 @@ const StyledSalary = styled(FaFileContract)`
 
 
 const JobsSlider = () => {
+    const { t } = useTranslation('Home');
     const jobDetailObj = useContext(JobsContext);
 
     const navigate = useNavigate();
@@ -200,8 +202,8 @@ const JobsSlider = () => {
     <CarouselContainer>
         <InfoColumn>
             <TextWrapper>
-                <TopLine>Career Chances</TopLine>
-                <Heading>Exploring Job Opportunities</Heading>
+                <TopLine>{t('Career Chances')}</TopLine>
+                <Heading>{t('Exploring Job Opportunities')}</Heading>
             </TextWrapper>
         </InfoColumn>
 
@@ -269,7 +271,7 @@ const JobsSlider = () => {
                                     {job.salary}
                                 </StyledSkill>
                             </StyledSwiperSlide>                            
-                            <StyledButton key={job.id} onClick={() => handleExplore(job)}>EXPLORE</StyledButton>                                                   
+                            <StyledButton key={job.id} onClick={() => handleExplore(job)}>{t('EXPLORE')}</StyledButton>                                                   
                         </StyledSwiperSlideActive>
                     </StyledSwiperSlideContainer>
                 ))

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Container } from '../../globalStyles';
 import { Link } from 'react-router-dom';
 import { GoChevronDown } from 'react-icons/go';
@@ -79,23 +79,41 @@ export const NavMenu = styled.ul`
 `;
 
 export const NavItem = styled.li`
+    width: 110px;
     height: 38px;
     position: relative;
-    margin-right: 10px;
-    &:hover {
-        /* background-color: hsla(200,77.5%,68.6%,1.000); */
-        background-color: rgb(0 94 141);
-        border-radius: 4px;
-        width: 96%;
-        color: white !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:not(:last-child) {
+        margin-right: 10px;
     }
-    
-    @media screen and (max-width: 960px) {
-        width: 96%;
-        &:hover {
-            border: none;
+
+    &:last-child {
+        width: 93px;
+    }
+
+    ${({ hover }) => 
+        !hover &&
+        css`
+            &:not(:last-child) {
+            &:hover {
+                background-color: rgb(0 94 141);
+                border-radius: 4px;
+                /* width: 96%; */
+                min-width: 110px;
+                color: white !important;
+                justify-content: center;
+            }
+
+            @media screen and (max-width: 960px) {
+                width: 96%;
+                &:hover {
+                    border: none;
+                }
+            }
         }
-    }
+    `}
 `;
 
 export const DownIcon = styled(GoChevronDown)`
@@ -106,15 +124,20 @@ export const DownIcon = styled(GoChevronDown)`
 export const NavLinks = styled(Link)`
     color: hsl(207,5%,57%);
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     text-decoration: none;
-    padding: 0.5rem 1rem;
+    padding: 10px;
     height: 100%;
     font-size: 18px;
     font-weight: 400;
+    white-space: nowrap;
 
     &:hover {
         color: white !important;
+        width: 110px;
+        justify-content: center;
+        align-items: center;
+
         ${DownIcon} {
             color: white !important;
         }
@@ -153,7 +176,7 @@ export const  NavBtnLink = styled(Link)`
     text-decoration: none;
     /* padding: 8px 16px; */
     height: 100%;
-    width: 100%;
+    width: 98%;
     border: none;
     outline: none;
 `;
@@ -213,3 +236,15 @@ export const SubA = styled(Link)`
   }
 `;
 //------- dropdown menu end-------//
+
+export const StyledFlag = styled.img`
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+`;
+
+export const FlagContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;

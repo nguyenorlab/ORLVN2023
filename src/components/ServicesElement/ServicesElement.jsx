@@ -1,7 +1,8 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useEffect, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ObjectArrayContext } from '../../pages/Services/Services';
+import { useTranslation } from 'react-i18next';
 
 
 const Container = styled.div`
@@ -28,7 +29,8 @@ const CardContainer = styled.div`
   background-color: white;
   margin-right: 30px;
 	border-radius: 14px;
-  box-shadow: rgb(0, 94, 141) 5px 5px 20px 0px;
+  /* box-shadow: rgb(0, 94, 141) 5px 5px 20px 0px; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   position: relative;
@@ -135,9 +137,16 @@ const StyledButton = styled.button`
 
 
 const ServicesElement = () => {
+  const { i18n, t } = useTranslation('Services');
   const serDetailObj = useContext(ObjectArrayContext);
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
 
   const handleSelectedService = useCallback((id) => {
     const ser = serDetailObj.find(ser => ser.id === id);
@@ -154,15 +163,15 @@ const ServicesElement = () => {
             <CardContainer key={index}>
               <HeaderContainer>
                 <Header /*background={data.image}*/>
-                  <h2>{data.serviceName}</h2>
+                  <h2>{t(`${data.serviceName}`)}</h2>
                 </Header>
 
-                <StyledP backgroundImage={data.image}>{data.description}</StyledP>
+                <StyledP backgroundImage={data.image}>{t(`${data.description}`)}</StyledP>
               </HeaderContainer>
 
               <SocialContainer>
                 <SocialItems>
-                  <StyledButton onClick={() => handleSelectedService(data.id)}>Detail here</StyledButton>
+                  <StyledButton onClick={() => handleSelectedService(data.id)}>{t('Detail here')}</StyledButton>
                 </SocialItems>
               </SocialContainer>
             </CardContainer>
