@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ORLVN2023/static/css/main.12f704be.css",
-    "main.js": "/ORLVN2023/static/js/main.d03dd63a.js",
+    "main.js": "/ORLVN2023/static/js/main.19514b4c.js",
     "static/media/business-partnership-scope.jpg": "/ORLVN2023/static/media/business-partnership-scope.012d015da1f04ac01859.jpg",
     "static/media/recruitment-interview.jpg": "/ORLVN2023/static/media/recruitment-interview.998ea47363764b0b997b.jpg",
     "static/media/business-partnership-negotiate.jpg": "/ORLVN2023/static/media/business-partnership-negotiate.ad81cbf1a4995ae8373b.jpg",
@@ -25,14 +25,17 @@
     "static/media/profile2.png": "/ORLVN2023/static/media/profile2.b85e8ef877b83d40e585.png",
     "static/media/about.png": "/ORLVN2023/static/media/about.cba50b1b7f619e36af9b.png",
     "static/media/orl.svg": "/ORLVN2023/static/media/orl.210c78cea1f050ad9c652a246a7a9acd.svg",
+    "static/media/ukflag.svg": "/ORLVN2023/static/media/ukflag.52b54d71731c2229d4f20df2ef161947.svg",
     "static/media/vietnam-flag-circular-17769.svg": "/ORLVN2023/static/media/vietnam-flag-circular-17769.b93c371a5f725e1683771e089f77b30b.svg",
+    "static/media/vnflag.svg": "/ORLVN2023/static/media/vnflag.19c228e9ba7abb35cc9fa5c65666f257.svg",
+    "static/media/jpflag.svg": "/ORLVN2023/static/media/jpflag.194dd3cdd0c139db66521b452f8749f5.svg",
     "static/media/japan-flag-circular-17764.svg": "/ORLVN2023/static/media/japan-flag-circular-17764.4b3687dafbae500fa5907e633e107ef2.svg",
     "index.html": "/ORLVN2023/index.html",
     "main.12f704be.css.map": "/ORLVN2023/static/css/main.12f704be.css.map",
-    "main.d03dd63a.js.map": "/ORLVN2023/static/js/main.d03dd63a.js.map"
+    "main.19514b4c.js.map": "/ORLVN2023/static/js/main.19514b4c.js.map"
   },
   "entrypoints": [
     "static/css/main.12f704be.css",
-    "static/js/main.d03dd63a.js"
+    "static/js/main.19514b4c.js"
   ]
 }
