@@ -17,7 +17,7 @@ const CarouselContainer = styled.div`
     /* flex-direction: column; */
     z-index: 1;
     width: 100%;
-    padding-block: min(8vh, 8rem);
+    padding-block: min(12vh, 8rem);
     max-width: 1300px;
     margin-right: auto;
     margin-left: auto;
