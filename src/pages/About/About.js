@@ -38,13 +38,13 @@ const TextWrapper = styled.div`
     padding-bottom: 60px;
 
     @media screen and (max-width: 768px) {
-        padding-bottom: 65px;
+        padding-bottom: 0px;
     }
 `;
 
 const Heading = styled.h1`
   margin-bottom: 24px;
-  font-size: 48px;
+  font-size: 46px;
   line-height: 1.1;
   color: ${({lightText}) => (lightText ? '#f7f8fa' : '#1c2237')};    
 `;
@@ -77,7 +77,7 @@ const ImgWrapper = styled.div`
 // `;
 
 const TeamInfo = styled.div`
-  padding: 70px 0px 70px 0px;
+  padding: 50px 0px;
   flex: 1;
   max-width: 100%;
   flex-basis: 50%;
@@ -109,7 +109,7 @@ const TeamHeading = styled.h1`
   flex-direction: column;
   text-align: center;
   width: 100%;
-  font-size: 48px;
+  font-size: 46px;
   line-height: 1.1;
   color: ${({lightText}) => (lightText ? '#f7f8fa' : '#1c2237')};    
 `;

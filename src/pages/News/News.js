@@ -25,7 +25,7 @@ const InfoRow = styled.div`
 
 const Heading = styled.h1`
     margin-bottom: 24px;
-    font-size: 48px;
+    font-size: 46px;
     line-height: 1.1;
     color: rgb(0, 94, 141);    
 `;
@@ -57,28 +57,20 @@ const InfoColumnImg = styled.div`
 `;
 
 const InfoColumnJob = styled.div`
-    padding-left: 15px;
+    padding-left: 30px;
     width: 100%;
-    /* margin-bottom: 15px; */
-    /* flex: 1; */
-    /* max-width: 70%; */
-    /* flex-basis: 50%; */
 
     @media screen and (max-width: 768px) {
         max-width: 100%;
         padding-left: unset;
-        /* flex-basis: 100%;
-        display: flex;
-        justify-content: center; */
     }
 `;
 
 const TextWrapper = styled.div`
     padding-top: 0;
-    /* padding-bottom: 60px; */
 
     @media screen and (max-width: 768px) {
-        /* padding-bottom: 65px; */
+
     }
 `;
 
@@ -87,10 +79,8 @@ const JDContainer = styled.label`
   flex-direction: column;
   align-items: left;
   width: 100%;
-  /* height: auto; */
   height: 250px;
   color: #707070;
-  /* border: 3px solid #bdbdbd; */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   font-size: 14px;
   border-radius: 10px;
@@ -226,16 +216,21 @@ const JobListHeading = styled.h2`
 const NewsContent = styled.div`
   width: 100%;
   display: flex;
+
+  @media screen and (max-width: 768px) {
+    align-items: flex-end;
+  }
 `;
 
 const NewsImage = styled.img`
-  /* width: 40%; */
-  width: 300px;
+  width: 30%;
   height: 150px;
   object-fit: contain;
+  margin-right: 20px;
 
-  @media screen and (max-width: 390px) {
-    width: 150px;
+  @media screen and (max-width: 768px) {
+    width: 50%;
+    margin-right: 10px;
   }
 `;
 
@@ -244,11 +239,7 @@ const NewsText = styled.div`
   font-size: 17px;
   color: rgb(140, 146, 151);
   line-height: 1.5rem;
-  /* display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical; */
+  margin-bottom: 15px;
 `;
 
 const LeftContainer = styled.div`
@@ -279,9 +270,17 @@ const RightContainer = styled.div`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 70%;
   justify-content: space-between;
   align-items: flex-start;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  /* @media screen and (max-width: 390px) {
+    width: 50%;
+  } */
 `;
 
 const StyledButton = styled.button`
@@ -367,6 +366,8 @@ const NewsDetailText = styled.p`
   font-size: 17px;
   color: rgb(140, 146, 151);
   line-height: 1.5rem;
+  text-align: justify;
+  hyphens: auto;
 `;
 
 const NewsDetailImg = styled.img`

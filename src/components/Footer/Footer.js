@@ -18,7 +18,6 @@ import {
   SocialMediaWrap,
   SocialLogo,
   WebsiteRights,
-  SocialIcon,
   SocialIcons,
   SocialIconLink,
   NavLogoImgFooter
@@ -224,8 +223,7 @@ const Footer = () => {
         <SocialMedia>
           <SocialMediaWrap>
             <SocialLogo to='/'>
-              <SocialIcon />
-                <NavLogoImgFooter src={logoImg.img} alt='logo' />
+              <NavLogoImgFooter src={logoImg.img} alt='logo' />
             </SocialLogo>
             <WebsiteRights>ORLVN © {currentYear}</WebsiteRights>
             <SocialIcons>

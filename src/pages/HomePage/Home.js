@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 const InfoSec = styled.div`
   color: #fff;
-  padding: 70px 0;
+  padding: 50px 0;
   background: ${({lightBg}) => (lightBg ? '#fff' : '#10152')};
 `;
 
@@ -48,8 +48,6 @@ const slideFromRight = keyframes`
 
 const InfoColumn = styled.div`
   margin-bottom: 15px;
-  padding-right: 15px;
-  padding-left: 15px;
   flex: 1;
   max-width: 50%;
   flex-basis: 50%;
@@ -103,7 +101,7 @@ const TopLine = styled.div`
 
 const Heading = styled.h1`
   margin-bottom: 24px;
-  font-size: 48px;
+  font-size: 46px;
   line-height: 1.1;
   color: ${({lightText}) => (lightText ? '#f7f8fa' : '#1c2237')};
   text-align: ${({ center }) => (center ? 'center' : '')};   
@@ -224,7 +222,6 @@ const Home = () => {
 
   return (
     <>
-      {/* <LanguageSwitcher /> */}
       <Carousel />
 
       {homeData.map((item, index) => (

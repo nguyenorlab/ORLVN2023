@@ -5,10 +5,6 @@ import { Container, Button } from '../../globalStyles';
 import { serDetailObj } from '../Services/Services'
 import { useTranslation } from 'react-i18next';
 
-// import service1 from '../../images/hero.png';    // test images public
-// import service3 from '../../images/hero.png';
-// import codingFlow from '../../images/coding-flow1.jpg';
-
 
 const InfoSec = styled.div`
     color: #fff;
@@ -115,7 +111,7 @@ const ImgWrapper = styled.div`
 `;
 
 const Img = styled.img`
-    padding-right: 0;
+    padding: 30px;
     border: 0;
     width: 500px;
     height: 500px;
@@ -123,6 +119,11 @@ const Img = styled.img`
     vertical-align: middle;
     display: inline-block;
     border-radius: 10px;
+
+    @media screen and (max-width: 768px) {
+      width: 400px;
+      height: 400px;
+    }
 `;
 
 const ProcedureHeading = styled.h1`
@@ -130,8 +131,7 @@ const ProcedureHeading = styled.h1`
   display: flex;
   flex-direction: column;
   text-align: center;
-  width: 100%;
-  font-size: 48px;
+  font-size: 46px;
   line-height: 1.1;
   color: rgb(0, 94, 141);    
 `;

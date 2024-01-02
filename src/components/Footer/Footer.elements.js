@@ -130,7 +130,7 @@ export const FooterLinkItems = styled.div`
 
     @media screen and (max-width: 420px) {
         margin: 0;
-        padding: 10px;
+        /* padding: 10px; */
         width: 100%;
     }
 `;
@@ -166,7 +166,7 @@ export const SocialMediaWrap = styled.div`
     align-items: center;
     width: 100%;
     max-width: 1300px;
-    margin: 40px auto 0 auto;
+    margin: 40px auto 20px auto;
     padding-right: 30px;
     padding-left: 30px;
 
@@ -215,6 +215,6 @@ export const SocialIconLink = styled.a`
 export const NavLogoImgFooter = styled.img`
     height: 60px;
     width: 60px;
-    margin: 7px 0px 0px 14px;
+    margin-bottom: -10px;
     border-radius: 5px;
 `;

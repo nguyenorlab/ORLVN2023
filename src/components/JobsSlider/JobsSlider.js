@@ -42,6 +42,9 @@ const StyledSwiperSlideContainer = styled(SwiperSlide)`
     background-position: center;
     background-image: url(${props => props.background});
     border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0.9;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
 const StyledSwiperSlideActive = styled.div`
@@ -125,7 +128,7 @@ const Heading = styled.h1`
     display: inline-block;
     /* width: 700px; */
     width: 100%;
-    font-size: 48px;
+    font-size: 46px;
     line-height: 1.1;
     color: ${({lightText}) => (lightText ? '#f7f8fa' : '#1c2237')};    
 `;
@@ -158,6 +161,7 @@ const StyledSkill = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    color: white;
 `;
 
 const StyledSkillStack = styled(BsStack)`
@@ -180,22 +184,11 @@ const StyledSalary = styled(FaFileContract)`
 const JobsSlider = () => {
     const { t } = useTranslation('Home');
     const jobDetailObj = useContext(JobsContext);
-
     const navigate = useNavigate();
-    // const [selectedJobID, setSelectedJobID] = useState('');
-    // const [selectedJobTitle, setSelectedJobTitle] = useState('');
 
     const handleExplore = useCallback((job) => {
-        // setSelectedJobID(job.id);
-        // setSelectedJobTitle(job.jobTitle);
         navigate(`/recruitment/${job.jobTitle}`, { state: { selectedJob: job, jobList: jobDetailObj } });
     },[jobDetailObj, navigate]);
-
-    // có API sẽ sửa lại chỗ này
-    // useEffect(() => {
-    //     console.log(`Selected Job ID: ${selectedJobID}, Selected Job Title: ${selectedJobTitle}`);
-    // }, [selectedJobID, selectedJobTitle]);
-
 
     
   return (

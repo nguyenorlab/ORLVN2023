@@ -75,7 +75,7 @@ const TeamHeading = styled.h1`
   flex-direction: column;
   text-align: center;
   width: 100%;
-  font-size: 48px;
+  font-size: 46px;
   line-height: 1.1;
   color: ${({lightText}) => (lightText ? '#f7f8fa' : '#1c2237')};    
 `;
