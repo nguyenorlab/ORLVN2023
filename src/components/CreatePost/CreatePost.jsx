@@ -1,23 +1,136 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-// import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../config/firebase';
 import { collection, addDoc, getDocs, updateDoc, getFirestore, doc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL, getStorage } from 'firebase/storage';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-// import { getPosts } from '../../api/api';
 import Cookies from 'js-cookie';
+import { Button } from '../../globalStyles';
+import { Spin } from 'antd';
 
 
+const FatherContainer = styled.div`
+  position: relative;
+`;
 
-const Form = styled.form`
-  /* Add your styles here */
+const Form = styled.form``;
+
+const Container = styled.div`
+    z-index: 1;
+    width: 100%;
+    max-width: 1300px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 30px;
+    padding-left: 30px;
+    display: flex;
+    justify-content: center;
+
+    @media screen and (max-width: 991px) {
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+`;
+
+const InfoColumnJob = styled.div`
+    margin-bottom: 15px;
+    /* padding-right: 15px; */
+    padding-left: 15px;
+    flex: 1;
+    max-width: 70%;
+    flex-basis: 50%;
+
+    @media screen and (max-width: 768px) {
+        max-width: 100%;
+        flex-basis: 100%;
+        display: flex;
+        justify-content: center;
+    }
+`;
+
+const TextWrapper = styled.div`
+    /* max-width: 540px; */
+    padding-top: 0;
+    padding-bottom: 60px;
+
+    @media screen and (max-width: 768px) {
+        padding-bottom: 65px;
+    }
+`;
+
+const JDContainer = styled.label`
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 100%;
+  height: auto;
+  color: #707070;
+  border: 3px solid #bdbdbd;
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 30px;
+`;
+
+const JDText = styled.div`
+  font-size: 18px;
+  line-height: 24px;
+  color: rgb(140, 146, 151);
+  /* display: flex;
+  flex-direction: column; */
+`;
+
+const JobTitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+`;
+
+const JobTitleElement = styled.p`
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
+  line-height: 24px;
+  color: rgb(0, 94, 141);
+  margin-right: 10px;
+  width: ${({ width }) => width ? '32%': 'unset'};
+  /* background-color: rgb(0, 94, 141); */
+`;
+
+const DetailContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 30px 0px;
+`;
+
+const JobTitleElementDetail = styled.p`
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  line-height: 24px;
+  color: white;
+  margin-right: 10px;
+  width: 100%;
+  background-color: rgb(0, 94, 141);
+  padding: 10px;
+  margin: 5px 0px;
+`;
+
+const CreateHeading = styled.h2`
+    margin: 40px 0px;
+    font-size: 20px;
+    line-height: 1.1;
+    color: rgb(0, 94, 141);
+    font-style: italic;    
 `;
 
 const Input = styled.textarea`
-  /* Add your styles here */
+  color: black;
 `;
 
 const InputImg = styled.input`
@@ -28,9 +141,45 @@ const Select = styled.select`
   /* Add your styles here */
 `;
 
-const Button = styled.button`
-  /* Add your styles here */
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: ${({ center }) => center ? 'center' : 'unset'};
+  margin: ${({ top }) => top ? '20px 0px' : '0px'};
 `;
+
+const SectionContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const TypeContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const DeleteSectionButton = styled.div`
+  margin-bottom: 20px;
+`;
+
+const StyledButton = styled(Button)`
+  background: ${({ red }) => red ? 'red' : 'rgb(0, 94, 141)'}
+`;
+
+const Loading = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 
 
 const CreatePost = () => {
@@ -46,6 +195,7 @@ const CreatePost = () => {
   const [tempImages, setTempImages] = useState({});
   const [username, setUsername] = useState('');
   const [minId, setMinId] = useState();
+  const [loading, setLoading] = useState(false);
 
   // -- get username from cookie -- //
   useEffect(() => {
@@ -90,7 +240,7 @@ const CreatePost = () => {
 
   const handleImageUpload = async (imageFile, postId, sectionId, dataIndex) => {   
     const storage = getStorage();
-    const storageRef = ref(storage, `PostsImagesUpload/${Date.now()}_${Math.random()}.jpg`);
+    const storageRef = ref(storage, `PostsImagesUpload/${moment(Date.now()).format('YYYY-MM-DD_HH-mm-ss-SSS')}_Post_ID_${minId}.jpg`);
     const metadata = {contentType: 'image/jpeg',}
     const uploadTask = uploadBytesResumable(storageRef, imageFile, metadata);
   
@@ -130,7 +280,6 @@ const CreatePost = () => {
       console.error('Error in handleImageChange:', error);
     }
   };
-  // console.log(tempImages);
 
 
   const handleUploadThumb = async (event) => {
@@ -154,18 +303,20 @@ const CreatePost = () => {
       image: '',
       content
     };
-  
+
+    setLoading(true);
+
     try {
       if (thumbnailImage) {
         const storage = getStorage();
-        const thumbImageRef = ref(storage, `PostsThumbnailImage/${Date.now()}_${Math.random()}.jpg`);
+        const thumbImageRef = ref(storage, `PostsThumbnailImage/${moment(Date.now()).format('YYYY-MM-DD_HH-mm-ss-SSS')}_Post_ID_${minId}.jpg`);
         await uploadBytesResumable(thumbImageRef, thumbnailImage);
         const downloadURL = await getDownloadURL(thumbImageRef);
         postData.image = downloadURL;
       }
 
       const postRef = await addDoc(collection(db, 'posts'), postData);
-      toast.success('Post is created successfully', {
+      toast.success('Post is created successfully.', {
         onClose: () => navigate('/admin/dashboard')
       });
   
@@ -209,7 +360,9 @@ const CreatePost = () => {
           await updateDoc(postRef, postData);
         }
       }
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error('Error adding document: ', error);
       toast.error('An error occurred while creating the post. Please try again.', {
         onClose: () => navigate('/admin/dashboard')
@@ -239,104 +392,137 @@ const CreatePost = () => {
 
 
   return (
-    <>
-      <h2>Hi, {username}. You are creating a post.</h2>
+    <FatherContainer>
       <Form onSubmit={handleSubmit}>
+        <Container>
+          <InfoColumnJob>
+            <TextWrapper>
+              <CreateHeading>Hi, {username}. You are creating a post.</CreateHeading>
+              <JDContainer>
+                <JDText>
+                  <JobTitleContainer>
+                    <JobTitleElement width={true.toString()}>Main Title</JobTitleElement>
+                    <Input
+                      type="text"
+                      value={title}
+                      onChange={(event) => setTitle(event.target.value)}
+                      required
+                    />
+                  </JobTitleContainer>
 
-        <h3>Main Title</h3>
-        <Input
-          type="text"
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-          required
-        />
+                  <JobTitleContainer>
+                    <JobTitleElement width={true.toString()}>Select Category</JobTitleElement>
+                    <Select value={category} onChange={(event) => setCategory(event.target.value)}>
+                      <option value="Company News">Company News</option>
+                      <option value="Technology News">Technology News</option>
+                    </Select>
+                  </JobTitleContainer>
 
-        <h3>Select Category</h3>
-        <Select value={category} onChange={(event) => setCategory(event.target.value)}>
-          <option value="Company News">Company News</option>
-          <option value="Technology News">Technology News</option>
-        </Select>
-
-        <h3>Upload Thumbnail Image</h3>
-        <InputImg
-          type='file'
-          accept='image/*'
-          onChange={handleUploadThumb}
-          required
-        />
-
-        <h3>Your Content</h3>
-        {content.map((section, index) => (
-          <div key={index}>
-            <h4>Section {index + 1}</h4>
-            {section.data.map((data, dataIndex) => (              
-              <div key={`${section.section}-${dataIndex}`}>
-                <label>Type:</label>
-                <Select
-                  value={data.type}
-                  onChange={(event) => {
-                    const newData = [...content];
-                    newData[index].data[dataIndex].type = event.target.value;
-                    setContent(newData);  
-                  }}
-                  required
-                >
-                  <option value=''>Please Select</option>
-                  <option value='header'>Header</option>
-                  <option value='paragraph'>Paragraph</option>
-                  <option value='image'>Image</option>
-                </Select>
-
-                <label>{data.type === 'image' ? 'Image Upload:' : 'Text'}</label>
-                {
-                  data.type === 'image' ? (
+                  <JobTitleContainer>
+                    <JobTitleElement width={true.toString()}>Upload Thumbnail Image</JobTitleElement>
                     <InputImg
                       type='file'
                       accept='image/*'
-                      onChange={(event) => handleImageChange(event, section.section, dataIndex)}
+                      onChange={handleUploadThumb}
+                      required
                     />
-                  ) : (
-                    <>
-                      <Input
-                        type='text'                      
-                        value={data.text}
-                        onChange={(event) => {
-                          const newData = [...content];
-                          newData[index].data[dataIndex].text = event.target.value;
-                          setContent(newData);
-                        }}
-                        required
-                      />
-                      <div></div>   {/* this div tag to fix controlled to uncontrolled */}                     
-                    </>
-                )}
+                  </JobTitleContainer>
 
-                <Button type='button' onClick={() => {
-                  const newData = [...content];
-                  newData[index].data.splice(dataIndex, 1);
-                  setContent(newData);
-                }}>Delete Data</Button>
-              </div>
-            ))}
+                  <DetailContainer>
+                    <JobTitleElementDetail>Your Content</JobTitleElementDetail>
+                    {content.map((section, index) => (
+                      <div key={index}>
+                        <JobTitleElementDetail>Section {index + 1}</JobTitleElementDetail>
+                        {section.data.map((data, dataIndex) => (              
+                          <SectionContent key={`${section.section}-${dataIndex}`}>
+                            <TypeContainer>
+                              <JobTitleElement>Type:</JobTitleElement>
+                              <Select
+                                value={data.type}
+                                onChange={(event) => {
+                                  const newData = [...content];
+                                  newData[index].data[dataIndex].type = event.target.value;
+                                  setContent(newData);  
+                                }}
+                                required
+                              >
+                                <option value=''>Please Select</option>
+                                <option value='header'>Header</option>
+                                <option value='paragraph'>Paragraph</option>
+                                <option value='image'>Image</option>
+                              </Select>
+                            </TypeContainer>
 
-            <Button 
-              type='button' 
-              onClick={() => {
-              const newData = [...content];
-              newData[index].data.push({ type: '', text: '' });
-              setContent(newData);
-            }}>Add Data</Button>
+                            <label>{data.type === 'image' ? <JobTitleElement>Image Upload:</JobTitleElement> : <JobTitleElement>Text:</JobTitleElement>}</label>
+                            {
+                              data.type === 'image' ? (
+                                <InputImg
+                                  type='file'
+                                  accept='image/*'
+                                  onChange={(event) => handleImageChange(event, section.section, dataIndex)}
+                                />
+                              ) : (
+                                <>
+                                  <Input
+                                    type='text'                      
+                                    value={data.text}
+                                    onChange={(event) => {
+                                      const newData = [...content];
+                                      newData[index].data[dataIndex].text = event.target.value;
+                                      setContent(newData);
+                                    }}
+                                    required
+                                  />
+                                  <div></div>   {/* this div tag to fix controlled to uncontrolled */}                     
+                                </>
+                              )
+                            }
+                            <ButtonContainer top>
+                              <StyledButton red type='button' onClick={() => {
+                                const newData = [...content];
+                                newData[index].data.splice(dataIndex, 1);
+                                setContent(newData);
+                              }}>Delete Data</StyledButton>
 
-            {content.length > 1 && (
-              <Button type='button' onClick={() => handleDeleteSection(section.section)}>Delete Section</Button>
-            )}
-          </div>
-        ))}
-        <Button type="button" onClick={handleAddSection}>Add Section</Button>
-        <Button type="submit">Submit</Button>
-        <Button onClick={handleBack}>Back to Dashboard</Button>
+                              <Button 
+                                type='button' 
+                                onClick={() => {
+                                const newData = [...content];
+                                newData[index].data.push({ type: '', text: '' });
+                                setContent(newData);
+                              }}>Add Data</Button>
+                            </ButtonContainer>
+                            
+                          </SectionContent>
+                        ))}
+
+                        
+                        <DeleteSectionButton>
+                          {content.length > 1 && (
+                            <StyledButton red type='button' onClick={() => handleDeleteSection(section.section)}>Delete This Section</StyledButton>
+                          )}
+                        </DeleteSectionButton>
+                      </div>
+                    ))}
+                    <Button type="button" onClick={handleAddSection}>Add Section</Button>
+                  </DetailContainer>
+                </JDText>
+
+                <ButtonContainer center>
+                  <Button type='submit' disabled={loading}>
+                    {loading ? 'Processing...' : 'Submit'}
+                  </Button>
+                  {loading && <Spin size='large' />}
+                  <Button onClick={handleBack}>Back to Dashboard</Button>
+                </ButtonContainer>
+
+              </JDContainer>
+            </TextWrapper>
+          </InfoColumnJob>
+        </Container>        
       </Form>
-    </>
+      {loading && <Loading />}
+    </FatherContainer>
   );
 };
 

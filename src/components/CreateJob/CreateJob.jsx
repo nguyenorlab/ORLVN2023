@@ -7,7 +7,13 @@ import { collection, addDoc, getDocs, serverTimestamp } from 'firebase/firestore
 import { ref, uploadBytesResumable, getDownloadURL, getStorage } from 'firebase/storage';
 import Cookies from 'js-cookie';
 import { getJobs } from '../../api/api';
+import { toast } from 'react-toastify';
+import { Spin } from 'antd';
 
+
+const FatherContainer = styled.div`
+  position: relative;
+`;
 
 const Form = styled.form``;
 
@@ -19,6 +25,8 @@ const Container = styled.div`
     margin-left: auto;
     padding-right: 30px;
     padding-left: 30px;
+    display: flex;
+    justify-content: center;
 
     @media screen and (max-width: 991px) {
         padding-right: 30px;
@@ -123,9 +131,8 @@ const JobTitleElementDetail = styled.p`
   margin: 5px 0px;
 `;
 
-const CreateJobHeading = styled.h2`
-    /* margin-bottom: 24px; */
-    margin-bottom: 39px;
+const CreateHeading = styled.h2`
+    margin: 40px 0px;
     font-size: 20px;
     line-height: 1.1;
     color: rgb(0, 94, 141);
@@ -140,13 +147,35 @@ const InputCoverImg = styled.input`
   color: black;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+`;
 
+const GuideTitle = styled.p`
+  color: rgb(140, 146, 151);
+  font-size: 14px;
+  line-height: 24px;
+  font-style: italic;
+`;
+
+const Loading = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const CreateJob = () => {
-  // const locationRoute = useLocation();
   const navigate = useNavigate();
-  // const { username } = locationRoute.state;
-
   const [title, setTitle] = useState('');
   const [salary, setSalary] = useState('');
   const [location, setLocation] = useState('');
@@ -157,6 +186,7 @@ const CreateJob = () => {
   const [treatment, setTreatment] = useState('');
   const [username, setUsername] = useState('');
   const [minId, setMinId] = useState();
+  const [loading, setLoading] = useState(false);
 
   // -- get username from cookie -- //
   useEffect(() => {
@@ -182,28 +212,6 @@ const CreateJob = () => {
   }, [navigate]);
 
 
-  // const [coverImg, setCoverImg] = useState(null);
-
-  // const handleUploadCoverImg = async (event) => {
-  //   const storage = getStorage();
-  //   try {
-  //     const coverImgFile = event.target.files[0];      
-  //     const storageRef = ref(storage, 'JobsImagesUpload/' + coverImgFile.name);
-  
-  //   // upload to Storage and wait for it to complete
-  //     const uploadTask = uploadBytesResumable(storageRef, coverImgFile);
-  //     const snapshot = await uploadTask;
-  
-  //     // get image URL public
-  //     const downloadURL = await getDownloadURL(snapshot.ref);
-  //     console.log('Download URL:', downloadURL);
-  //     setCoverImg(downloadURL);
-  //   } catch (error) {
-  //     console.error('Error in handleUploadCoverImg:', error);
-  //   }
-  // };
-
-
   // get min ID before create
   const findMinUnusedId = async () => {
     const postsSnapshot = await getDocs(collection(db, 'jobs'));
@@ -220,11 +228,12 @@ const CreateJob = () => {
       setMinId(displayId);
     })
   },[]);
-  // console.log(minId);
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setLoading(true);
 
     try {
       const storage = getStorage();
@@ -260,11 +269,18 @@ const CreateJob = () => {
         createdAt: serverTimestamp(),
       };
      
-      await addDoc(collection(db, 'jobs'), jobData);      
-      navigate('/admin/dashboard');
+      await addDoc(collection(db, 'jobs'), jobData);
+      toast.success('Job is created successfully.', {
+        onClose: () => navigate('/admin/dashboard')
+      });
       await getJobs();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error('Error adding document: ', error);
+      toast.error('Job is cretead failed. Please try again.', {
+        onClose: () => navigate('/admin/dashboard')
+      }) 
     }
   };
 
@@ -275,13 +291,12 @@ const CreateJob = () => {
 
 
   return (
-    <>
-      <h2>Hi, {username}. You are creating a job.</h2>
+    <FatherContainer>
       <Form onSubmit={handleSubmit}>
         <Container>
           <InfoColumnJob>
             <TextWrapper>
-              <CreateJobHeading>Create Job</CreateJobHeading>
+              <CreateHeading>Hi, {username}. You are creating a job.</CreateHeading>
               <JDContainer>
                 <JDSubtitle>Job Description</JDSubtitle>
                 <JDText>
@@ -317,6 +332,7 @@ const CreateJob = () => {
 
                   <DetailContainer>
                     <JobTitleElementDetail>General Description</JobTitleElementDetail>
+                    <GuideTitle>General description of the project and work performed for this position || プロジェクトとこのポジションで実行された作業の一般的な説明</GuideTitle>
                     <Input
                       type='text'
                       value={description}
@@ -327,7 +343,7 @@ const CreateJob = () => {
 
                   <DetailContainer>
                     <JobTitleElementDetail>Short Description</JobTitleElementDetail>
-                    <p>nên có dòng in nghiêng mô tả nội dung cần nhập là gì ở tất cả các trường</p>
+                    <GuideTitle>3 essential skills || 3つの必須スキル</GuideTitle>
                     <Input
                       type='text'
                       value={shortDescription}
@@ -338,6 +354,7 @@ const CreateJob = () => {
 
                   <DetailContainer>
                     <JobTitleElementDetail>Experience Requirement</JobTitleElementDetail>
+                    <GuideTitle>Description of required experience for the job || 仕事に必要な経験の説明</GuideTitle>
                     <Input
                       type='text'
                       value={exp}
@@ -348,6 +365,7 @@ const CreateJob = () => {
 
                   <DetailContainer>
                     <JobTitleElementDetail>Nice to have</JobTitleElementDetail>
+                    <GuideTitle>Plus point || あった方がよい</GuideTitle>
                     <Input
                       type='text'
                       value={expPlus}
@@ -358,6 +376,7 @@ const CreateJob = () => {
 
                   <DetailContainer>
                     <JobTitleElementDetail>Benefit</JobTitleElementDetail>
+                    <GuideTitle>Working Time, Holidays, Bonus... || 勤務時間とか、有給休暇とか、ボーナスとか...</GuideTitle>
                     <Input
                       type='text'
                       value={treatment}
@@ -368,6 +387,7 @@ const CreateJob = () => {
 
                   <DetailContainer>
                     <JobTitleElementDetail>Upload Cover Image</JobTitleElementDetail>
+                    <GuideTitle>背景画像</GuideTitle>
                     <InputCoverImg
                       type='file'
                       accept='image/*'
@@ -377,15 +397,22 @@ const CreateJob = () => {
                   </DetailContainer>
 
                 </JDText>
-                <Button type="submit">Submit</Button>
-                <Button onClick={handleBack}>Back to Dashboard</Button>
+
+                <ButtonContainer>
+                  <Button type='submit'>
+                    {loading ? 'Processing...' : 'Submit'}
+                  </Button>
+                  {loading && <Spin size='large' />}
+                  <Button onClick={handleBack}>Back to Dashboard</Button>
+                </ButtonContainer>
               </JDContainer>
             </TextWrapper>
           </InfoColumnJob>
 
         </Container>
-      </Form>    
-    </>
+      </Form>
+      {loading && <Loading />}
+    </FatherContainer>
   )
 }
 

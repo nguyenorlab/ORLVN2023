@@ -6,7 +6,7 @@ import { Button } from '../../globalStyles';
 import { db } from '../../config/firebase';
 import { collection, doc, updateDoc, getDocs, where, query } from 'firebase/firestore';
 import Cookies from 'js-cookie';
-
+import { Spin } from 'antd';
 
 
 const Container = styled.div`
@@ -17,6 +17,8 @@ const Container = styled.div`
     margin-left: auto;
     padding-right: 30px;
     padding-left: 30px;
+    display: flex;
+    justify-content: center;
 
     @media screen and (max-width: 991px) {
         padding-right: 30px;
@@ -122,17 +124,43 @@ const JobTitleElementDetail = styled.p`
 `;
 
 const CreateJobHeading = styled.h2`
-    /* margin-bottom: 24px; */
-    margin-bottom: 39px;
-    font-size: 20px;
-    line-height: 1.1;
-    color: rgb(0, 94, 141);
-    font-style: italic;    
+  margin: 40px 0px;
+  font-size: 20px;
+  line-height: 1.1;
+  color: rgb(0, 94, 141);
+  font-style: italic;    
 `;
 
 const Input = styled.textarea`
   color: black;
 `;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+`;
+
+const GuideTitle = styled.p`
+  color: rgb(140, 146, 151);
+  font-size: 14px;
+  line-height: 24px;
+  font-style: italic;
+`;
+
+const Loading = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 
 
 const EditJob = () => {
@@ -151,6 +179,7 @@ const EditJob = () => {
   const [editedTreatment, setEditedTreatment] = useState('');
   const [documentId, setDocumentId] = useState(null);
   const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // -- get username from cookie -- //
   useEffect(() => {
@@ -199,7 +228,7 @@ const EditJob = () => {
   },[allJobsData, displayId]);
 
   if(allJobsData.length === 0) {
-    return <div>Loading...</div>;
+    return <Spin />;
   }
 
   const handleSave = async () => {
@@ -214,13 +243,17 @@ const EditJob = () => {
       expPlus: editedExpPlus,
       treatment: editedTreatment
     };
+    
+    setLoading(true);
 
     await updateDoc(jobRef, updatedJob)
       .then(() => {
         console.log('Update job successfully');
         navigate('/admin/dashboard');
+        setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
         console.error('Update fail', error);
       });
   };
@@ -232,11 +265,10 @@ const EditJob = () => {
 
   return (
     <>
-      <h2>Hi, {username}. You are editing a job</h2>
       <Container>
         <InfoColumnJob>
           <TextWrapper>
-            <CreateJobHeading>Edit Job</CreateJobHeading>
+            <CreateJobHeading>Hi, {username}. You are editing a job</CreateJobHeading>
             <JDContainer>
               <JDSubtitle>Job Description</JDSubtitle>
               <JDText>
@@ -269,6 +301,7 @@ const EditJob = () => {
 
                 <DetailContainer>
                   <JobTitleElementDetail>General Description</JobTitleElementDetail>
+                  <GuideTitle>General description of the project and work performed for this position || プロジェクトとこのポジションで実行された作業の一般的な説明</GuideTitle>
                   <Input
                     type='text'
                     value={editedDescription}
@@ -278,7 +311,7 @@ const EditJob = () => {
 
                 <DetailContainer>
                   <JobTitleElementDetail>Short Description</JobTitleElementDetail>
-                  <p>nên có dòng in nghiêng mô tả nội dung cần nhập là gì ở tất cả các trường</p>
+                  <GuideTitle>3 essential skills || 3つの必須スキル</GuideTitle>
                   <Input
                     type='text'
                     value={editedShortDescription}
@@ -288,6 +321,7 @@ const EditJob = () => {
 
                 <DetailContainer>
                   <JobTitleElementDetail>Experience Requirement</JobTitleElementDetail>
+                  <GuideTitle>Description of required experience for the job || 仕事に必要な経験の説明</GuideTitle>
                   <Input
                     type='text'
                     value={editedExp}
@@ -297,6 +331,7 @@ const EditJob = () => {
 
                 <DetailContainer>
                   <JobTitleElementDetail>Nice to have</JobTitleElementDetail>
+                  <GuideTitle>Plus point || あった方がよい</GuideTitle>
                   <Input
                     type='text'
                     value={editedExpPlus}
@@ -306,6 +341,7 @@ const EditJob = () => {
 
                 <DetailContainer>
                   <JobTitleElementDetail>Benefit</JobTitleElementDetail>
+                  <GuideTitle>Working Time, Holidays, Bonus... || 勤務時間とか、有給休暇とか、ボーナスとか...</GuideTitle>
                   <Input
                     type='text'
                     value={editedTreatment}
@@ -314,13 +350,19 @@ const EditJob = () => {
                 </DetailContainer>              
               </JDText>
 
-              <Button onClick={handleSave}>Save Changes</Button>
-              <Button onClick={handleCancel}>Cancel</Button>
+              <ButtonContainer>
+                <Button onClick={handleSave}>
+                  {loading ? 'Saving...' : 'Save Changes'}
+                </Button>
+                {loading && <Spin size='large' />}
+                <Button onClick={handleCancel}>Cancel</Button>
+              </ButtonContainer>
 
             </JDContainer>
           </TextWrapper>
         </InfoColumnJob>
-      </Container>    
+      </Container>
+      {loading && <Loading />}
     </>
   )
 }

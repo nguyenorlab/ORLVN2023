@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { JobsContext } from '../../api/api';
 import { useTranslation } from 'react-i18next';
+import { Spin } from 'antd';
 
 
 
@@ -171,9 +172,8 @@ const Recruitment = () => {
             </Container>
           </InfoSec>
         )) : (
-        <div>Loading...</div>
+        <Spin />
       )}
-
     </>
   )
 }

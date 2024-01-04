@@ -9,6 +9,8 @@ import DataTable from '../../components/DataTable/DataTable';
 import { getUsers, getJobs, getPosts } from '../../api/api';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+
 
 // import { allPostData } from '../News/Data';
 // import { allRecruitData } from '../Recruitment/Data';
@@ -45,7 +47,7 @@ const MainContent = styled.main`
 
 const MessageContainer = styled.div`
   display: flex;
-  align-items: center;
+  // align-items: center;
   justify-content: center;
   height: 100%;
 `;
@@ -106,7 +108,8 @@ const Dashboard = () => {
         await handleLogout();        
         break;
       default:
-        console.log(`No handler for ${item}`);
+        toast.info(`No handler for ${item}`);
+        // console.log(`No handler for ${item}`);
     }
     setData(data);
     setFields(itemFields[item]);
@@ -129,7 +132,7 @@ const Dashboard = () => {
           break;
       }
     } catch (error) {
-      console.error('Error createing item: ', error);
+      console.error('Error creating item: ', error);
     }
   };
 
@@ -172,12 +175,15 @@ const Dashboard = () => {
             await handleDeletePost(item);
             break;
           default:
-            console.log(`No handler for ${item}`);
+            toast.info(`No handler for ${item}`);
+            // console.log(`No handler for ${item}`);
         }
   
-        console.log(`${item.typeName}-${item.displayId} successfully deleted!`);
+        // console.log(`${item.typeName}-${item.displayId} successfully deleted!`);
+        toast.success(`${item.typeName}-${item.displayId} successfully deleted!`);
       } catch (error) {
         console.error(`Error deleting ${item}: `, error);
+        toast.error(`Error deleting ${item.typeName}-${item.displayId}`);
       }
     }
   };
@@ -202,7 +208,8 @@ const Dashboard = () => {
           const imageRef = ref(storage, imagePaths);
           await deleteObject(imageRef);
         } else {
-          console.log('This job has no image to delete');
+          toast.info('This job has no image to delete');
+          // console.log('This job has no image to delete');
         }
         
         const newData = await getJobs();
@@ -210,10 +217,12 @@ const Dashboard = () => {
 
         navigate('/admin/dashboard');
       } catch (error) {
+        toast.error('Error deleting document, please try again.')
         console.error('Error deleting document: ', error);
       }
     } else {
-      console.log('Invalid Document ID');
+      toast.error('Invali document ID');
+      // console.log('Invalid Document ID');
     }
   };
 
@@ -245,23 +254,33 @@ const Dashboard = () => {
           await deleteDoc(postRef);
   
           // Xoá ảnh từ Storage
+          // delete thumbnail
+          const decodedUrl = decodeURIComponent(postData.image);        
+          const filename = decodedUrl.split('/').pop();
+          const cleanFilename = filename.split('?alt=media')[0];
+          const thumbImagePaths = 'PostsThumbnailImage/' + cleanFilename;
           const storage = getStorage();
-          // const storageRef = ref(storage, 'PostsImagesUpload');
-  
+          const imageRef = ref(storage, thumbImagePaths);
+          await deleteObject(imageRef);
+
+          // delete type image in content
           for (const imagePath of imagePaths) {
             const imageRef = ref(storage, imagePath);
             await deleteObject(imageRef);
           }
   
-          console.log('Document and images successfully deleted!');
+          toast.success('Document and images successfully deleted!');
+          // console.log('Document and images successfully deleted!');
           const newData = await getPosts();
           setData(newData);
           navigate('/admin/dashboard');
         } catch (error) {
+          toast.error('Error deleting document, please try again');
           console.error('Error deleting document: ', error);
         }
       } else {
-        console.log('Invalid Document ID');
+        toast.error('Invalid document ID');
+        // console.log('Invalid Document ID');
       }
   };
   // ------------------- end Delete function ------------------- //
@@ -270,8 +289,10 @@ const Dashboard = () => {
   const handleResetPassword = async (user) => {
     try {
       await sendPasswordResetEmail(auth, user.email);
-      console.log(`Reset password email sent to ${user.email}`);
+      toast.success(`Reset password email sent to ${user.email}`);
+      // console.log(`Reset password email sent to ${user.email}`);
     } catch (error) {
+      toast.error('Error resetting password, please try again');
       console.error('Error resetting password: ', error);
     }
   };

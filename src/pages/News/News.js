@@ -395,6 +395,13 @@ const NewsDetailInfoContainer = styled.div`
 const NewsDetail = ({ post }) => {
   const { t } = useTranslation('News');
 
+  const sortDataByType = (data) => {
+    return data.sort((a, b) => {
+      const order = ['header', 'paragraph', 'image'];
+      return order.indexOf(a.type) - order.indexOf(b.type);
+    });
+  };
+
   return (
     <InfoColumnJob>
       <TextWrapper>
@@ -405,7 +412,7 @@ const NewsDetail = ({ post }) => {
         </NewsDetailInfoContainer>
         {post.content.map((section, index) => (
           <div key={index}>
-            {section.data.map((item, index) => {
+            {sortDataByType(section.data).map((item, index) => {
               switch (item.type) {
                 case 'header':
                   // Render header
