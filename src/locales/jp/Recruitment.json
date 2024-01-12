@@ -1,10 +1,16 @@
 {
-  "Recruitment": "募集",
+  "Recruitment": "人材紹介",
   "Front-End Developer": "フロントエンド開発者",
   "Back-End Developer": "バックエンド開発者",
   "DevOps Engineer": "DevOps エンジニア",
   "Cloud Engineer": "クラウドエンジニア",
   "Details": "詳しく",
+
+  "_comment_1": "Short Description",
+  "You will be responsible for building, maintaining the client-side of customer web applications. You should be able to translate our company and customer needs into functional applications. If you’re interested in creating a user-friendly environment this job is for you.": "顧客の Web アプリケーションのクライアント側の構築と保守を担当していただきます。 当社と顧客のニーズを機能的なアプリケーションに変換できる必要があります。 ユーザーフレンドリーな環境を作ることに興味があるなら、この仕事はあなたにぴったりです。",
+  "We are looking for candidates who are strong in Back-End development, at least 1 year experience working with Python. Our customers are people who have products with in-depth analysis and processing systems in the fields of construction, agriculture, transportation... it will be great if you are someone who likes to solve difficult problems. hammer, helping customers be satisfied with our solutions.": "バックエンド開発に強く、Python の使用経験が少なくとも 1 年ある候補者を求めています。 私たちの顧客は、建設、農業、運輸などの分野で詳細な分析および処理システムを備えた製品を所有している人々です。難しい問題を解決するのが好きな人であれば、素晴らしいでしょう。 ハンマーを使用して、お客様が当社のソリューションに満足できるよう支援します。",
+  "We are looking for a passionate and meticulous Cloud Engineer to participate in important transformation work/projects. Here, you will have the opportunity to contribute to building and maintaining flexible, secure, scalable cloud systems, optimizing technical work to increase productivity.": "私たちは、重要な変革作業/プロジェクトに参加する、情熱的で細心の注意を払うクラウド エンジニアを探しています。 ここでは、柔軟で安全かつスケーラブルなクラウド システムの構築と維持に貢献し、技術的な作業を最適化して生産性を向上させる機会が与えられます。",
+  "Participating in research, design, implementation and operation of Cloud-based systems (mainly AWS but also Azure or GCP). Implement CI/CD for the system. Build Cloud infrastructure as code (Terraform, AWS CloudFormation, ...). Fix problems and set up the environment on the Cloud.": "クラウドベースのシステム (主に AWS ですが、Azure や GCP も) の調査、設計、実装、運用に参加します。 システムにCI/CDを実装します。 コードとしてクラウド インフラストラクチャを構築します (Terraform、AWS CloudFormation など)。 問題を修正し、クラウド上に環境をセットアップします。",
 
   "Jobs Opening List": "求人リスト",
   "Job Detail": "仕事の詳細",
@@ -15,5 +21,79 @@
   "General Description": "仕事の概要",
   "Experience Requirement": "経験要件",
   "Nice to have": "あれば嬉しい",
-  "Benefit": "候補者のメリット"
+  "Benefit": "候補者のメリット",
+
+  "_comment_2": "Exp job FrontEnd Dev",
+  "Have at least 6 months of major experience working with ReactJS": "ReactJS を使用した少なくとも 6 か月の主要な経験がある",
+  "Deep understanding of basic React concepts, such as components, state, props, lifecycle, and hooks": "コンポーネント、状態、プロパティ、ライフサイクル、フックなどの React の基本概念を深く理解していること",
+  "Strong knowledge of JavaScript and ES6+": "JavaScript および ES6+ に関する豊富な知識",
+  "Skills in working with state management, experience using state management libraries such as Redux or Context API": "状態管理に関するスキル、Redux や Context API などの状態管理ライブラリの使用経験",
+  "Understanding of React Router, skills in using React Router to manage navigation in the application": "React Router についての理解、React Router を使用してアプリケーション内のナビゲーションを管理するスキル",
+  "Experience working with RESTful APIs": "RESTful API の使用経験",
+  "Understanding of responsive design, skills in working with CSS (styled-components).": "レスポンシブ デザインの理解、CSS (styled-components)の操作スキル。",
+
+  "_comment_3": "Exp job BackEnd Dev",
+  "Have experience working with popular frameworks such as Django (web development), Flask, FastAPI": "Django (Web 開発)、Flask、FastAPI などの一般的なフレームワークを使用した経験がある",
+  "Skills to work with database management systems such as MySQL, SQLAlchemy or SQLite": "MySQL、SQLAlchemy、SQLite などのデータベース管理システムを使用するスキル",
+  "Understanding of SQL query language": "SQLクエリ言語の理解",
+  "Experience in API development and integration, understanding of protocols such as RESTful": "API開発と統合の経験、RESTfulなどのプロトコルの理解",
+  "Skills in working with libraries and frameworks such as NumPy, Pandas, OpenCV.": "NumPy、Pandas、OpenCV などのライブラリやフレームワークを操作するスキル。",
+
+  "_comment_4": "Exp job Cloud",
+  "Understanding of services from popular cloud providers such as Amazon Web Services (AWS), Microsoft Azure, Google Cloud Platform (GCP), or others": "アマゾン ウェブ サービス (AWS)、Microsoft Azure、Google Cloud Platform (GCP) などの一般的なクラウド プロバイダーのサービスについての理解",
+  "At least 6 months of experience building, deploying, and managing systems in cloud environments": "クラウド環境でのシステムの構築、展開、管理に関する少なくとも 6 か月の経験",
+  "Use tools like Terraform, AWS CloudFormation, or Azure Resource Manager to automate infrastructure deployment and management": "Terraform、AWS CloudFormation、Azure Resource Manager などのツールを使用して、インフラストラクチャのデプロイと管理を自動化します。",
+  "Strong knowledge of networking concepts such as VPCs, subnets, routing, and VPNs": "VPC、サブネット、ルーティング、VPN などのネットワーク概念に関する豊富な知識",
+  "Understanding of security measures and best practices in cloud environments": "クラウド環境におけるセキュリティ対策とベストプラクティスの理解",
+  "Use monitoring tools like Prometheus, Grafana, or AWS CloudWatch to monitor system performance and stability.": "Prometheus、Grafana、AWS CloudWatch などの監視ツールを使用して、システムのパフォーマンスと安定性を監視します。",
+
+  "_comment_5": "Exp job DevOps",
+  "Deep understanding of DevOps-related technologies such as Docker, Kubernetes, Ansible, Terraform, Jenkins, and others": "Docker、Kubernetes、Ansible、Terraform、Jenkins などの DevOps 関連テクノロジーについての深い理解",
+  "Proficient in at least one programming language, usually Python, Ruby, or Bash scripting": "少なくとも 1 つのプログラミング言語 (通常は Python、Ruby、または Bash スクリプト) に習熟していること",
+  "Strong knowledge of systems and networking to be able to effectively deploy and maintain the system": "システムを効果的に展開して保守できる、システムとネットワークに関する豊富な知識",
+  "Experience using version control systems like Git and development workflows like GitFlow": "Git などのバージョン管理システムや GitFlow などの開発ワークフローの使用経験",
+  "Skills to set up and maintain automation processes using tools such as Ansible, Puppet, or Chef": "Ansible、Puppet、Chef などのツールを使用して自動化プロセスを設定および維持するスキル",
+  "Understanding of IaC and using tools like Terraform to manage infrastructure": "IaC の理解と、Terraform などのツールを使用したインフラストラクチャ管理",
+  "Experience building and maintaining CI/CD pipelines to automate development and deployment processes": "開発およびデプロイのプロセスを自動化するための CI/CD パイプラインの構築および保守の経験",
+  "Understanding of system monitoring and logging to enable analysis and troubleshooting.": "分析とトラブルシューティングを可能にするシステムの監視とログの理解。",
+
+  "_comment_6": "Nice to have job FrontEnd Dev",
+  "Experience using TypeScript": "TypeScriptの使用経験",
+  "Optimize application performance": "アプリケーションのパフォーマンスを最適化する",
+  "Ability to come up with good solutions to problems.": "問題に対する適切な解決策を考え出す能力",
+
+  "_comment_7": "Nice to have job BackEnd Dev",
+  "Experience with performance optimization, data caching is a plus": "パフォーマンスの最適化、データキャッシュの経験があれば尚可",
+  "Experience working with front-end frameworks like ReactJS.": "ReactJS などのフロントエンド フレームワークの使用経験",
+
+  "_comment_8": "Nice to have job Cloud",
+  "Understanding of one or more programming and scripting languages such as Python, Shell Scripting, or PowerShell": "Python、シェル スクリプト、PowerShell などの 1 つ以上のプログラミングおよびスクリプト言語の理解",
+  "Understanding of Docker and principles of containerization": "Docker とコンテナ化の原則についての理解",
+  "Experience using container management tools such as Kubernetes.": "Kubernetes などのコンテナ管理ツールの使用経験。",
+
+  "_comment_9": "Nice to have job DevOps",
+  "Understanding and implementation of best practices in the DevOps field, including CI/CD, IaC, and automation processes": "CI/CD、IaC、自動化プロセスを含む、DevOps 分野のベスト プラクティスの理解と実装",
+  "In-depth training and certifications in DevOps and related technologies.": "DevOps および関連テクノロジーに関する詳細なトレーニングと認定",
+
+
+  "_comment_10": "Benefit when work in VN",
+  "Probation period, 100% salary": "試用期間、給与100%",
+  "Sign an official labor contract after 2 months of probation": "２ヶ月の試用期間後に正式な労働契約に署名します",
+  "12 days off/year, Golden Week off, New Year according to the Japanese calendar, Lunar New Year off, company anniversary": "年間12日休み、ゴールデンウイーク休み、正月休み、旧正月休み、会社記念日",
+  "Summer trip with the company or 3-day summer vacation of your choice": "会社の夏休み旅行または3日間の希望の夏休み",
+  "Working: 9am - 6pm from Monday to Friday, off Saturday and Sunday every week, no overtime": "勤務時間: 月曜日から金曜日の午前 9 時から午後 6 時まで、毎週土曜日と日曜日は休み、残業はありません",
+  "Annual health check, salary increase approval once a year, bonus twice a year (13th and 14th month salary)": "年1回の健康診断、昇給承認年1回、賞与年2回(13、14ヶ月目の給与",
+  "Support for international certification exams": "国際認定試験のサポート",
+  "Social insurance and health insurance regime": "社会保険および健康保険制度",
+  "Young, dynamic, comfortable environment, creating conditions for individuals to develop their abilities as much as possible": "若く、ダイナミックで、快適な環境、個人が可能な限り能力を伸ばすための条件を作り出す",
+  "Free tea, coffee, parking.": "無料の紅茶、コーヒー、駐車場",
+
+  "_comment_11": "Benefit when work in JP",
+  "Probation period, 80% salary": "試用期間、給与80%",
+  "Internal training (if any) and signing an official labor contract after 6 months": "社内研修（ある場合）と6か月後の正式な労働契約への署名",
+  "12 days/year vacation, Golden Week, New Year, Japanese red calendar holidays, company anniversary": "年間12日休暇、ゴールデンウイーク、年末年始、暦祝日、会社記念日",
+  "3-day summer vacation of your choice": "自由に選べる3日間の夏休み",
+  "Working: 9am - 6pm from Monday to Friday, off Saturday and Sunday every week": "勤務時間: 月曜日から金曜日の午前 9 時から午後 6 時まで、毎週土曜日と日曜日は休みです。",
+  "Bonus 2 times/year (13th and 14th month salary)": "賞与 年2回（13、14ヶ月目の給与）",
+  "Monthly transportation support.": "月々の交通費サポート。"
 }

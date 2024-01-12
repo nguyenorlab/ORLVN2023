@@ -52,7 +52,7 @@ const InfoRow = styled.div`
 // `;
 
 const InfoColumnImg = styled.div`
-    margin-top: 48px;
+    margin-top: 46px;
     flex: 1;
     max-width: 30%;
     flex-basis: 50%;
@@ -62,11 +62,11 @@ const InfoColumnImg = styled.div`
     /* padding-left: 15px; */
     order: 1;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 820px) {
         max-width: 100%;
         flex-basis: 100%;
         display: flex;
-        justify-content: center;
+        /* justify-content: center; */
         order: 2;
         margin-top: 0px;
     }
@@ -80,11 +80,11 @@ const InfoColumnJob = styled.div`
     flex-basis: 50%;
     order: 2;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 820px) {
         max-width: 100%;
         flex-basis: 100%;
         display: flex;
-        justify-content: center;
+        /* justify-content: center; */
         order: 1;
         padding-left: 0px;
     }
@@ -237,7 +237,7 @@ const JobsOpeningList = styled.p`
   margin-right: 10px;
   width: 100%;
   background-color: rgb(0, 94, 141);
-  padding: 10px 50px;
+  padding: 15px 37px;
   margin: 5px 0px;
   cursor: pointer;
   clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
@@ -258,7 +258,7 @@ const JobListContainer = styled.label`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   font-size: 14px;
   border-radius: 10px;
-  padding: 20px;
+  padding: 30px;
   /* margin-bottom: 30px; */
 
   input {
@@ -267,7 +267,20 @@ const JobListContainer = styled.label`
 
   @media screen and (max-width: 768px) {
     min-width: 350px;
+    /* max-width: 350px; */
   }
+
+  /* @media screen and (max-width: 375px) {
+    min-width: 315px;
+  }
+
+  @media screen and (min-width: 430px) {
+    max-width: 355px;
+  }
+
+  @media screen and (min-width: 390px) {
+    min-width: 330px;
+  } */
 `;
 
 const JobListHeading = styled.h2`
@@ -337,7 +350,7 @@ const JobDetail = () => {
     navigate(`/recruitment/${job.jobTitle}`, { state: { selectedJob: job } });
   },[jobDetailObj, navigate]);
 
-
+  console.log(selectedJob);
   return (
     <>
         <InfoSec>

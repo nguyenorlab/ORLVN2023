@@ -49,7 +49,7 @@ const CarouselContentSpan = styled.span`
 const CarouselContentH1 = styled.h1`
     text-transform: capitalize;
     letter-spacing: 0.8px;
-    font-size: 4rem;
+    font-size: 53px;
     line-height: 1.1;
     background-color: #00a4aa;
     background-image: linear-gradient(45deg, #00a4aa, #000);
@@ -61,7 +61,7 @@ const CarouselContentH1 = styled.h1`
 const StyledTypeWriter = styled.div`
     text-transform: capitalize;
     letter-spacing: 0.8px;
-    font-size: 4rem;
+    font-size: 53px;
     line-height: 1.1;
     color: rgb(113, 196, 237);
     background-size: 100%;
@@ -83,7 +83,7 @@ const CarouselContenP = styled.p`
 `;
 
 const StyledSwiper = styled(Swiper)`
-    width: 70%;
+    width: 100%;
 
     @media screen and (max-width: 768px) {
         width: 100%;
@@ -134,7 +134,7 @@ const StyledSwiperSlideH2 = styled.h2`
 
 const StyledSwiperSlideP = styled.p`
     color: #dadada;
-    margin: 20px;
+    margin: 30px;
     line-height: 21px;
     font-size: 17px;
     align-items: center;

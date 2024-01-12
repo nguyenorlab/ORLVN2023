@@ -231,6 +231,7 @@ const NewsImage = styled.img`
   @media screen and (max-width: 768px) {
     width: 50%;
     margin-right: 10px;
+    /* margin-bottom: 60px; */
   }
 `;
 
@@ -240,6 +241,10 @@ const NewsText = styled.div`
   color: rgb(140, 146, 151);
   line-height: 1.5rem;
   margin-bottom: 15px;
+
+  @media screen and (max-width: 360px) {
+    margin-bottom: 5px;
+  }
 `;
 
 const LeftContainer = styled.div`

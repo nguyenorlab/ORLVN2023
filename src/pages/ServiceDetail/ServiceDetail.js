@@ -120,10 +120,15 @@ const Img = styled.img`
     display: inline-block;
     border-radius: 10px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 820px) {
       width: 400px;
       height: 400px;
     }
+
+    /* @media screen and (max-width: 768px) {
+      width: 400px;
+      height: 400px;
+    } */
 `;
 
 const ProcedureHeading = styled.h1`
@@ -161,15 +166,17 @@ const Square = styled.div`
   /* border: 3px solid #bdbdbd; */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  width: 350px;
-  height: 450px;
+  /* width: calc(100% + 20px); */
+  width: 75vw;
+  height: 380px;
+  max-width: 350px;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   color: rgba(140, 146, 151, 0.2);
   padding: 10px;
-  box-sizing: border-box;
+  box-sizing: content-box;
   transition: all 0.5s ease-out;
   animation: ${props => {
     switch (props.animation) {
@@ -202,6 +209,12 @@ const Square = styled.div`
   @media screen and (max-width: 640px) {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  @media screen and (max-width: 390px) {
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 410px;
   }
 `;
 
@@ -298,8 +311,8 @@ const ServiceDetail = () => {
 
   // display only 2 square in a row
   const rows = [];
-  for (let i = 0; i < selectedServiceName.step.length; i += 4) {
-    rows.push(selectedServiceName.step.slice(i, i + 4));
+  for (let i = 0; i < selectedServiceName.step.length; i += 2) {
+    rows.push(selectedServiceName.step.slice(i, i + 2));
   }
 
   const StepComponent = ({ step, index }) => {

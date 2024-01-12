@@ -84,10 +84,10 @@ const PartnerDiv = styled.div`
 const TextWrapper = styled.div`
   width: 100%;
   padding-top: 0;
-  padding-bottom: 60px;
+  /* padding-bottom: 60px; */
 
   @media screen and (max-width: 768px) {
-      padding-bottom: 65px;
+      /* padding-bottom: 65px; */
   }
 `;
 
@@ -156,9 +156,10 @@ const SmallImage = styled.img`
   padding: 10px;
   border-radius: 10px;
 
-  /* @media screen and (max-width: 768px) {
-    width: calc(100% - 20px);
-  } */
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    height: 80px;
+  }
 `;
 
 

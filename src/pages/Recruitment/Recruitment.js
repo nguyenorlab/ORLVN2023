@@ -23,10 +23,14 @@ const Container = styled.div`
 `;
 
 const InfoSec = styled.div`
-    color: #fff;
-    /* padding: 160px 0; */
-    padding: 70px 0;
-    background: ${({lightBg}) => (lightBg ? '#fff' : '#10152')};
+  color: #fff;
+  /* padding: 160px 0; */
+  padding: 70px 0;
+  background: ${({lightBg}) => (lightBg ? '#fff' : '#10152')};
+  
+  @media screen and (max-width: 768px) {
+    padding: 30px 0;
+  }
 `;
 
 const InfoRow = styled.div`
@@ -59,7 +63,7 @@ const TextWrapper = styled.div`
     padding-bottom: 60px;
 
     @media screen and (max-width: 768px) {
-        padding-bottom: 65px;
+        padding-bottom: 10px;
     }
 `;
 

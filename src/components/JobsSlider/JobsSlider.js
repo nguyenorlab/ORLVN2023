@@ -36,8 +36,8 @@ const StyledSwiper = styled(Swiper)`
 `;
 
 const StyledSwiperSlideContainer = styled(SwiperSlide)`
-    width: 340px;    // 300px
-    height: 18.75rem;
+    /* width: 340px;     */
+    height: 300px;
     background-size: cover;
     background-position: center;
     background-image: url(${props => props.background});
@@ -61,7 +61,7 @@ const StyledSwiperSlideActive = styled.div`
 const StyledSwiperSlideH2 = styled.h2`
     color: #ffffff;
     font-weight: 400;
-    font-size: 26px;
+    font-size: 22px;
     line-height: 1.4;
     /* margin-bottom: 3.625rem; */
     text-transform: uppercase;
@@ -75,13 +75,9 @@ const StyledSwiperSlideH2 = styled.h2`
 
 const StyledSwiperSlide = styled.div`
     color: rgb(218, 218, 218);
-    /* padding: 0 1.563rem 3rem 1.563rem; */
-    padding-bottom: 20px;
     line-height: 1.6;
     font-size: 20px;
-    margin-top: 25px;
-    /* display: flex; */
-    /* flex-direction: column; */
+    margin-top: 10px;
 `;
 
 const InfoColumn = styled.div`
@@ -201,7 +197,7 @@ const JobsSlider = () => {
         </InfoColumn>
 
         <StyledSwiper
-            modules={[Pagination, Navigation, Autoplay]}
+            modules={[Pagination, Navigation]}
             slidesPerView={3}
             spaceBetween={30}
             // centeredSlides={true}
@@ -209,7 +205,7 @@ const JobsSlider = () => {
             effect={'spring'}
             loop={true}
             autoplay={{
-                delay: 5000,
+                delay: 3000,
                 disableOnInteraction: false,
             }}
             pagination={{
@@ -217,6 +213,9 @@ const JobsSlider = () => {
             }}
             navigation={true}
             breakpoints={{
+                360: {
+                    slidesPerView: 1
+                },
                 375: {
                     slidesPerView: 1
                 },
@@ -227,10 +226,10 @@ const JobsSlider = () => {
                     slidesPerView: 1
                 },
                 768: {
-                    slidesPerView: 1
+                    slidesPerView: 2
                 },
                 1024: {
-                    slidesPerView: 3
+                    slidesPerView: 2
                 },
                 1428: {
                     slidesPerView: 3

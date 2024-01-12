@@ -26,7 +26,7 @@ const InfoColumn = styled.div`
 
     @media screen and (max-width: 768px) {
         max-width: 100%;
-        flex-basis: 100%;
+        /* flex-basis: 100%; */
         display: flex;
         justify-content: center;
     }
@@ -44,14 +44,14 @@ const TextWrapper = styled.div`
 
 const Heading = styled.h1`
   margin-bottom: 24px;
-  font-size: 46px;
+  font-size: 43px;
   line-height: 1.1;
   color: ${({lightText}) => (lightText ? '#f7f8fa' : '#1c2237')};    
 `;
 
 const Subtitle = styled.p`
   max-width: 440px;
-  margin-bottom: 35px;
+  margin: 0px 20px 35px 0px;
   font-size: 18px;
   line-height: 24px;
   /* color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : '#1c2237')}; */
@@ -119,6 +119,19 @@ const TableContainer = styled.div`
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px; // Tuỳ chỉnh theo ý muốn
+  margin-top: 35px;
+
+  @media screen and (max-width: 1024px) {
+    margin-top: 55px;
+  }
+
+  @media screen and (max-width: 820px) {
+    margin-top: 28px;
+  }
+
+  @media screen and (max-width: 768px) {
+    margin-top: 65px;
+  }
 `;
 
 const TableRow = styled.div`

@@ -167,7 +167,7 @@ const profileData = [
     avatar: profile3,
     position: 'Cu li',
     location: 'Viet Nam',
-    about: 'Just a poor man and he don\'t know anything.',
+    about: 'He is a versatile employee, he can do many positions. Not only that, he is also very hardworking and willing to learn. He is very good',
     linkedin: '/'
   }
 ];
