@@ -25,7 +25,9 @@ export const Container = styled.div`
 `;
 
 
-export const Button = styled.button`
+export const Button = styled.button.attrs((props) => ({
+    disabled: props.disabled,
+}))`
     width: fit-content;
     border-radius: 4px;
     /* background: ${({primary}) => (primary ? 'hsla(200,77.5%,68.6%,1.000)' : 'hsla(200,77.5%,68.6%,1.000)')}; */
@@ -49,6 +51,11 @@ export const Button = styled.button`
 
     @media screen and (max-width: 960px) {
         width: fit-content;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
     }
 `;
 

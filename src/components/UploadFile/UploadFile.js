@@ -1,3 +1,7 @@
+////////////////////////////////////////////
+// ---- for upload CV, but now not use -----
+////////////////////////////////////////////
+
 import React, { useState, useCallback } from 'react';
 import { Button } from '../../globalStyles';
 import {useDropzone} from 'react-dropzone';

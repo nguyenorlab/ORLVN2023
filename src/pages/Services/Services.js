@@ -4,18 +4,6 @@ import styled from 'styled-components';
 import ServicesElement from '../../components/ServicesElement/ServicesElement';
 import { useTranslation } from 'react-i18next';
 
-// import cloud from '../../images/cloud.jpg';
-// import hero from '../../images/hero.png';
-
-// import service1 from '../../images/hero.png';    // test images public
-// import service2 from '../../images/hero.png';
-// import service3 from '../../images/hero.png';
-// import codingFlow from '../../images/coding-flow1.jpg';
-// import software from '../../images/software.jpg';
-// import development from '../../images/development.jpg';
-// import recruitment from '../../images/recruitment.jpg';
-
-
 export const ObjectArrayContext = createContext([]);
 
 
@@ -31,15 +19,6 @@ const InfoRow = styled.div`
     align-items: center;
     flex-direction: ${({imgStart}) => (imgStart ? 'row-reverse' : 'row')};
 `;
-
-// const Subtitle = styled.p`
-//     max-width: 440px;
-//     margin-bottom: 35px;
-//     font-size: 18px;
-//     line-height: 24px;
-//     /* color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : '#1c2237')}; */
-//     color: ${({lightTextDesc}) => (lightTextDesc ? '#a9b3c1' : 'rgb(140, 146, 151)')};
-// `;
 
 const TeamInfo = styled.div`
   padding: 50px 0px;
@@ -79,23 +58,6 @@ const TeamHeading = styled.h1`
   line-height: 1.1;
   color: ${({lightText}) => (lightText ? '#f7f8fa' : '#1c2237')};    
 `;
-
-// const Img1 = styled.img`
-//     position: fixed;
-//     top: 0;
-//     left: -8rem;
-//     z-index: -1;
-//     opacity: 0.2;
-// `;
-
-// const Img2 = styled.img`
-//     position: fixed;
-//     bottom: -2rem;
-//     right: -3rem;
-//     z-index: -1;
-//     width: 9.375rem;
-//     opacity: 0.2;
-// `;
 
 
 export const serDetailObj = [
@@ -219,8 +181,6 @@ const Services = () => {
 
           </InfoRow>
         </Container>
-        {/* <Img1 src={cloud} alt="bg" />
-        <Img2 src={hero} alt="bg" /> */}
       </InfoSec>
     </>
   )

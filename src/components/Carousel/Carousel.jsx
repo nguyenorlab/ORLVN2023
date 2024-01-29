@@ -1,7 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import bgdonut1 from './image/bg-donut-1.png';
-// import bgdonut2 from './image/bg-donut-2.png';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, EffectCoverflow } from 'swiper/modules';
 import 'swiper/css';
@@ -14,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 
 const CarouselContainer = styled.div`
     display: flex;
-    /* flex-direction: column; */
     z-index: 1;
     width: 100%;
     padding-block: min(12vh, 8rem);
@@ -24,10 +21,6 @@ const CarouselContainer = styled.div`
     padding-right: 30px;
     padding-left: 30px;
 
-    /* @media screen and (min-width: 48rem) {
-        display: flex;
-        align-items: center;
-    } */
     @media screen and (max-width: 991px) {
         padding-right: 30px;
         padding-left: 30px;
@@ -42,7 +35,6 @@ const CarouselContentSpan = styled.span`
     text-transform: uppercase;
     letter-spacing: 1.5px;
     font-size: 1rem;
-    /* color: #717171; */
     color: #4b59f7;
 `;
 
@@ -91,10 +83,8 @@ const StyledSwiper = styled(Swiper)`
 `;
 
 const StyledSwiperSlideContainer = styled(SwiperSlide)`
-    /* width: 18.75rem; */
     height: 28.125rem;
     width: 100%;
-    /* height: auto; */
     background-size: cover;
     background-position: center;
     border-radius: 10px;
@@ -105,11 +95,6 @@ const StyledSwiperSlideContainer = styled(SwiperSlide)`
     }
 `;
 
-// const StyledSwiperSlide = styled.div`
-//     display: none;
-//     opacity: 0.3;
-//     padding-bottom: 0.625rem;    
-// `;
 
 const StyledSwiperSlideActive = styled.div`
     display: flex;
@@ -143,34 +128,10 @@ const StyledSwiperSlideP = styled.p`
     hyphens: auto;
 `;
 
-// const StyledSwiperSlideA = styled.a`
-//     margin: 1.25rem 1.5rem 3.5rem;
-//     display: inline-block;
-//     color: #686868;
-//     background: #fff;
-//     padding: 0.625rem 1.875rem;
-//     margin-top: 2.125rem;
-//     text-decoration: none;
-//     text-transform: uppercase;
-//     border: 2px solid #d2d2d2;
-//     border-radius: 3.125rem;
-//     transition: 0.3s ease-in-out;
-//     &:hover{
-//         border: 0.125rem solid #00a4aa;
-//         color: #00a4aa;
-//         background-color: rgba(84, 132, 169, 0.5);
-//     }
-//     /* &:hover{
-//         color: #00a4aa;
-//     } */
-// `;
-
 const StyledButton = styled.button`
     height: 38px;
     font-size: 16px;
     border-radius: 5px;
-    /* margin: 20px 24px 56px; */
-    /* margin: 20px 24px 130px; */
     margin: 50px 24px 20px;
     padding: 10px;
     background: #fff;
@@ -185,46 +146,10 @@ const StyledButton = styled.button`
     transition: all 0.5s ease-out;
     &:hover{
         border: 0.125rem solid rgb(0, 94, 141);
-        /* color: #00a4aa; */
         color: white;
-        /* background-color: rgba(84, 132, 169, 0.5); */
         background-color: rgb(0, 94, 141);
     }
 `;
-
-// const StyledSlideBtn = styled.div`
-//     display: inline-block;
-//     color: #717171;
-//     background: #fff;
-//     padding: 0.625rem 1.875rem;
-//     /* margin-top: 2.125rem; */
-//     text-decoration: none;
-//     text-transform: uppercase;
-//     border: 2px solid #c2c2c2;
-//     border-radius: 3.125rem;
-//     transition: 0.3s ease-in-out;
-//     &:hover{
-//         border: 0.125rem solid #00a4aa;
-//         color: #00a4aa;
-//     }
-// `;
-
-// const Img1 = styled.img`
-//     position: fixed;
-//     top: 0;
-//     left: -8rem;
-//     z-index: -1;
-//     opacity: 0.2;
-// `;
-
-// const Img2 = styled.img`
-//     position: fixed;
-//     bottom: -2rem;
-//     right: -3rem;
-//     z-index: -1;
-//     width: 9.375rem;
-//     opacity: 0.2;
-// `;
 
 const slider = [
     {
@@ -242,7 +167,9 @@ const slider = [
     description: "Efficiency meets expertise in our Recruitment Service. We handle the entire recruitment lifecycle, from sourcing to placement, ensuring a smooth and successful hiring experience.",
     url: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=1600"
     },
-]
+];
+
+
 
 const Carousel = () => {
   const { i18n, t } = useTranslation('Home');
@@ -325,8 +252,6 @@ const Carousel = () => {
                 ))
             }
         </StyledSwiper>
-        {/* <Img1 src={bgdonut1} alt="bg" />
-        <Img2 src={bgdonut2} alt="bg" /> */}
     </CarouselContainer>
   )
 }

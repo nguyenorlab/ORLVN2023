@@ -42,6 +42,17 @@ export const getPosts = async () => {
 };
 
 
+// get all posts from Firestore Database
+export const getGallery = async () => {
+  const galleryCol = collection(db, 'gallery');
+  const gallerySnapshot = await getDocs(galleryCol);
+  const galleryList = gallerySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), typeName: 'Gallery' }));
+  galleryList.sort((a, b) => a.displayId - b.displayId);
+
+  return galleryList;
+};
+
+
 //--- Users data Provider ---//
 export const UsersProvider = ({ children }) => {
   const [users, setUsers] = useState([]);

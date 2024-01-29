@@ -6,6 +6,7 @@ import vietnam from '../../assets/vietnam-flag-circular-17769.svg';
 import japan from '../../assets/japan-flag-circular-17764.svg';
 import ImageViewer from "react-simple-image-viewer";
 import { useTranslation } from 'react-i18next';
+import { getGallery } from '../../api/api';
 
 
 import { 
@@ -96,22 +97,13 @@ const StyledGallery = styled.img`
   object-fit: cover;
 `;
 
-const gallery = [
-  'https://images.pexels.com/photos/57007/pexels-photo-57007.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  'https://images.pexels.com/photos/785418/pexels-photo-785418.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  'https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  'https://images.pexels.com/photos/113850/pexels-photo-113850.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  'https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-  'https://images.pexels.com/photos/17484975/pexels-photo-17484975/free-photo-of-an-artist-s-illustration-of-artificial-intelligence-ai-this-image-depicts-how-ai-can-help-humans-to-understand-the-complexity-of-biology-it-was-created-by-artist-khyati-trehan-as-part.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-  'https://images.pexels.com/photos/6153354/pexels-photo-6153354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-  'https://images.pexels.com/photos/17485678/pexels-photo-17485678/free-photo-of-an-artist-s-illustration-of-artificial-intelligence-ai-this-image-depicts-how-ai-could-be-used-in-the-field-of-sustainability-from-biodiversity-to-climate-it-was-created-by-nidia-dias.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-  'https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-];
+
 
 const Footer = () => {
   const { i18n, t } = useTranslation('Footer');
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [gallery, setGallery] = useState([]);
   let currentYear = new Date().getFullYear();
 
   useEffect(() => {
@@ -120,7 +112,22 @@ const Footer = () => {
       i18n.changeLanguage(savedLanguage);
     }
   }, [i18n]);
+
+
+  const getGalleryData = async () => {
+    try {
+      const data = await getGallery();
+      console.log(data);
+      setGallery(data);      
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   
+  useEffect(() => {
+    getGalleryData();
+  }, []);
+
 
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
@@ -193,28 +200,29 @@ const Footer = () => {
               <StyledGalleryContainer>
               {
                 gallery.map((image, index) => (
-                    <StyledGallery 
-                      key={index} 
-                      src={image} 
-                      style={{ gridArea: `image${index + 1}` }}
-                      onClick={() => openImageViewer(index)} 
+                  <div key={`${'image_' + index}`}>
+                    {!isViewerOpen ? (
+                      <StyledGallery 
+                        key={index} 
+                        src={image.pathImg} 
+                        style={{ gridArea: `image${index + 1}` }}
+                        onClick={() => openImageViewer(index)} 
+                      />
+                    ) : (
+                      <ImageViewer
+                      src={gallery.map(img => img.pathImg)}
+                      currentIndex={currentImage}
+                      onClose={closeImageViewer}
+                      disableScroll={false}
+                      backgroundStyle={{
+                        backgroundColor: 'rgba(0,0,0,0.9)'
+                      }}
+                      closeOnClickOutside={true}
                     />
-                    ))
-              }
-
-              {isViewerOpen && (
-                <ImageViewer
-                  src={gallery}
-                  currentIndex={currentImage}
-                  onClose={closeImageViewer}
-                  disableScroll={false}
-                  backgroundStyle={{
-                    backgroundColor: 'rgba(0,0,0,0.9)'
-                  }}
-                  closeOnClickOutside={true}
-                />
-              )}
-              
+                    )}                  
+                  </div>
+                ))
+              }              
               </StyledGalleryContainer>
             </FooterLinkItems>
           </FooterLinksWrapper>

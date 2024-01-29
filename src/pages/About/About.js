@@ -66,16 +66,6 @@ const ImgWrapper = styled.div`
   justify-content: ${({start}) => (start ? 'flex-start' : 'flex-end')};
 `;
 
-
-// const Img = styled.img`
-//   padding-right: 0;
-//   border: 0;
-//   max-width: 100%;
-//   vertical-align: middle;
-//   display: inline-block;
-//   max-height: 500px;
-// `;
-
 const TeamInfo = styled.div`
   padding: 50px 0px;
   flex: 1;
@@ -155,7 +145,6 @@ const aboutData = {
   headline: 'About Us', 
   lightText: false,
   primary: false,
-  img: require('../../images/about.png'),
   alt: 'Image',
   start: '',
   companyName: 'ORLAB Viet Nam Co.Ltd',

@@ -6,7 +6,7 @@ import { /*collection,*/ /*getDocs,*/ getDoc, /*addDoc,*/ doc, /*where, query,*/
 import { deleteObject, ref, getStorage } from 'firebase/storage';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import DataTable from '../../components/DataTable/DataTable';
-import { getUsers, getJobs, getPosts } from '../../api/api';
+import { getUsers, getJobs, getPosts, getGallery } from '../../api/api';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
@@ -72,7 +72,8 @@ const Dashboard = () => {
   const itemFields = {
     'Users': {id: 'ID', username: 'Username', email: 'Email'},
     'Jobs': {displayId: 'ID', jobTitle: 'Job Title', location: 'Location', salary: 'Salary', shortDescription: 'Short Description'},
-    'Posts': {displayId: 'ID', date: 'Date', category: 'Category', title: 'Post Title'}
+    'Posts': {displayId: 'ID', date: 'Date', category: 'Category', title: 'Post Title'},
+    'Gallery': {displayId: 'ID', pathImg: 'Image'}
   };
 
   // -- get username from cookie -- //
@@ -103,6 +104,10 @@ const Dashboard = () => {
         data = await getPosts();
         navigate('/admin/dashboard/posts');
         break;
+      case 'Gallery':
+        data = await getGallery();
+        navigate('/admin/dashboard/gallery');
+        break;
       case 'Logout':
         data = [];
         await handleLogout();        
@@ -127,7 +132,10 @@ const Dashboard = () => {
           break;
         case 'Posts':
           navigate('/admin/dashboard/posts/create');          
-          break;      
+          break;  
+        case 'Gallery':
+          navigate('/admin/dashboard/gallery/upload');
+          break;    
         default:
           break;
       }
@@ -173,6 +181,9 @@ const Dashboard = () => {
             break;
           case 'Posts':
             await handleDeletePost(item);
+            break;
+          case 'Gallery':
+            await handleDeleteGallery(item);
             break;
           default:
             toast.info(`No handler for ${item}`);
@@ -283,6 +294,44 @@ const Dashboard = () => {
         // console.log('Invalid Document ID');
       }
   };
+
+
+  const handleDeleteGallery = async (img) => {
+    const documentIdtoDelete = img.id;
+    if(documentIdtoDelete) {
+      try {
+        const galleryRef = doc(db, 'gallery', documentIdtoDelete);
+        const gallerySnap = await getDoc(galleryRef);
+        const galleryData = gallerySnap.data();
+
+        await deleteDoc(galleryRef);
+        
+        if(galleryData && galleryData.pathImg) {
+          const decodedUrl = decodeURIComponent(galleryData.pathImg);        
+          const filename = decodedUrl.split('/').pop();
+          const cleanFilename = filename.split('?alt=media')[0];
+          const imagePaths = 'Gallery/' + cleanFilename;
+          const storage = getStorage();
+          const imageRef = ref(storage, imagePaths);
+          await deleteObject(imageRef);
+        } else {
+          toast.info('This img has no image to delete');
+          // console.log('This img has no image to delete');
+        }
+        
+        const newData = await getGallery();
+        setData(newData);
+
+        navigate('/admin/dashboard');
+      } catch (error) {
+        toast.error('Error deleting document, please try again.')
+        console.error('Error deleting document: ', error);
+      }
+    } else {
+      toast.error('Invali document ID');
+      // console.log('Invalid Document ID');
+    }
+  };
   // ------------------- end Delete function ------------------- //
 
   // Reset Password
@@ -325,7 +374,7 @@ const Dashboard = () => {
   return (
     <>
       <Wrapper>
-        <Sidebar items={['Users', 'Jobs', 'Posts', 'Logout']} onItemClick={handleItemClick} />
+        <Sidebar items={['Users', 'Jobs', 'Posts', 'Gallery', 'Logout']} onItemClick={handleItemClick} />
         <MainContent>
         <WelcomeMessage>Welcome, {username}</WelcomeMessage>
           {data.length > 0 ? (

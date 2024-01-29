@@ -3,7 +3,7 @@ import { BsStack } from 'react-icons/bs';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FaFileContract } from 'react-icons/fa';
-import { Pagination, Autoplay, Navigation } from 'swiper/modules';
+import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/swiper-bundle.css';
 import './JobsSlider.css';
@@ -13,11 +13,10 @@ import 'swiper/css/navigation';
 import { useNavigate } from 'react-router-dom';
 import { JobsContext } from '../../api/api';
 import { useTranslation } from 'react-i18next';
-
+import whitebg from '../../images/white-bg.png';
 
 
 const CarouselContainer = styled.div`
-    /* z-index: 1; */
     width: 100%;
     max-width: 1300px;
     margin-right: auto;
@@ -36,7 +35,6 @@ const StyledSwiper = styled(Swiper)`
 `;
 
 const StyledSwiperSlideContainer = styled(SwiperSlide)`
-    /* width: 340px;     */
     height: 300px;
     background-size: cover;
     background-position: center;
@@ -44,7 +42,7 @@ const StyledSwiperSlideContainer = styled(SwiperSlide)`
     border-radius: 10px;
     background-color: rgba(0, 0, 0, 0.7);
     opacity: 0.9;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    border: 2px solid #d2d2d2;
 `;
 
 const StyledSwiperSlideActive = styled.div`
@@ -52,24 +50,22 @@ const StyledSwiperSlideActive = styled.div`
     flex-direction: column;
     justify-content: center;
     opacity: 1;
-    background-color: rgba(108, 108, 108, 0.5);
+    background-color: white;
     height: 100%;
     align-items: center;
     border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 `;
 
 const StyledSwiperSlideH2 = styled.h2`
-    color: #ffffff;
+    color: rgb(0, 94, 141);
     font-weight: 400;
     font-size: 22px;
     line-height: 1.4;
-    /* margin-bottom: 3.625rem; */
     text-transform: uppercase;
-    /* add */
     display: flex;
     justify-content: center;
     align-items: center;
-    /* margin-top: 25px; */
     margin-top: 110px;
 `;
 
@@ -81,11 +77,8 @@ const StyledSwiperSlide = styled.div`
 `;
 
 const InfoColumn = styled.div`
-    /* margin-bottom: 15px; */
     padding-right: 15px;
-    /* padding-left: 15px; */
     flex: 1;
-    /* max-width: 50%; */
     max-width: 100%;
     flex-basis: 50%;
 
@@ -98,16 +91,14 @@ const InfoColumn = styled.div`
 `;
 
 const TextWrapper = styled.div`
-    /* max-width: 540px; */
     max-width: 100%;
     padding-top: 0;
     display: grid;
     align-items: center;
     justify-content: center;
-    /* padding-bottom: 60px; */
 
     @media screen and (max-width: 768px) {
-        /* padding-bottom: 65px; */
+
     }
 `;
 
@@ -122,7 +113,6 @@ const TopLine = styled.div`
 const Heading = styled.h1`
     margin-bottom: 24px;
     display: inline-block;
-    /* width: 700px; */
     width: 100%;
     font-size: 46px;
     line-height: 1.1;
@@ -134,22 +124,24 @@ const StyledButton = styled.button`
     border-radius: 5px;
     /* margin: 20px 24px 56px; */
     margin: 20px 24px 130px;
-    padding: 10px 30px;
-    background: #fff;
-    color: #686868;
+    padding: 10px 20px;
+    background: rgb(0, 94, 141);
+    color: white;
     text-decoration: none;
     text-transform: uppercase;
-    border: 2px solid #d2d2d2;
-    width: 150px;
+    /* border: 2px solid #d2d2d2; */
+    width: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.5s ease-out;
+    border: none;
+
     &:hover{
         cursor: pointer;
-        border: 0.125rem solid rgb(0, 94, 141);
+        /* border: 0.125rem solid rgb(0, 94, 141); */
         color: white;
-        background-color: rgb(0, 94, 141);
+        background-color: rgb(28 150 212);
     }
 `;
 
@@ -157,22 +149,24 @@ const StyledSkill = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    color: white;
+    color: rgb(140, 146, 151);
 `;
 
 const StyledSkillStack = styled(BsStack)`
     font-size: 25px;
-    /* color: rgb(218, 218, 218); */
+    color: rgb(0, 94, 141);
     margin-right: 10px;
 `;
 
 const StyledLocation = styled(HiOutlineLocationMarker)`
     font-size: 25px;
+    color: rgb(0, 94, 141);
     margin-right: 10px;
 `;
 
 const StyledSalary = styled(FaFileContract)`
     font-size: 25px;
+    color: rgb(0, 94, 141);
     margin-right: 10px;
 `;
 
@@ -197,19 +191,15 @@ const JobsSlider = () => {
         </InfoColumn>
 
         <StyledSwiper
-            modules={[Pagination, Navigation]}
+            modules={[Navigation, Autoplay]}
             slidesPerView={3}
             spaceBetween={30}
-            // centeredSlides={true}
             direction='horizontal'
-            effect={'spring'}
-            loop={true}
+            effect='slide'
+            loop={false}
             autoplay={{
                 delay: 3000,
                 disableOnInteraction: false,
-            }}
-            pagination={{
-                clickable: true,
             }}
             navigation={true}
             breakpoints={{
@@ -244,7 +234,7 @@ const JobsSlider = () => {
         >
             {
                 jobDetailObj.map((job, index) => (
-                    <StyledSwiperSlideContainer key={index} background={job.img}>
+                    <StyledSwiperSlideContainer key={index} background={whitebg}>
                         <StyledSwiperSlideActive>
                             <StyledSwiperSlideH2>{job.jobTitle}</StyledSwiperSlideH2>
                             <StyledSwiperSlide>
