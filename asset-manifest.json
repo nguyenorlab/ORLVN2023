@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ORLVN2023/static/css/main.12f704be.css",
-    "main.js": "/ORLVN2023/static/js/main.ae8247a2.js",
+    "main.js": "/ORLVN2023/static/js/main.ed80a232.js",
     "static/media/business-partnership-scope.jpg": "/ORLVN2023/static/media/business-partnership-scope.012d015da1f04ac01859.jpg",
     "static/media/recruitment-interview.jpg": "/ORLVN2023/static/media/recruitment-interview.998ea47363764b0b997b.jpg",
     "static/media/business-partnership-negotiate.jpg": "/ORLVN2023/static/media/business-partnership-negotiate.ad81cbf1a4995ae8373b.jpg",
@@ -18,12 +18,12 @@
     "static/media/recruitment-open-vacancy.jpg": "/ORLVN2023/static/media/recruitment-open-vacancy.4988edfc33b11c189f4b.jpg",
     "static/media/software-outsourcing-support.jpg": "/ORLVN2023/static/media/software-outsourcing-support.7a9618aa60e649439340.jpg",
     "static/media/orl.png": "/ORLVN2023/static/media/orl.1c15e837d254508209db.png",
+    "static/media/white-bg.png": "/ORLVN2023/static/media/white-bg.a42235052c8c230f4353.png",
     "static/media/logo-kse.png": "/ORLVN2023/static/media/logo-kse.fce241487383428cc88e.png",
     "static/media/profile1.png": "/ORLVN2023/static/media/profile1.33c90ee697eed73702f3.png",
     "static/media/profile3.png": "/ORLVN2023/static/media/profile3.169ae305737812617ba9.png",
     "static/media/home-who-we-are.png": "/ORLVN2023/static/media/home-who-we-are.7535319a2b2e058e277a.png",
     "static/media/profile2.png": "/ORLVN2023/static/media/profile2.b85e8ef877b83d40e585.png",
-    "static/media/about.png": "/ORLVN2023/static/media/about.cba50b1b7f619e36af9b.png",
     "static/media/orl.svg": "/ORLVN2023/static/media/orl.210c78cea1f050ad9c652a246a7a9acd.svg",
     "static/media/ukflag.svg": "/ORLVN2023/static/media/ukflag.52b54d71731c2229d4f20df2ef161947.svg",
     "static/media/vietnam-flag-circular-17769.svg": "/ORLVN2023/static/media/vietnam-flag-circular-17769.b93c371a5f725e1683771e089f77b30b.svg",
@@ -32,10 +32,10 @@
     "static/media/japan-flag-circular-17764.svg": "/ORLVN2023/static/media/japan-flag-circular-17764.4b3687dafbae500fa5907e633e107ef2.svg",
     "index.html": "/ORLVN2023/index.html",
     "main.12f704be.css.map": "/ORLVN2023/static/css/main.12f704be.css.map",
-    "main.ae8247a2.js.map": "/ORLVN2023/static/js/main.ae8247a2.js.map"
+    "main.ed80a232.js.map": "/ORLVN2023/static/js/main.ed80a232.js.map"
   },
   "entrypoints": [
     "static/css/main.12f704be.css",
-    "static/js/main.ae8247a2.js"
+    "static/js/main.ed80a232.js"
   ]
 }
