@@ -79,7 +79,9 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
   return (
     <>
       <CreateButtonContainer>        
-        <CreateButton onClick={() => onCreate(typeName)}>{typeName === 'Gallery' ? 'Upload' : 'Create'}</CreateButton>
+        {typeName !== 'Users' ? (
+            <CreateButton onClick={() => onCreate(typeName)}>{typeName === 'Gallery' ? 'Upload' : 'Create'}</CreateButton>
+        ) : ''} 
       </CreateButtonContainer>
       <Table>
         <thead>
