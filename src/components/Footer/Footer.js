@@ -117,7 +117,6 @@ const Footer = () => {
   const getGalleryData = async () => {
     try {
       const data = await getGallery();
-      console.log(data);
       setGallery(data);      
     } catch (error) {
       console.error("Error fetching data:", error);
