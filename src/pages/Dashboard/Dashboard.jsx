@@ -52,10 +52,6 @@ const MessageContainer = styled.div`
   height: 100%;
 `;
 
-const WelcomeMessage = styled.h2`
-  margin-bottom: 20px;
-`;
-
 const ResponsiveContainer = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
@@ -82,6 +78,7 @@ const Dashboard = () => {
     if (usernameFromCookie) {
       setUsername(usernameFromCookie);
     } else {
+      toast.info('Login session has expired!');
       navigate('/admin');
     }
   }, [navigate]);
@@ -374,9 +371,8 @@ const Dashboard = () => {
   return (
     <>
       <Wrapper>
-        <Sidebar items={['Users', 'Jobs', 'Posts', 'Gallery', 'Logout']} onItemClick={handleItemClick} />
+        <Sidebar items={['Users', 'Jobs', 'Posts', 'Gallery', 'Logout']} username={username} onItemClick={handleItemClick} />
         <MainContent>
-        <WelcomeMessage>Welcome, {username}</WelcomeMessage>
           {data.length > 0 ? (
             <ResponsiveContainer>
               <DataTable

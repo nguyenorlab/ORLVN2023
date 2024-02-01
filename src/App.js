@@ -20,6 +20,7 @@ import EditJob from './components/EditJob/EditJob';
 import UploadImg from './components/UploadImgGallery/UploadImgGallery';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Tracking from './pages/Tracking/Tracking';
 
 
 // const LoginWithProvider = () => (
@@ -62,6 +63,7 @@ function App() {
                   <Route path='/admin/dashboard/posts/edit/:displayId' element={<EditPost />} />
                   <Route path='/admin/dashboard/gallery' element={<Dashboard />} />
                   <Route path='/admin/dashboard/gallery/upload' element={<UploadImg />} />
+                  <Route path='/tracking' element={<Tracking />} />
                 </Routes>
                 <Footer />
               </Router>

@@ -16,8 +16,13 @@ const SidebarItem = styled.div`
   }
 `;
 
-const Sidebar = ({ items, onItemClick }) => (
+const WelcomeMessage = styled.h2`
+  margin-bottom: 20px;
+`;
+
+const Sidebar = ({ items, username, onItemClick }) => (
   <SidebarContainer>
+    <WelcomeMessage>Welcome, {username}</WelcomeMessage>
     {items.map((item, index) => (
       <SidebarItem key={index} onClick={() => onItemClick(item)}>{item}</SidebarItem>
     ))}

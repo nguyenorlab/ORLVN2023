@@ -90,17 +90,23 @@ const Login = () => {
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      // console.log(userCredential);
+
       let foundUsername;
+      let role;
       usersData.forEach(user => {
         if(user.email === userCredential.user.email) {
           foundUsername = user.username;
+          role = user.role;
         }
       });      
-      if(foundUsername) {
+      if(foundUsername && role === 'admin') {
         setUsername(foundUsername);
         Cookies.set('username', foundUsername, { expires: 1/48 });  // 1/48 of a day = 30 mins
         navigate('/admin/dashboard');
+      } else if(foundUsername && role === 'user') {
+        setUsername(foundUsername);
+        Cookies.set('username', foundUsername, { expires: 1/48 });  // 1/48 of a day = 30 mins
+        navigate('/tracking');
       } else {
         setAlert('User not found');
       }
