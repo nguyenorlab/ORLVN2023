@@ -21,6 +21,8 @@ import UploadImg from './components/UploadImgGallery/UploadImgGallery';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Tracking from './pages/Tracking/Tracking';
+import TimeKeeping from './components/TimeKeeping/TimeKeeping';
+import LeaveRequest from './components/LeaveRequest/LeaveRequest';
 
 
 // const LoginWithProvider = () => (
@@ -28,6 +30,7 @@ import Tracking from './pages/Tracking/Tracking';
 //     <Login />
 //   </UsersProvider>
 // )
+
 
 
 function App() {
@@ -63,7 +66,12 @@ function App() {
                   <Route path='/admin/dashboard/posts/edit/:displayId' element={<EditPost />} />
                   <Route path='/admin/dashboard/gallery' element={<Dashboard />} />
                   <Route path='/admin/dashboard/gallery/upload' element={<UploadImg />} />
-                  <Route path='/tracking' element={<Tracking />} />
+                  <Route path='/admin/dashboard/timekeeping' element={<Dashboard />} />
+                  <Route path='/admin/dashboard/leave-request' element={<Dashboard />} />
+                  <Route path='/tracking/*' element={<Tracking />}>
+                    <Route path='timekeeping' element={<TimeKeeping />} />
+                    <Route path='leave-request' element={<LeaveRequest />} />
+                  </Route>
                 </Routes>
                 <Footer />
               </Router>

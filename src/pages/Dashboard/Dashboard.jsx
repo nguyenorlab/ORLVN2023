@@ -6,7 +6,7 @@ import { /*collection,*/ /*getDocs,*/ getDoc, /*addDoc,*/ doc, /*where, query,*/
 import { deleteObject, ref, getStorage } from 'firebase/storage';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import DataTable from '../../components/DataTable/DataTable';
-import { getUsers, getJobs, getPosts, getGallery } from '../../api/api';
+import { getUsers, getJobs, getPosts, getGallery, getTimekeeping, getRequest } from '../../api/api';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
@@ -58,6 +58,24 @@ const ResponsiveContainer = styled.div`
   }
 `;
 
+const Input = styled.input`
+  color: black;
+  padding: 6px 7px;
+  border-radius: 5px;
+  border-color: #d9d9d9;
+  border-style: solid;
+  border-width: 1px;
+  margin: 30px 0px;
+`;
+
+const Title = styled.h3`
+  font-size: 30px;
+  line-height: 1.1;
+  color: rgb(0, 94, 141);
+  text-transform: uppercase;
+  margin-top: 30px;
+`;
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -65,11 +83,16 @@ const Dashboard = () => {
   const [data, setData] = useState([]);
   const [fields, setFields] = useState([]);
   const [typeName, setTypeName] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+
   const itemFields = {
     'Users': {id: 'ID', username: 'Username', email: 'Email'},
     'Jobs': {displayId: 'ID', jobTitle: 'Job Title', location: 'Location', salary: 'Salary', shortDescription: 'Short Description'},
     'Posts': {displayId: 'ID', date: 'Date', category: 'Category', title: 'Post Title'},
-    'Gallery': {displayId: 'ID', pathImg: 'Image'}
+    'Gallery': {displayId: 'ID', pathImg: 'Image'},
+    'Timekeeping': {id: 'Employee Name', datetime: 'Log Time'},
+    'Request': {id: 'Employee Name', max_days: 'Remaining Days', used_days: 'Used Days'}
   };
 
   // -- get username from cookie -- //
@@ -104,6 +127,16 @@ const Dashboard = () => {
       case 'Gallery':
         data = await getGallery();
         navigate('/admin/dashboard/gallery');
+        break;
+      case 'Timekeeping':
+        data = await getTimekeeping();
+        console.log(data);
+        navigate('/admin/dashboard/timekeeping');
+        break;
+      case 'Request':
+        data = await getRequest();
+        console.log('request:', data);
+        navigate('/admin/dashboard/leave-request');
         break;
       case 'Logout':
         data = [];
@@ -355,6 +388,34 @@ const Dashboard = () => {
     });
   };
 
+  // Search function
+  useEffect(() => {
+    if (typeName === 'Timekeeping') {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+  
+      const filtered = data.filter(item => {
+        const lowerCaseId = item.id?.toLowerCase() || '';
+  
+        const datetimeMatch = item.datetime.some(entry => {
+          const checkinMatch = entry.checkin?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;
+          const checkoutMatch = entry.checkout?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;
+          const dateMatch = entry.date?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;
+  
+          return checkinMatch || checkoutMatch || dateMatch;
+        });
+  
+        return lowerCaseId.includes(lowerCaseSearchTerm) || datetimeMatch;
+      });
+  
+      setFilteredData(filtered);
+    }
+  }, [data, searchTerm, typeName]);
+  
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
 
 
   // ------------------- initial data ------------------- //
@@ -371,12 +432,23 @@ const Dashboard = () => {
   return (
     <>
       <Wrapper>
-        <Sidebar items={['Users', 'Jobs', 'Posts', 'Gallery', 'Logout']} username={username} onItemClick={handleItemClick} />
+        <Sidebar items={['Users', 'Jobs', 'Posts', 'Gallery', 'Timekeeping', 'Request', 'Logout']} username={username} onItemClick={handleItemClick} />
         <MainContent>
           {data.length > 0 ? (
             <ResponsiveContainer>
+              {typeName === 'Timekeeping' && (
+                <>
+                  <Title>Time sheet of all employees</Title>
+                  <Input
+                    type='text'
+                    placeholder='Search...'
+                    value={searchTerm}
+                    onChange={handleChange}
+                  />                
+                </>
+              )}
               <DataTable
-                data={data}
+                data={filteredData.length > 0 ? filteredData : data}
                 fields={fields}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
@@ -387,7 +459,7 @@ const Dashboard = () => {
             </ResponsiveContainer>
           ) : (
             <MessageContainer>
-              <h3>Please select an item from the Sidebar</h3>
+              <Title>Please select an item from the Sidebar</Title>
             </MessageContainer>
           )}
         </MainContent>

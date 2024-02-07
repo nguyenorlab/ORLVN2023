@@ -42,7 +42,7 @@ export const getPosts = async () => {
 };
 
 
-// get all posts from Firestore Database
+// get all gallery from Firestore Database
 export const getGallery = async () => {
   const galleryCol = collection(db, 'gallery');
   const gallerySnapshot = await getDocs(galleryCol);
@@ -50,6 +50,24 @@ export const getGallery = async () => {
   galleryList.sort((a, b) => a.displayId - b.displayId);
 
   return galleryList;
+};
+
+// get all timekeeping data from Firestore Database
+export const getTimekeeping = async () => {
+  const timekeepingCol = collection(db, 'timekeeping');
+  const timekeepingSnapshot = await getDocs(timekeepingCol);
+  const timekeepingList = timekeepingSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), typeName: 'Timekeeping' }));
+
+  return timekeepingList;
+};
+
+// get all leave request data from Firestore Database
+export const getRequest = async () => {
+  const reqCol = collection(db, 'request');
+  const reqSnapshot = await getDocs(reqCol);
+  const reqList = reqSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), typeName: 'Request' }));
+
+  return reqList;
 };
 
 

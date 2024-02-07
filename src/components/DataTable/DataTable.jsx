@@ -13,7 +13,7 @@ const Table = styled.table`
 const Th = styled.th`
   border: 1px solid #ddd;
   padding: 8px;
-  text-align: left;
+  text-align: center;
   background-color: #f2f2f2;
 `;
 
@@ -56,6 +56,19 @@ const StyledThumb = styled.img`
   border-radius: 5px; 
 `;
 
+const LogTimeContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+`;
+
+const LogTimeItem = styled.div`
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ccc;
+  margin: 2px;
+`;
+
 
 const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, typeName }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -76,10 +89,32 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
     }
   },[currentPage, data, postsPerPage]);
 
+
+  // Custom logic for rendering 'datetime' field
+  const renderCellValue = (row, fieldName) => {
+    const fieldValue = row[fieldName];
+    if (fieldName === 'datetime') {
+      if (Array.isArray(fieldValue)) {
+        return fieldValue.map(entry => (
+          <LogTimeContainer key={entry.date}>
+            <LogTimeItem>{entry.date || 'null'}</LogTimeItem>
+            <LogTimeItem>{`Check In: ${entry.checkin || 'null'}`}</LogTimeItem>
+            <LogTimeItem>{`Check Out: ${entry.checkout || 'null'}`}</LogTimeItem>
+          </LogTimeContainer>
+        ));
+
+      }
+    }
+
+    // Default rendering for other fields
+    return row[fieldName];
+  };
+
+
   return (
     <>
       <CreateButtonContainer>
-        {typeName !== 'Users' ? (
+        {typeName !== 'Users' && typeName !== 'Timekeeping' ? (
           <CreateButton onClick={() => onCreate(typeName)}>{typeName === 'Gallery' ? 'Upload' : 'Create'}</CreateButton>
         ) : ''}        
       </CreateButtonContainer>
@@ -89,7 +124,7 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
             {Object.keys(fields).map((field, index) => (
               <Th key={`${'fields_' + index}`}>{fields[field]}</Th>
             ))}
-            <Th>Action</Th>
+            {typeName !== 'Timekeeping' && <Th>Action</Th>}
           </tr>
         </thead>
 
@@ -107,26 +142,29 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
                       </Td>
                     )
                   ) : (
-                    <Td key={`${'btn_' + columnIndex}`}>{item[field]}</Td>
+                    <Td key={`${'btn_' + columnIndex}`}>{renderCellValue(item, field)}</Td>
                   )}
                 </React.Fragment>
               ))}
-              <Td>
-                {typeName === 'Users' ? (
-                  <ResetButton onClick={() => onResetPassword(item)}>Reset Password</ResetButton>
-                ) : (
-                  <>
-                    {typeName === 'Gallery' ? (
-                      <DeleteButton onClick={() => onDelete(item)}>Delete</DeleteButton>
-                    ) : (
-                      <>
-                        <EditButton onClick={() => onEdit(item)}>Edit</EditButton>
+
+              {typeName !== 'Timekeeping' && (
+                <Td>
+                  {typeName === 'Users' ? (
+                    <ResetButton onClick={() => onResetPassword(item)}>Reset Password</ResetButton>
+                  ) : (
+                    <>
+                      {typeName === 'Gallery' ? (
                         <DeleteButton onClick={() => onDelete(item)}>Delete</DeleteButton>
-                      </>
-                    )}
-                  </>
-                )}
-              </Td>
+                      ) : (                        
+                        <>
+                          <EditButton onClick={() => onEdit(item)}>Edit</EditButton>
+                          <DeleteButton onClick={() => onDelete(item)}>Delete</DeleteButton>
+                        </>
+                      )}
+                    </>
+                  )}
+                </Td>
+              )}
             </tr>
           ))}
         </tbody>
