@@ -65,7 +65,7 @@ export const getTimekeeping = async () => {
 export const getRequest = async () => {
   const reqCol = collection(db, 'request');
   const reqSnapshot = await getDocs(reqCol);
-  const reqList = reqSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), typeName: 'Request' }));
+  const reqList = reqSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), typeName: 'Requests' }));
 
   return reqList;
 };

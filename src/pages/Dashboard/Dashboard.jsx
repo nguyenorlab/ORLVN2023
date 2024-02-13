@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { db, auth } from '../../config/firebase';
@@ -85,6 +85,7 @@ const Dashboard = () => {
   const [typeName, setTypeName] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState([]);
+  const typeNameRef = useRef(typeName);
 
   const itemFields = {
     'Users': {id: 'ID', username: 'Username', email: 'Email'},
@@ -92,7 +93,7 @@ const Dashboard = () => {
     'Posts': {displayId: 'ID', date: 'Date', category: 'Category', title: 'Post Title'},
     'Gallery': {displayId: 'ID', pathImg: 'Image'},
     'Timekeeping': {id: 'Employee Name', datetime: 'Log Time'},
-    'Request': {id: 'Employee Name', max_days: 'Remaining Days', used_days: 'Used Days'}
+    'Request': {id: 'Employee Name', max_days: 'Remaining Days', used_days: 'Used Days', requests: 'Request Info'}
   };
 
   // -- get username from cookie -- //
@@ -130,25 +131,23 @@ const Dashboard = () => {
         break;
       case 'Timekeeping':
         data = await getTimekeeping();
-        console.log(data);
         navigate('/admin/dashboard/timekeeping');
         break;
       case 'Request':
         data = await getRequest();
-        console.log('request:', data);
         navigate('/admin/dashboard/leave-request');
         break;
       case 'Logout':
         data = [];
-        await handleLogout();        
+        handleLogout();        
         break;
       default:
         toast.info(`No handler for ${item}`);
-        // console.log(`No handler for ${item}`);
     }
     setData(data);
     setFields(itemFields[item]);
   };
+  
 
   // Create function
   const handleCreate = () => {
@@ -390,24 +389,53 @@ const Dashboard = () => {
 
   // Search function
   useEffect(() => {
-    if (typeName === 'Timekeeping') {
+    typeNameRef.current = typeName;
+    if(typeName === 'Timekeeping') {
       const lowerCaseSearchTerm = searchTerm.toLowerCase();
   
       const filtered = data.filter(item => {
-        const lowerCaseId = item.id?.toLowerCase() || '';
+        const lowerCaseId = typeof item.id === 'string' ? item.id?.toLowerCase() : '';
   
-        const datetimeMatch = item.datetime.some(entry => {
+        const datetimeMatch = Array.isArray(item.datetime) &&  item.datetime.some(entry => {
           const checkinMatch = entry.checkin?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;
           const checkoutMatch = entry.checkout?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;
-          const dateMatch = entry.date?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;
+          const dateMatch = entry.date?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;          
   
           return checkinMatch || checkoutMatch || dateMatch;
         });
   
         return lowerCaseId.includes(lowerCaseSearchTerm) || datetimeMatch;
       });
-  
+      
       setFilteredData(filtered);
+    } else if(typeName === 'Request') {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+  
+      const filtered = data.filter(item => {
+        const lowerCaseId = typeof item.id === 'string' ? item.id?.toLowerCase() : '';
+  
+        const requestMatch = Array.isArray(item.requests) &&  item.requests.some(entry => {
+          const createdAtMatch = entry.createdAt?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;
+          
+          let datetimeMatch = false;
+          if (Array.isArray(entry.datetime)) {
+            datetimeMatch = entry.datetime.some(dt => typeof dt === 'string' && dt.toLowerCase()?.includes(lowerCaseSearchTerm));
+          } else if (typeof entry.datetime === 'string') {
+            datetimeMatch = entry.datetime.toLowerCase()?.includes(lowerCaseSearchTerm);
+          }
+          
+          const otherReasonMatch = entry.other_reason?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;          
+          const typeMatch = entry.type?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;          
+  
+          return createdAtMatch || datetimeMatch || otherReasonMatch || typeMatch;
+        });
+  
+        return lowerCaseId.includes(lowerCaseSearchTerm) || requestMatch;
+      });
+      
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(data);
     }
   }, [data, searchTerm, typeName]);
   
@@ -439,6 +467,18 @@ const Dashboard = () => {
               {typeName === 'Timekeeping' && (
                 <>
                   <Title>Time sheet of all employees</Title>
+                  <Input
+                    type='text'
+                    placeholder='Search...'
+                    value={searchTerm}
+                    onChange={handleChange}
+                  />                
+                </>
+              )}
+
+              {typeName === 'Request' && (
+                <>
+                  <Title>Request holiday of all employees</Title>
                   <Input
                     type='text'
                     placeholder='Search...'

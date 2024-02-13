@@ -21,6 +21,7 @@ const Td = styled.td`
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+  font-size: 15px;
 `;
 
 const CreateButtonContainer = styled.div`
@@ -58,7 +59,7 @@ const StyledThumb = styled.img`
 
 const LogTimeContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: ${({ request }) => request ? '1fr 1fr 1fr 1fr' : '1fr 1fr 1fr'};
   gap: 8px;
 `;
 
@@ -67,6 +68,7 @@ const LogTimeItem = styled.div`
   padding: 8px;
   border: 1px solid #ccc;
   margin: 2px;
+  font-size: 15px;
 `;
 
 
@@ -93,8 +95,9 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
   // Custom logic for rendering 'datetime' field
   const renderCellValue = (row, fieldName) => {
     const fieldValue = row[fieldName];
-    if (fieldName === 'datetime') {
-      if (Array.isArray(fieldValue)) {
+
+    if(fieldName === 'datetime') {
+      if(Array.isArray(fieldValue)) {
         return fieldValue.map(entry => (
           <LogTimeContainer key={entry.date}>
             <LogTimeItem>{entry.date || 'null'}</LogTimeItem>
@@ -102,7 +105,19 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
             <LogTimeItem>{`Check Out: ${entry.checkout || 'null'}`}</LogTimeItem>
           </LogTimeContainer>
         ));
+      }
+    }
 
+    if(fieldName === 'requests') {
+      if(Array.isArray(fieldValue)) {
+        return fieldValue.map(entry => (
+          <LogTimeContainer key={entry.createdAt} request>
+            <LogTimeItem>{`Request Date: ${entry.createdAt || 'null'}`}</LogTimeItem>
+            <LogTimeItem>{`Apply Date: ${entry.datetime || 'null'}`}</LogTimeItem>
+            <LogTimeItem>{`Reason: ${entry.other_reason || 'null'}`}</LogTimeItem>
+            <LogTimeItem>{`Request Type: ${entry.type || 'null'}`}</LogTimeItem>
+          </LogTimeContainer>
+        ))
       }
     }
 
@@ -114,7 +129,7 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
   return (
     <>
       <CreateButtonContainer>
-        {typeName !== 'Users' && typeName !== 'Timekeeping' ? (
+        {typeName !== 'Users' && typeName !== 'Timekeeping' && typeName !== 'Request' ? (
           <CreateButton onClick={() => onCreate(typeName)}>{typeName === 'Gallery' ? 'Upload' : 'Create'}</CreateButton>
         ) : ''}        
       </CreateButtonContainer>
@@ -124,7 +139,7 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
             {Object.keys(fields).map((field, index) => (
               <Th key={`${'fields_' + index}`}>{fields[field]}</Th>
             ))}
-            {typeName !== 'Timekeeping' && <Th>Action</Th>}
+            {typeName !== 'Timekeeping' && typeName !== 'Request' && <Th>Action</Th>}
           </tr>
         </thead>
 
@@ -142,12 +157,13 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
                       </Td>
                     )
                   ) : (
-                    <Td key={`${'btn_' + columnIndex}`}>{renderCellValue(item, field)}</Td>
+                    <Td key={`${'btn_' + columnIndex}`}>{renderCellValue(item, field)}</Td>   // for Timekeeping and Request
+                    // <Td key={`${'btn_' + columnIndex}`}>{item[field]}</Td>
                   )}
                 </React.Fragment>
               ))}
 
-              {typeName !== 'Timekeeping' && (
+              {typeName !== 'Timekeeping' && typeName!== 'Request' && (
                 <Td>
                   {typeName === 'Users' ? (
                     <ResetButton onClick={() => onResetPassword(item)}>Reset Password</ResetButton>

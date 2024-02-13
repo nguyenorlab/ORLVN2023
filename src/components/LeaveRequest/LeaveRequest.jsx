@@ -7,6 +7,7 @@ import { updateDoc, setDoc, doc, getDoc } from 'firebase/firestore';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { Spin, DatePicker } from 'antd';
+import moment from 'moment';
 
 // const { Option } = Select;
 const FatherContainer = styled.div`
@@ -358,21 +359,21 @@ const LeaveRequest = () => {
       let dayValue;
       switch (request) {
         case 'Half day break (morning)':
-          datetime = `${startDate.toISOString()} Shift AM`;
+          datetime = `${startDate.toISOString().split('T')[0]} Shift AM`;
           dayValue = 0.5;
           break;
         case 'Half day break (afternoon)':
-          datetime = `${startDate.toISOString()} Shift PM`;
+          datetime = `${startDate.toISOString().split('T')[0]} Shift PM`;
           dayValue = 0.5;
           break;
         default:
-          datetime = isSingleDay ? startDate.toISOString() : dateRange;
+          datetime = isSingleDay ? startDate.toISOString().split('T')[0] : dateRange;
           dayValue  = numberOfDays;
       }
       maxDays -= dayValue;
       usedDays += dayValue;
 
-      const timestamp = new Date();    // because Firebase not support use serverTimestamp() in array
+      const timestamp = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');    // because Firebase not support use serverTimestamp() in array
       const reqData = {
         type: request,
         datetime: datetime,
