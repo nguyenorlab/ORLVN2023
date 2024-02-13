@@ -12,7 +12,7 @@ export const Nav = styled.nav`
     font-size: 1.2rem;
     position: sticky;
     top: 0;
-    z-index: 999;
+    /* z-index: 999; */
     border-bottom: hsla(0,0%,93.3%,1.000) 1px solid;
     box-shadow: 5px 7px 10px 0 hsla(205,16%,77%,0.1);
     background-color: hsla(0,0%,99.6%,1.000);
@@ -211,7 +211,7 @@ export const DropDownContent = styled.div`
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  /* z-index: 1; */
 `;
 
 export const DropDownLi = styled(StyledDiv)`

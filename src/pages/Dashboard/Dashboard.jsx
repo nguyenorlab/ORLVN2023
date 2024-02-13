@@ -92,8 +92,8 @@ const Dashboard = () => {
     'Jobs': {displayId: 'ID', jobTitle: 'Job Title', location: 'Location', salary: 'Salary', shortDescription: 'Short Description'},
     'Posts': {displayId: 'ID', date: 'Date', category: 'Category', title: 'Post Title'},
     'Gallery': {displayId: 'ID', pathImg: 'Image'},
-    'Timekeeping': {id: 'Employee Name', datetime: 'Log Time'},
-    'Request': {id: 'Employee Name', max_days: 'Remaining Days', used_days: 'Used Days', requests: 'Request Info'}
+    'Timekeeping': {id: 'Employee Name'},
+    'Request': {id: 'Employee Name', max_days: 'Remaining Days', used_days: 'Used Days'}
   };
 
   // -- get username from cookie -- //

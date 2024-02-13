@@ -74,7 +74,7 @@ export const FormInput = styled.input`
 
 
 export const FooterLinksContainer = styled.div`
-    z-index: 1;
+    /* z-index: 1; */
     width: 100%;
     max-width: 1300px;
     margin-right: auto;
