@@ -59,13 +59,23 @@ const ResponsiveContainer = styled.div`
 `;
 
 const Input = styled.input`
-  color: black;
+  color: ${({ value }) => (value === '' ? '#d9d9d9' : 'black')};
   padding: 6px 7px;
   border-radius: 5px;
   border-color: #d9d9d9;
   border-style: solid;
   border-width: 1px;
   margin: 30px 0px;
+
+  &:hover {
+    border-color: #1677ff;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #1677ff;
+    box-shadow: 0 0 0 0.1px #1677ff;
+  }
 `;
 
 const Title = styled.h3`
@@ -395,7 +405,7 @@ const Dashboard = () => {
   
       const filtered = data.filter(item => {
         const lowerCaseId = typeof item.id === 'string' ? item.id?.toLowerCase() : '';
-  
+
         const datetimeMatch = Array.isArray(item.datetime) &&  item.datetime.some(entry => {
           const checkinMatch = entry.checkin?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;
           const checkoutMatch = entry.checkout?.toLowerCase()?.includes(lowerCaseSearchTerm) || false;
@@ -432,14 +442,14 @@ const Dashboard = () => {
   
         return lowerCaseId.includes(lowerCaseSearchTerm) || requestMatch;
       });
-      
+
       setFilteredData(filtered);
     } else {
       setFilteredData(data);
     }
   }, [data, searchTerm, typeName]);
-  
 
+  
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };

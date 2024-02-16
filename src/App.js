@@ -23,6 +23,7 @@ import { ToastContainer } from 'react-toastify';
 import Tracking from './pages/Tracking/Tracking';
 import TimeKeeping from './components/TimeKeeping/TimeKeeping';
 import LeaveRequest from './components/LeaveRequest/LeaveRequest';
+import ScrollToTopOnMount from './components/ScrollToTopMount';
 
 
 // const LoginWithProvider = () => (
@@ -45,6 +46,7 @@ function App() {
                 <ScrollToTop />
                 <Navbar />
                 <ToastContainer />
+                <ScrollToTopOnMount />
                 <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/about' element={<About />} />

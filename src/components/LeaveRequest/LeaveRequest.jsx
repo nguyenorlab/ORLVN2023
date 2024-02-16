@@ -163,9 +163,19 @@ const Option = styled.option`
 `;
 
 const Input = styled.textarea`
-  color: black;
+  color: ${({ value }) => (value === '' ? '#d9d9d9' : 'black')};
   padding: 6px 7px;
   border-radius: 5px;
+
+  &:hover {
+    border-color: #1677ff;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #1677ff;
+    box-shadow: 0 0 0 0.1px #1677ff;
+  }
 `;
 
 const RemainDays = styled.input`

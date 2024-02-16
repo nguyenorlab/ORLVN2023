@@ -12,7 +12,7 @@ export const Nav = styled.nav`
     font-size: 1.2rem;
     position: sticky;
     top: 0;
-    /* z-index: 999; */
+    z-index: 999;
     border-bottom: hsla(0,0%,93.3%,1.000) 1px solid;
     box-shadow: 5px 7px 10px 0 hsla(205,16%,77%,0.1);
     background-color: hsla(0,0%,99.6%,1.000);
