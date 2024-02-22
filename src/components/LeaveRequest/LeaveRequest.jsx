@@ -55,7 +55,7 @@ const TextWrapper = styled.div`
     padding-bottom: 60px;
 
     @media screen and (max-width: 768px) {
-        padding-bottom: 65px;
+        padding-bottom: 0px 20px 65px 0px;
     }
 `;
 
@@ -136,7 +136,11 @@ const CreateHeading = styled.h2`
     font-size: 20px;
     line-height: 1.1;
     color: rgb(0, 94, 141);
-    font-style: italic;    
+    font-style: italic; 
+    
+    @media screen and (max-width: 768px) {
+      margin: 30px 0px 20px 0px;
+    }
 `;
 
 const Select = styled.select`

@@ -10,12 +10,20 @@ import { auth } from '../../config/firebase';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  height: 100vh;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledOutlet = styled.div`
   width: -webkit-fill-available;
 `;
 
+const SidebarContainer = styled.div`
+  margin-bottom: 70px;
+`;
 
 
 const Tracking = () => {
@@ -67,7 +75,9 @@ const Tracking = () => {
 
   return (
     <Container>
-      <Sidebar items={['Time Keeping', 'Leave Request', 'Logout']} username={username} onItemClick={handleItemClick} />
+      <SidebarContainer>
+        <Sidebar items={['Time Keeping', 'Leave Request', 'Logout']} username={username} onItemClick={handleItemClick} />
+      </SidebarContainer>
       <StyledOutlet>
         <Outlet />
       </StyledOutlet>

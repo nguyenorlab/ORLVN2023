@@ -38,6 +38,10 @@ import { toast } from 'react-toastify';
 const Wrapper = styled.div`
   display: flex;
   height: 100vh;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const MainContent = styled.main`
@@ -50,11 +54,13 @@ const MessageContainer = styled.div`
   // align-items: center;
   justify-content: center;
   height: 100%;
+  margin-top: 100px;
 `;
 
 const ResponsiveContainer = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
+    margin-top: 80px;
   }
 `;
 
@@ -83,7 +89,7 @@ const Title = styled.h3`
   line-height: 1.1;
   color: rgb(0, 94, 141);
   text-transform: uppercase;
-  margin-top: 30px;
+  margin-top: 100px;
 `;
 
 

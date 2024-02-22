@@ -9,7 +9,7 @@ const SidebarContainer = styled.div`
 
   @media screen and (max-width: 820px) {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     height: 50px;
     background-color: white;
@@ -19,9 +19,23 @@ const SidebarContainer = styled.div`
   }
 `;
 
+const SidebarItemContainer = styled.div`
+  display: flex;
+  /* flex-direction: row; */
+  flex-direction: column;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+`;
+
 const SidebarItem = styled.div`
   padding: 10px 0;
   cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 10px;
+
   &:hover {
     background-color: #e0e0e0;
   }
@@ -41,15 +55,17 @@ const SidebarItem = styled.div`
 
 const WelcomeMessage = styled.h2`
   color: rgb(0, 94, 141);
-  padding-top: 5px;
+  padding: 5px 0px 30px 0px;
 `;
 
 const Sidebar = ({ items, username, onItemClick }) => (
   <SidebarContainer>
     <WelcomeMessage>Welcome, {username}</WelcomeMessage>
-    {items.map((item, index) => (
-      <SidebarItem key={index} onClick={() => onItemClick(item)}>{item}</SidebarItem>
-    ))}
+    <SidebarItemContainer>
+      {items.map((item, index) => (
+        <SidebarItem key={index} onClick={() => onItemClick(item)}>{item}</SidebarItem>
+      ))}
+    </SidebarItemContainer>
   </SidebarContainer>
 );
 

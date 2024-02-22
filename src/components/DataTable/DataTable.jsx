@@ -5,6 +5,13 @@ import Pagination from '../Pagination/Pagination';
 import Modal from 'react-modal';
 
 
+const Container = styled.div`
+  @media screen and (max-width: 768px) {
+    margin-top: 150px;
+  }
+`;
+
+
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -382,7 +389,7 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
 
 
   return (
-    <>
+    <Container>
       <CreateButtonContainer>
         {typeName !== 'Users' && typeName !== 'Timekeeping' && typeName !== 'Request' ? (
           <CreateButton onClick={() => onCreate(typeName)}>{typeName === 'Gallery' ? 'Upload' : 'Create'}</CreateButton>
@@ -563,7 +570,7 @@ const DataTable = ({ data, fields, onEdit, onDelete, onCreate, onResetPassword, 
         paginate={handlePageChange}
         currentPage={currentPage}
       />
-    </>
+    </Container>
   );
 };
 
